@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNGSI UTAMA: MEMUAT DAN MERENDER DATA SHOLAWAT
     async function loadSholawat() {
         try {
-            const response = await fetch('Data_sholawat.json');
+            const response = await fetch('data_sholawat.json');
             sholawatData = await response.json();
             
             sholawatData.forEach((item, index) => {
