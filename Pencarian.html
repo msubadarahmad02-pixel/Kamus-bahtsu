@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Global - Kamus Bahtsu Kanza</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .search-container { margin: 20px 0; position: relative; }
+        .search-input {
+            width: 100%; padding: 12px 40px 12px 15px; border-radius: 25px;
+            border: 2px solid #d88998; box-sizing: border-box; font-size: 16px; outline: none;
+        }
+        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #c2185b; }
+        .result-count { font-size: 0.85em; color: #6d4c41; margin-bottom: 10px; padding-left: 10px; text-align: left; }
+        .snippet { font-size: 0.8em; color: #795548; display: block; margin-top: 5px; line-height: 1.4; }
+        .highlight-search { color: #0d47a1; font-weight: bold; background: #e3f2fd; }
+        
+        .highlight-blue { background-color: #bbdefb !important; color: #0d47a1 !important; font-weight: bold; padding: 0 2px; border-radius: 3px; }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="back-button" onclick="history.back()">KANZA28</span>
+        <h1 class="title">Pencarian</h1>
+        
+        <div class="search-container">
+            <input type="text" id="globalSearch" placeholder="Cari teks Arab atau Indonesia..." class="search-input">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <div id="countResult" class="result-count"></div>
+        <div class="menu-list" id="searchResults"></div>
+    </div>
+
+<script>
+    const searchInput = document.getElementById('globalSearch');
+    const resultsContainer = document.getElementById('searchResults');
+    const countContainer = document.getElementById('countResult');
+    let allData = [];
+
+    // Fungsi hapus harakat
+    function removeDiacritics(text) {
+        return text.replace(/[\u064B-\u0652]/g, "");
+    }
+
+    fetch('rumusan_data.json')
+        .then(res => res.json())
+        .then(data => { allData = data; })
+        .catch(err => console.error("Gagal memuat data", err));
+
+    searchInput.addEventListener('input', (e) => {
+        const keyword = e.target.value.trim();
+        const cleanKey = removeDiacritics(keyword.toLowerCase());
+
+        if (cleanKey.length < 2) {
+            resultsContainer.innerHTML = '';
+            countContainer.textContent = '';
+            return;
+        }
+
+        const filtered = allData.filter(item => {
+            const content = `${item.judul_pendek} ${item.deskripsi} ${item.pertanyaan} ${item.jawaban} ${item.referensi.join(' ')}`;
+            return removeDiacritics(content.toLowerCase()).includes(cleanKey);
+        });
+
+          // TAMBAHKAN BARIS DI BAWAH INI UNTUK MENGURUTKAN ABJAD
+filtered.sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
+
+        displayResults(filtered, keyword);
+    });
+
+    function displayResults(results, key) {
+        resultsContainer.innerHTML = '';
+        countContainer.textContent = `Ditemukan ${results.length} hasil untuk "${key}"`;
+
+        results.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            
+            // Membuat cuplikan teks
+            const fullText = `${item.deskripsi} ${item.pertanyaan} ${item.jawaban} ${item.referensi.join(' ')}`;
+            const cleanFullText = removeDiacritics(fullText.toLowerCase());
+            const cleanKey = removeDiacritics(key.toLowerCase());
+            const index = cleanFullText.indexOf(cleanKey);
+            
+            let snippet = "";
+            if (index !== -1) {
+                const start = Math.max(0, index - 30);
+                const end = Math.min(fullText.length, index + 50);
+                snippet = "..." + fullText.substring(start, end) + "...";
+            }
+
+            div.innerHTML = `
+                <i class="fas fa-file-alt"></i>
+                <div style="text-align: left; margin-left: 10px; width: 80%;">
+                    <strong style="display:block;">${item.judul_pendek}</strong>
+                    <span class="snippet">${snippet}</span>
+                </div>
+            `;
+            
+            div.onclick = () => {
+                window.location.href = `Detail_Rumusan.html?id=${encodeURIComponent(item.id)}&highlight=${encodeURIComponent(key)}`;
+            };
+            resultsContainer.appendChild(div);
+        });
+    }
+</script>
+</body>
+</html>

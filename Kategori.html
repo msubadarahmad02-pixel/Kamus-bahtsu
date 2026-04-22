@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Rumusan - Kamus Bahtsu Kanza</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    </head>
+<body>
+
+    <div class="container">
+        <span class="back-button" onclick="history.back()">KANZA28</span>
+        
+        <h1 class="title">Daftar Rumusan</h1>
+        
+        <input type="text" id="filterInput" placeholder="Cari Kategori..." class="filter-input">
+        <div class="rumusan-list" id="kategoriList">
+            </div>
+
+    </div>
+
+<script>
+    const kategoriListElement = document.getElementById('kategoriList');
+
+    // 1. Ambil data dari file JSON
+    fetch('rumusan_data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Gagal memuat rumusan_data.json');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 2. Ekstrak daftar kategori unik dan urutkan sesuai abjad
+const kategoriUnik = [...new Set(data.map(item => item.kategori))].sort((a, b) => a.localeCompare(b));
+
+            // 3. Buat elemen HTML untuk setiap kategori
+            kategoriUnik.forEach(kategori => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('rumusan-item');
+                
+                // Tambahkan ID ke elemen, agar mudah dikenali
+                itemElement.id = `kategori-${kategori.replace(/\s/g, '_')}`; 
+                
+                itemElement.innerHTML = `
+                    <i class="fas fa-heart"></i>
+                    <span>${kategori}</span>
+                `;
+                
+                // Tambahkan fungsi klik untuk mengarahkan ke daftar rumusan kategori
+                itemElement.addEventListener('click', () => {
+                    // Mengirim nama kategori via URL (Query Parameter)
+                    window.location.href = `Daftar_Rumusan_by_Kategori.html?kategori=${encodeURIComponent(kategori)}`;
+                });
+
+                kategoriListElement.appendChild(itemElement);
+            });
+        })
+        .catch(error => {
+            console.error('Error memuat atau memproses data:', error);
+            kategoriListElement.innerHTML = '<p>Error: Gagal memuat daftar kategori.</p>';
+        });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+/* --- RESET & DASAR --- */
+body {
+    background-color: #fdf5f7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    cursor: pointer;
+    font-weight: bold;
+    color: #c2185b;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+/* --- 1. MEDIA CONTAINER (FOTO) --- */
+.media-container {
+    background-color: #fce4ec;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding: 8px;
+}
+
+.display-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.surah-title {
+    color: #c2185b;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin: 8px 0 0;
+    text-align: center;
+}
+
+/* --- 2. TEXT CONTAINER (SCROLLABLE & JUSTIFIED) --- */
+.text-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+    
+    /* Batas tinggi kotak agar bisa discroll */
+    max-height: 250px; 
+    overflow-y: auto;  
+    scrollbar-width: thin;
+    scrollbar-color: #c2185b #fce4ec;
+}
+
+/* Scrollbar Styling */
+.text-container::-webkit-scrollbar {
+    width: 6px;
+}
+.text-container::-webkit-scrollbar-thumb {
+    background-color: #ffe0b2;
+    border-radius: 10px;
+}
+.text-container::-webkit-scrollbar-track {
+    background: #fce4ec;
+}
+
+.arabic-text {
+    font-family: 'Times New Roman', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #5d4037;
+    margin-bottom: 10px;
+    line-height: 2.0; /* Spasi antar baris sedikit diperlebar agar nyaman dibaca */
+    
+    /* Pengaturan Justify untuk Arab */
+    text-align: justify;
+    text-justify: inter-word;
+    text-align-last: right; /* Baris terakhir tetap di kanan */
+    direction: rtl;
+}
+
+.translation-text {
+    font-size: 0.85rem;
+    color: #5d4037;
+    margin-top: 10px;
+    font-style: italic;
+    line-height: 1.5;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    text-align: left;
+}
+
+/* --- 3. KONTROL AUDIO & TOMBOL --- */
+.audio-player-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffe0b2;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.play-pause-button, .copy-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+    transition: background-color 0.2s;
+}
+
+.play-pause-button {
+    background-color: #c2185b;
+    color: white;
+    flex-grow: 2;
+}
+
+.copy-button {
+    background-color: #795548;
+    color: white;
+    margin-right: 8px;
+}
+
+.audio-status {
+    color: #5d4037;
+    font-size: 0.7rem;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* --- NOTIFIKASI --- */
+.copy-notification {
+    background-color: #795548;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+}
+
+.copy-notification.show {
+    opacity: 1;
+}

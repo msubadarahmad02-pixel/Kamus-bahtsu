@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Materi PDF - Kamus Bahtsu Kanza</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+       <span class="back-button" onclick="history.back()">KANZA28</span>
+        
+        <h1 class="title">Daftar Materi PDF</h1>
+
+        <div class="pdf-list" id="pdfList">
+            
+            <a href="#" class="pdf-item" onclick="viewPdf('pdfs/petuk_ahkamul_quran.pdf')" role="button">
+              <i class="fas fa-file-pdf"></i>
+                <span>ahkamul_quran</span>
+            </a>
+
+            <a href="#" class="pdf-item" onclick="viewPdf('pdfs/petuk_tibyan.pdf')" role="button">
+                <i class="fas fa-file-pdf"></i>
+                <span>tibyan</span>
+            </a>
+            
+            <a href="#" class="pdf-item" onclick="viewPdf('pdfs/petuk_fathul_muin.pdf')" role="button">
+                <i class="fas fa-file-pdf"></i>
+                <span>fathul_muin</span>
+            </a>
+            
+            <a href="#" class="pdf-item" onclick="viewPdf('pdfs/petuk_bajuri_juz_1.pdf')" role="button">
+                <i class="fas fa-file-pdf"></i>
+                <span>bajuri_juz_1</span>
+            </a>
+            
+            <a href="#" class="pdf-item" onclick="viewPdf('pdfs/petuk_bajuri_juz_2.pdf')" role="button">
+                <i class="fas fa-file-pdf"></i>
+                <span>bajuri_juz_2</span>
+            </a>
+            
+            <p style="margin-top: 20px; font-size: 0.9em; color: #795548; text-align: center;">
+                Materi akan dibuka langsung di halaman penampil.
+            </p>
+
+        </div>
+
+    </div>
+
+<script>
+    // Fungsi baru untuk menangani navigasi secara eksplisit
+    function viewPdf(filePath) {
+        // Mencegah unduhan: Langsung arahkan ke halaman penampil
+        window.location.href = `Lihat_PDF.html?file=${encodeURIComponent(filePath)}`;
+    }
+</script>
+
+</body>
+</html>

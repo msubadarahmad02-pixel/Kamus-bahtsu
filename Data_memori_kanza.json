@@ -1,0 +1,55 @@
+[
+    {
+        "id": 1,
+        "judul": "1. Bin nadzor",
+        "image_url": "img/memori_kanza1.jpg",
+        "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
+        "audio_url": "audio/slide1.mp3"
+    },
+ 
+{
+    "id": 2, 
+    "judul": "2. Ziaroh",
+    "image_url": "img/memori_kanza2.jpg",
+    "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nhanya pohon yang berbuah manis yang dilempari batu\n\nKesan:",
+    "audio_url": "audio/slide2.mp3"
+},
+
+{
+     "id": 3,
+     "judul": "3. Bahtsu",
+     "image_url": "img/memori_kanza3.jpg",
+     "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
+        "audio_url": "audio/slide3.mp3"
+    },
+    
+      {
+        "id": 4,
+        "judul": "4. Kanza",
+        "image_url": "img/memori_kanza4.jpg",
+     "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
+        "audio_url": "audio/slide4.mp3"
+    },
+    
+    
+      {
+        "id": 5,
+        "judul": "5. Kanza",
+        "image_url": "img/memori_kanza5.jpg",
+     "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
+        "audio_url": "audio/alquran1.mp3"
+    },
+    
+    
+    {
+    "id": 6,
+    "judul": "6. Kanza",
+    "image_url": "img/memori_kanza6.jpg",
+     "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
+    "audio_url": "audio/slide6.m4a"
+}
+    
+    
+    
+    
+]

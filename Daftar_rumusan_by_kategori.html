@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Daftar Rumusan</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+       <span class="back-button" onclick="history.back()">KANZA28</span>
+        <h1 class="title" id="kategoriTitle"></h1>
+
+        <div class="menu-list" id="rumusanList">
+            </div>
+
+    </div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const kategori = urlParams.get('kategori'); // Ambil kategori dari URL
+
+    const titleElement = document.getElementById('kategoriTitle');
+    const rumusanListElement = document.getElementById('rumusanList');
+    
+    if (kategori) {
+        // Set judul halaman
+        titleElement.textContent = kategori;
+        document.getElementById('pageTitle').textContent = kategori + ' - Kamus Bahtsu Kanza';
+
+        // 1. Ambil data dari file JSON
+        fetch('rumusan_data.json')
+            .then(response => response.json())
+            .then(data => {
+               // 2. Filter rumusan berdasarkan kategori dan urutkan sesuai abjad judul_pendek
+const filteredRumusan = data
+    .filter(item => item.kategori === kategori)
+    .sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
+
+                if (filteredRumusan.length === 0) {
+                    rumusanListElement.innerHTML = '<p style="text-align: center; color: #795548;">Belum ada rumusan dalam kategori ini.</p>';
+                    return;
+                }
+
+                // 3. Buat elemen HTML untuk setiap rumusan
+                filteredRumusan.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('menu-item'); // Menggunakan kelas yang mirip dengan menu sebelumnya
+                    
+                    itemElement.innerHTML = `
+                        <i class="fas fa-heart"></i>
+                        <span>${item.judul_pendek}</span>
+                    `;
+                    
+                    // Tambahkan fungsi klik untuk mengarahkan ke halaman detail
+                    itemElement.addEventListener('click', () => {
+                        // Mengirim ID rumusan via URL
+                        window.location.href = `Detail_Rumusan.html?id=${encodeURIComponent(item.id)}`;
+                    });
+
+                    rumusanListElement.appendChild(itemElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error memuat data:', error);
+                rumusanListElement.innerHTML = '<p>Error: Gagal memuat daftar rumusan.</p>';
+            });
+    } else {
+        // Jika tidak ada kategori di URL
+        titleElement.textContent = 'Kategori Tidak Ditemukan';
+        rumusanListElement.innerHTML = '<p style="text-align: center; color: #795548;">Silakan kembali ke Daftar Rumusan Utama.</p>';
+    }
+</script>
+
+</body>
+</html>

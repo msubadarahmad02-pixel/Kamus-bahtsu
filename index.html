@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus Bahtsu Kanza</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">Kamus Bahtsu<br>Kanza</h1>
+        
+        <div class="icon-grid">
+            
+            <div class="icon-item top-center" id="memori_kanzaLink">
+                <i class="fa-solid fa-image icon"></i>
+                <p>Memori</p>
+            </div>
+
+            <div class="icon-item left-center" id="pencarianLink">
+                <i class="fa-solid fa-search icon"></i>
+                <p>Pencarian</p>
+            </div>
+            
+            <div class="icon-item center-center" id="pdfDaftarLink">
+                <i class="fas fa-file-pdf icon"></i>
+                <p>Daftar PDF</p>
+            </div>
+            
+            <div class="icon-item right-center" id="sholawatLink">
+                <i class="fa-solid fa-heart icon"></i>
+                <p>Sholawat</p>
+            </div>
+            
+            <div class="icon-item bottom-left" id="alquranLink">
+                <i class="fa-solid fa-book-open icon"></i>
+                <p>Alquran</p>
+            </div>
+
+            <div class="icon-item bottom-center" id="daftarIsiLink">
+                <i class="fa-solid fa-book icon"></i>
+                <p>Daftar Isi</p>
+            </div>
+            
+            <div class="icon-item bottom-right" id="lainLainLink">
+                <i class="fa-solid fa-ellipsis icon"></i>
+                <p>Lain-lain</p>
+            </div>
+
+        </div>
+    </div>
+<script src="script.js"></script> 
+
+<script>
+    // 1. Tautan ke MEMORI
+    document.getElementById('memori_kanzaLink').addEventListener('click', function() {
+        window.location.href = 'memori_kanza.html'; 
+    });
+    
+    // 2. Tautan ke PENCARIAN
+    document.getElementById('pencarianLink').addEventListener('click', function() {
+        window.location.href = 'pencarian.html'; 
+    });
+    
+    // 3. Tautan ke DAFTAR ISI
+    document.getElementById('daftarIsiLink').addEventListener('click', function() {
+        window.location.href = 'Kategori.html'; 
+    });
+    
+    // 4. Tautan ke SHOLAWAT
+    document.getElementById('sholawatLink').addEventListener('click', function() {
+        window.location.href = 'sholawat.html'; 
+    });
+    
+    // 5. Tautan ke DAFTAR PDF (Kini di tengah)
+    document.getElementById('pdfDaftarLink').addEventListener('click', function() {
+        window.location.href = 'Daftar_PDF.html'; 
+    });
+    
+    // 6. Tautan ke ALQURAN (Baru)
+    document.getElementById('alquranLink').addEventListener('click', function() {
+        window.location.href = 'alquran.html'; 
+    });
+    
+    // 7. Tautan ke LAIN-LAIN (Baru)
+    document.getElementById('lainLainLink').addEventListener('click', function() {
+        window.location.href = 'lain_lain.html'; 
+    });
+</script>
+
+</body>
+</html>

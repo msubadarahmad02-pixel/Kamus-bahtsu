@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Detail Rumusan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
+        .container { background-color: #fff8e1; border-radius: 20px; padding: 15px; width: 370px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
+        .title { color: white; font-weight: 700; margin-bottom: 20px; font-size: 1.3em; padding: 10px; border-radius: 15px; background-color: #8b4513; border: 3px solid #6d4c41; }
+        .section-group { margin-top: 15px; padding: 12px; border: 1px solid #d88998; border-radius: 10px; background-color: #fff; text-align: left; }
+        .section-title { font-weight: bold; color: #c2185b; border-bottom: 2px solid #f8bbd0; margin-bottom: 5px; font-size: 0.9em; }
+        .content-text { font-size: 0.9em; color: #6d4c41; line-height: 1.6; text-align: justify; margin: 5px 0; }
+        
+        .content-text[style*="direction: rtl"] {direction: rtl;
+        text-align: justify; 
+    text-justify: inter-word; 
+}
+        
+        /* GAYA HIGHLIGHT BIRU SEMUA KATA */
+        .highlight-blue { background-color: #FFB6C1; color: #c2185b; font-weight: bold; padding: 0 2px; border-radius: 3px; }
+
+        .copy-button { background-color: #795548; color: white; border: none; padding: 10px; border-radius: 20px; cursor: pointer; font-weight: bold; margin-bottom: 10px; width: 35%; }
+        .back-button { cursor: pointer; display: block; font-family: 'Georgia', sans-serif; margin-bottom: 10px; color: #c2185b; font-weight: bold; border: 2px solid #d88998; border-radius: 20px; padding: 5px 15px; width: fit-content; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        .copy-notification { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 10px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.5s; z-index: 1000; }
+        .copy-notification.show { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="back-button" onclick="history.back()">KANZA28</span>
+        <h1 class="title" id="detailTitle">Memuat...</h1>
+        <button id="copyButton" class="copy-button"><i class="fas fa-copy"></i> Salin Teks</button>
+        <div id="rumusanContent"></div>
+    </div>
+
+    <div id="copyNotification" class="copy-notification">Berhasil disalin!</div>
+
+<script>
+  
+  // Tambahkan ini di awal script
+function removeDiacritics(text) {
+    return text.replace(/[\u064B-\u0652]/g, "");
+}
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const rumusanId = urlParams.get('id');
+    const highlightKey = urlParams.get('highlight');
+
+    function removeDiacritics(text) {
+        return text.replace(/[\u064B-\u0652]/g, "");
+    }
+    
+    
+    
+    
+    function applyGlobalHighlight() {
+    if (!highlightKey) return;
+    const container = document.getElementById('rumusanContent');
+    
+    // 1. Bersihkan keyword dari harakat agar kita punya teks dasarnya
+    const cleanKey = removeDiacritics(highlightKey).toLowerCase();
+    
+    // 2. Buat pola Regex yang mengabaikan harakat di antara huruf-huruf Arab
+    // Pola ini akan mencari huruf keyword dan mengizinkan ada harakat di antaranya
+    const arabicDiacritics = "[\\u064B-\\u0652]*";
+    const regexPattern = cleanKey.split('').map(char => {
+        const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // Jika karakter adalah huruf Arab, selipkan pola pengabaian harakat
+        return /[\u0600-\u06FF]/.test(char) ? escapedChar + arabicDiacritics : escapedChar;
+    }).join('');
+
+    const regex = new RegExp(`(${regexPattern})`, 'gi');
+
+    const walk = (node) => {
+        let child = node.firstChild;
+        while (child) {
+            const next = child.nextSibling;
+            if (child.nodeType === 3) { // Node Teks
+                const originalText = child.nodeValue;
+                
+                // Cek apakah teks mengandung pola yang kita cari
+                if (regex.test(originalText)) {
+                    const span = document.createElement('span');
+                    // Ganti teks asli dengan versi yang dibungkus span highlight tanpa merusak harakat asli
+                    span.innerHTML = originalText.replace(regex, '<span class="highlight-blue">$1</span>');
+                    child.parentNode.replaceChild(span, child);
+                }
+            } else if (child.nodeType === 1 && child.tagName !== 'SPAN') {
+                walk(child);
+            }
+            child = next;
+        }
+    };
+    walk(container);
+}
+
+
+
+
+
+
+    if (rumusanId) {
+        fetch('rumusan_data.json')
+            .then(res => res.json())
+            .then(data => {
+                const item = data.find(i => i.id === rumusanId);
+                if (item) {
+                    document.getElementById('detailTitle').textContent = item.judul_pendek;
+                    const refHtml = item.referensi.map(ref => {
+                        const isAr = /[\u0600-\u06FF]/.test(ref);
+                        return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
+}).join('');
+
+                    document.getElementById('rumusanContent').innerHTML = `
+    <div class="section-group">
+        <div class="section-title">Deskripsi:</div>
+        <p class="content-text">${item.deskripsi}</p>
+    </div>
+
+    <div class="section-group">
+        <div class="section-title">Pertanyaan:</div>
+        <p class="content-text">${item.pertanyaan}</p>
+    </div>
+
+    <div class="section-group">
+        <div class="section-title">Jawaban:</div>
+        <p class="content-text">${item.jawaban}</p>
+    </div>
+
+    <div class="section-group">
+        <div class="section-title">Referensi:</div>
+        ${refHtml}
+    </div>
+`;
+                    
+
+                    setTimeout(applyGlobalHighlight, 800);
+
+                    // Fungsi Salin (Copy)
+                    document.getElementById('copyButton').onclick = async () => {const txt = `JUDUL: ${item.judul_pendek}\n\nDESKRIPSI:\n${item.deskripsi}\n\nPERTANYAAN:\n${item.pertanyaan}\n\nJAWABAN:\n${item.jawaban}\n\nREFERENSI:\n${item.referensi.join('\n')}`;
+                        await navigator.clipboard.writeText(txt);
+                        const n = document.getElementById('copyNotification');
+                        n.classList.add('show');
+                        setTimeout(() => n.classList.remove('show'), 2000);
+                    };
+                }
+            });
+    }
+</script>
+</body>
+</html>

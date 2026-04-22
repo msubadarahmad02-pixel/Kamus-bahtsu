@@ -1,0 +1,82 @@
+[
+  {
+    "id": "text",
+    "kategori": "text",
+    "judul_pendek": "text",
+    "deskripsi": "text",
+    "pertanyaan": "text",
+    "jawaban": "text",
+    "referensi": [
+      "text",
+      "text",
+      "text"
+    ]
+  },
+  {
+    "id": "thoharoh_batas_perempuan",
+    "kategori": "Thoharoh",
+    "judul_pendek": "Batas dari perempuan yang disyahwati",
+    "deskripsi": "kita pasti sudah tau bahwasannya melihat perempuan yang sudah mencapai usia yang bisa disyahwati adalah haram, dan apabila disentuh dapat membatalkan wudhu.",
+    "pertanyaan": "Berapakah batasan umur seorang perempuan bisa dikatakan (disyahwati), yang apabila disentuh laki-laki dapat membatalkan wudhu?",
+    "jawaban": "Menurut pendapat yang shahih, hal tersebut tidak dibatasi oleh umur, melainkan bergantung pada ‘urf (kebiasaan dan tradisi setempat). Tetapi para ulama sepakat bahwa perempuan bisa membatalkan wudhu kalau sudah berumur 7 tahun. Sedangkan pada umur 6 tahun, ulama masih berbeda pendapat. Dan untuk usia 5 tahun sepakat tidak membatalkan wudhu, kecuali jika yang menyentuh itu ada syahwat.",
+    "referensi": [
+      "مرقاة صعود التصديق ص:٢١",
+      "وَيَنْقُضُ الوُضُؤَ لَمْسُ بَشَرِ الأَجْنَبِيَّةِ مَعَ كِبَرٍ يَقِيْنًا فَلَا تَنْقُضُ صَغِيْرَةٌ لَاتُشْتَهَى لِأَنَّهُ لَيْسَتْ فِىْ مَظِنَّةِ الشَّهْوَةِ وَالمَرْجِعُ فِى المُشْتَهَاةِ وَغَيْرِهَا اِلَى العُرْفِ عَلَى الصَّحِيْحِ قَالَ الشَّيْخُ اَبُوْحَامِدٍ الَّتِي لَاتُشْتَهَى مَنْ لَهَا أَرْبَعُ سِنِيْنَ فَمَا دُوْنَهَا أَفَادَ ذَلِكَ الدميرى وَقَالَ شَيْخُنَا يُوْسُف السنبلاوينى فَاِذَا بَلَغَ الوَلَدُ سَبْعَ سِنِيْنَ فَاِنَّهُ يَنْقُضُ بِاتِّفَاقٍ ذَكَرًا كَانَ أَوْ أُنْثَى وَاِذَا بَلَغَ خَمْسَ سِنِيْنَ فَلَا يَنْقُضُ بِاتِّفَاقٍ وَاَمَّا اذَا بَلَغَ سِتَّ سِنِيْنَ فَفِيْهِ خِلَافٌ فَقِيْلَ يَنْقُضُ وَقِيْلَ لَا وَ هَذَا يُرْجَعُ إِلَى طِبَاعِ النَّاسِ حَتَّى أَنَّ الوَلَدَ الّذِىْ بَلَغَ خَمْسَ سِنِيْنَ فَقَطْ يَنْقُضُ لِمَنْ يَشْتَهِيْهِ وَلَايَنْقُضُ لِغَيْرِهِ انتهى إهـ."
+    ]
+  },
+  {
+    "id": "Sholat_mufaroqoh_sholat_jumat",
+    "kategori": "Sholat",
+    "judul_pendek": "Mufaroqoh sholat jumat",
+    "deskripsi": "mungkin pernah kita jumpai di kalangan pondok pesantren saat sholat jumat, sebagian santri mufaroqoh dari sholatnya tanpa ikut tasyahhudnya imam",
+    "pertanyaan": "Bagaimana hukum sholat jumat nya seseorang yang mufaroqoh dan tidak ikut tasyahhudnya imam ",
+    "jawaban": "hukum sholat jumat nya tetap sah menurut imam jamal al isnawi",
+    "referensi": [
+      "حاشيتا قليوبي ج:١ ص:٣٣٥",
+      "(فَصْلٌ: مَنْ أَدْرَكَ رُكُوعَ الثَّانِيَةِ) مِنْ الْجُمُعَةِ مَعَ الْإِمَامِ وَاسْتَمَرَّ مَعَهُ إلَى أَنْ سَلَّمَ (أَدْرَكَ الْجُمُعَةَ) أَيْ لَمْ تَفُتْهُ(فَيُصَلِّي بَعْدَ سَلَامِ الْإِمَامِ رَكْعَةً) لِإِتْمَامِهَا",
+      "فَصْلٌ: مَنْ أَدْرَكَ رُكُوعَ الثَّانِيَةِ إلَخْ) قَوْلُهُ: (وَاسْتَمَرَّ مَعَهُ إلَى أَنْ سَلَّمَ) هَذَا تَوْطِئَةٌ لِقَوْلِ الْمَتْنِ فَيُصَلِّي بَعْدَ سَلَامِ الْإِمَامِ رَكْعَةً وَلَيْسَ بِشَرْطٍ إذْ لَوْ فَارَقَهُ فِي التَّشَهُّدِ صَحَّتْ الْجُمُعَةُ كَمَا صَرَّحَ بِهِ الْجَمَّالُ الْإِسْنَوِيُّ وَهُوَ ظَاهِرٌ نَعَمْ"
+    ]
+  },
+  {
+    "id": "Puasa_dalil_puasa_rojab",
+    "kategori": "Puasa",
+    "judul_pendek": "Dalil Puasa Rojab",
+    "deskripsi": "Sering kita jumpai tradisi puasa rojab di kalangan masyarakat, apakah ada dalil tentangnya dalam quran maupun hadist",
+    "pertanyaan": "Adakah dalil tentang puasa sunnah tersebut",
+    "jawaban": "ada, berikut adalah dalil hadistnya",
+    "referensi": [
+      "الغنية لطالبي طريق الحق ج:١ ص:٣٢٧ — عبد القادر الجيلاني",
+      "وأخبرنا الشيخ الإمام هبة الله السقطي بإسناده عن ميمون بن مهران بإسناده عن أبي ذر ، عن النبي -ﷺ- أنه قال:»من صام أول يوم من رجب عدل صيام شهر، ومن صام سبعة أيام أغلقت عنه أبواب جهنم السبعة، ومن صام ثمانية أيام فتحت له أبواب الجنة الثمانية، ومن صام منه عشرة أيام، بدل الله سيئاته حسنات، ومن صام منه ثمانية عشر يومًا نادى منادي من الماء: قد غفر لك فاستأنف العمل.",
+      "إحياء علوم الدين ج:١ ص:٣٦١ — أبو حامد الغزالي",
+      "روى أبو هريرة أن رسول الله ﷺ قال من صام يوم سبع وعشرين من رجب كتب الله له صيام ستين شهرًا (٣) وهو اليوم الذي أهبط الله فيه جبرائيل ﵇ على محمد ﷺ بالرسالة "
+    ]
+  },
+  {
+    "id": "Sholat_jamak_sholat_karena_ada_rapat_penting",
+    "kategori": "Sholat",
+    "judul_pendek": "Jamak sholat karena ada rapat penting",
+    "deskripsi": "Ada seseorang pemuda sukses yang tiba-tiba dapat klien penting dan ternyata rapat yang ia lakukan sangat lama sehingga dia bingung dengan sholat nya karena rapatnya ia perkirakan akan sampai mengeluarkan waktu sholatnya",
+    "pertanyaan": "Bolehkah pemuda tersebut menjamak sholat seperti dalam deskripsi diatas",
+    "jawaban": "Sebenarnya menurut sebagian ulama' menjamak sholat karena ada hajat itu diperbolehkan selama hajatnya tidak bertentangan dengan syariat",
+    "referensi": [
+      "بغية المستشردين ص:٧٧",
+      "فائدة: لَنَا قَوْلٌ بِجَوَازِ الجَمْعِ فِى السَّفَرِ القَصِيْرِ اِخْتَارَهُ البَنْدَنِيْجِى وَظَاهِرُ الحَدِيْثِ جَوَازُهُ وَلَوْ فِى حَضَرٍ كَمَا فِى شَرْحِ المُسِلِمِ وَحَكَى الخِطَابِى عَنْ اَبِى اِسْحَاقَ جَوَازَهُ فِى الحَضَرِ لِلْحَاجَةِ وَاِنْ لَمْ يَكُنْ خَوْفٌ وَلاَ مَرَضٌ وَكَانَ سَيِّدُنَا القُطْبُ عَبْدُ اللهِ الحَدَّادِ يَأْمُرُ بَعْضَ بَنَاتِهِ عِنْدَ اشْتِغَالِهَا بِنَحْوِ مَجْلِسِ النِّسَاءِ بِنِيَّةِ تَأْخِيْرِ الظُّهْرِ اِلَى وَقْتِ العَصْرِ.",
+      "كفاية الاخيار ج:١ ص:١٤٥",
+      "قَالَ النَّوَوِيُّ القَوْلُ بِجَوَازِ الجَمْعِ بِالمَرَضِ ظَاهِرٌ مُخْتَارٌ فَقَدْ ثَبَتَ فِي صَحِيْحِ مُسْلِمٍ اَنَّ النَّبِيَّ جَمَعَ بِالمَدِيْنَةِ مِنْ غَيْرِ خَوْفٍ وَلاَ مَطَرٍ قَالَ الاَ سْنَائِي وَمَا اخْتَارَهُ النَّوَوِيُّ نَصَّ عَلَيْهِ الشَّافِعِيُّ فِي مُخْتَصَرِ المُزَنِّي وَيُؤَيِّدُ المَعْنَى اَيْضًا فَاِنَّ المَرَضَ يُجَوِّزُ الفِطْرَ فَالجَمْعُ أَوْلَى وَبِهَ قَالَ أَبُوْ اِسْحَقَ المَرُوْزِي وَنَقَلَهُ عَنِ القَفَّالِ وَحَكَاهُ الخِطَابِي عَنْ جَمَاعَةٍ مِنْ أَصْحَابِ الحَدِيْثِ وَاخْتَارَهُ ابْنُ المُنْذِرِ مِنْ اَصْحَابِنَا وَبِهِ قَالَ أَشْهَبُ مِنْ أَصْحَابِ مَالِكٍ بَلْ ذَهَبَ جَمَاعَةٌ مِنَ العُلَمَاءِ اِلَى جَوَازِ الجَمْعِ فِي الحَضَرِ لِلْحَاجَةِ لِمَنْ لاَ يَتَّخِذُهُ عَادَةً."
+    ]
+  },
+  {
+    "id": "Nikah_syarat_wali_dan_saksi",
+    "kategori": "Nikah",
+    "judul_pendek": "Syarat wali dan saksi",
+    "deskripsi": "Sebagaimana telah kita ketahui bahwa dalam pernikahan perlu adanya wali dan saksi",
+    "pertanyaan": "Apa syaratnya seseorang bisa menjadi wali dan saksi",
+    "jawaban": "Syarat wali dan saksi itu ada enam: <br>1.Islam <br>2.Baligh <br>3.Berakal <br>4.Merdeka <br>5.Laki-laki <br>6.Adil. <br><br>kemudian Urutan wali: <br>1.bapak <br>2.kakek dari ayah <br>3.saudara laki-laki(yang seayah dan seibu) <br>4.saudara laki-laki(yang seayah) <br>5.keponakan laki-laki(anaknya saudara laki-laki yang seayah dan seibu) <br>6.keponakan laki-laki (anaknya saudara laki-laki yang seayah) <br>7.paman <br>8.sepupu laki-laki <br>9.orang yang memerdekakan (apabila pernah jadi budak) <br>10.ashobah dari orang yang memerdekakan <br>11.hakim.",
+    "referensi": [
+      "التذهيب في أدلة متن الغاية والتقريب ج:١ ص:١٦٣ — مصطفى ديب البغا (معاصر)",
+    "ويفتقر الولي والشاهدان إلى ستة شرائط: ١- الإسلام ٢- والبلوغ ٣- والعقل ٤- والحرية ٥- والذكورة ٦- والعدالة",
+    "إلا أنه لا يفتقر نكاح الذمية إلى إسلام الولي ولا نكاح الأمة إلى عدالة السيد",
+    "وأولى الولاة الأب ثم الجد أبو الأب ثم الأخ للأب والأم ثم الأخ للأب ثم ابن الأخ للأب والأم ثم ابن الأخ للأب ثم العم ثم ابنه على هذا الترتيب فإذا عدمت العصبات فالمولى المعتق ثم عصباته ثم الحاكم"
+    ]
+  }
+]

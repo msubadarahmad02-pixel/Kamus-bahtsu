@@ -1,0 +1,139 @@
+/* Mengatur ulang margin/padding default dan menggunakan model box border-box */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Pastikan body dan html mengambil tinggi dan lebar viewport penuh */
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: Georgia, sans-serif;
+    /* Latar belakang yang lebih mirip gambar */
+    background-color: #fff8e1; 
+}
+
+/* Kontainer utama yang menampung area geser */
+.lyrics-container {
+    width: 100%;
+    /* Mengatur tinggi, misalnya 80% dari tinggi viewport */
+    height: 85vh; 
+    overflow-x: scroll; /* KUNCI: Memungkinkan geseran horizontal */
+    overflow-y: hidden; /* Mencegah geseran vertikal yang tidak perlu */
+    scroll-snap-type: x mandatory; /* Memastikan slide berhenti tepat di setiap item */
+    -webkit-overflow-scrolling: touch; /* Memperbaiki scrolling di iOS */
+}
+
+/* Wrapper yang menampung semua slide secara horizontal */
+.slides-wrapper {
+    display: flex; /* KUNCI: Menempatkan semua slide dalam satu baris */
+    width: max-content; /* Biarkan wrapper melebar sesuai total lebar semua slide */
+    height: 100%;
+}
+
+/* Gaya untuk setiap slide lirik (satu halaman) */
+.lyric-slide {
+    flex-shrink: 0; 
+    width: 100vw; 
+    height: 100%;
+    display: flex;
+    /* Pusatkan konten lirik di tengah slide */
+    justify-content: center; 
+    /* Konten dimulai dari atas */
+    align-items: flex-start; 
+    scroll-snap-align: start; 
+    /* Padding vertikal saja */
+    padding: 5px 0; 
+}
+
+/* Gaya teks lirik */
+.lyric-text {
+    background-color: #ffffff;
+    padding: 10px;
+    color: #5d4037;
+    /* Hapus border-radius dan box-shadow untuk tampilan tajam */
+    border-radius: 50px; 
+    box-shadow: none; 
+    white-space: pre-wrap; 
+    font-family: 'Georgia', serif;
+    font-size: 1em;
+    line-height: 1.6;
+    
+    /* Agar ada ruang untuk latar belakang body di kiri/kanan HP */
+    max-width: 90%; 
+    width: 100%; 
+    
+    /* EFEK BORDER VERTICAL */
+    border-left: 2px solid #d88998;
+    border-right: 2px solid #d88998;
+    
+    text-align: center;
+    
+    /* Solusi Scroll Vertikal */
+    max-height: 100%; 
+    overflow-y: auto;
+}
+/* Pastikan kontrol sejajar horizontal */
+.player-controls {
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Memberikan jarak antar tombol */
+}
+
+/* Memastikan tombol home tidak memiliki margin otomatis yang merusak posisi */
+#back-to-home {
+    margin: 0 !important; 
+    display: inline-block;
+    padding: 8px 15px;
+}
+
+    #play-pause-button {
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #ffffff; 
+    color: #c2185b;
+    border-radius: 30px;
+   font-family: Georgia, sans-serif; 
+}
+
+#play-pause-button:hover {
+    background-color: #green;
+}
+
+/* --- GAYA UNTUK TOMBOL BACK (Teks "kanza28") --- */
+.page-title {
+    cursor: pointer;
+    display: block; 
+    
+    /* PROPERTI UNTUK CENTER */
+    margin: 5px auto 5px auto; /* Margin atas 0, kiri/kanan auto (pusatkan), bawah 15px */
+    width: fit-content; /* Pastikan lebar hanya sebesar konten */
+    
+    /* PROPERTI GAYA */
+    font-family: Georgia, sans-serif; /* Menggunakan font Latin yang jelas */
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #c2185b; /* Warna teks */
+    
+    /* BACKGROUND DAN BORDER */
+    background-color: #ffffff; /* Warna latar */
+    padding: 5px 15px;
+    border: 2px solid #d88998;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Efek bayangan */
+    
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.back-button:hover {
+    background-color: #795548; /* Cokelat yang sedikit lebih muda saat hover */
+}
+
+.back-button:active {
+    transform: scale(0.98);
+}
+

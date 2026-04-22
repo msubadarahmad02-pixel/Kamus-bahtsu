@@ -1,0 +1,263 @@
+/* DAFTAR LENGKAP 140 NAMA WARNA STANDAR CSS 
+   Disusun berdasarkan kelompok warna agar mudah dicari.
+*/
+
+:root {
+    /* --- WHITES & NEUTRALS --- */
+    --white: #FFFFFF;
+    --snow: #FFFAFA;
+    --honeydew: #F0FFF0;
+    --mintcream: #F5FFFA;
+    --azure: #F0FFFF;
+    --aliceblue: #F0F8FF;
+    --ghostwhite: #F8F8FF;
+    --whitesmoke: #F5F5F5;
+    --seashell: #FFF5EE;
+    --beige: #F5F5DC;
+    --oldlace: #FDF5E6;
+    --floralwhite: #FFFAF0;
+    --ivory: #FFFFF0;
+    --antiquewhite: #FAEBD7;
+    --linen: #FAF0E6;
+    --lavenderblush: #FFF0F5;
+    --mistyrose: #FFE4E1;
+
+    /* --- GRAYS & BLACK --- */
+    --gainsboro: #DCDCDC;
+    --lightgray: #D3D3D3;
+    --silver: #C0C0C0;
+    --darkgray: #A9A9A9;
+    --gray: #808080;
+    --dimgray: #696969;
+    --lightslategray: #778899;
+    --slategray: #708090;
+    --darkslategray: #2F4F4F;
+    --black: #000000;
+
+    /* --- REDS --- */
+    --lightcoral: #F08080;
+    --salmon: #FA8072;
+    --darksalmon: #E9967A;
+    --lightsalmon: #FFA07A;
+    --crimson: #DC143C;
+    --red: #FF0000;
+    --firebrick: #B22222;
+    --darkred: #8B0000;
+
+    /* --- PINKS --- */
+    --pink: #FFC0CB;
+    --lightpink: #FFB6C1;
+    --hotpink: #FF69B4;
+    --deeppink: #FF1493;
+    --mediumvioletred: #C71585;
+    --palevioletred: #DB7093;
+
+    /* --- ORANGES --- */
+    --lightsalmon-alt: #FFA07A;
+    --coral: #FF7F50;
+    --tomato: #FF6347;
+    --orangered: #FF4500;
+    --darkorange: #FF8C00;
+    --orange: #FFA500;
+
+    /* --- YELLOWS --- */
+    --gold: #FFD700;
+    --yellow: #FFFF00;
+    --lightyellow: #FFFFE0;
+    --lemonchiffon: #FFFACD;
+    --lightgoldenrodyellow: #FAFAD2;
+    --papayawhip: #FFEFD5;
+    --moccasin: #FFE4B5;
+    --peachpuff: #FFDAB9;
+    --palegoldenrod: #EEE8AA;
+    --khaki: #F0E68C;
+    --darkkhaki: #BDB76B;
+
+    /* --- PURPLES --- */
+    --lavender: #E6E6FA;
+    --thistle: #D8BFD8;
+    --plum: #DDA0DD;
+    --violet: #EE82EE;
+    --orchid: #DA70D6;
+    --fuchsia: #FF00FF;
+    --magenta: #FF00FF;
+    --mediumorchid: #BA55D3;
+    --mediumpurple: #9370DB;
+    --rebeccapurple: #663399;
+    --blueviolet: #8A2BE2;
+    --darkviolet: #9400D3;
+    --darkorchid: #9932CC;
+    --darkmagenta: #8B008B;
+    --purple: #800080;
+    --indigo: #4B0082;
+    --slateblue: #6A5ACD;
+    --darkslateblue: #483D8B;
+    --mediumslateblue: #7B68EE;
+
+    /* --- GREENS --- */
+    --greenyellow: #ADFF2F;
+    --chartreuse: #7FFF00;
+    --lawngreen: #7CFC00;
+    --lime: #00FF00;
+    --limegreen: #32CD32;
+    --palegreen: #98FB98;
+    --lightgreen: #90EE90;
+    --mediumspringgreen: #00FA9A;
+    --springgreen: #00FF7F;
+    --mediumseagreen: #3CB371;
+    --seagreen: #2E8B57;
+    --forestgreen: #228B22;
+    --green: #008000;
+    --darkgreen: #006400;
+    --yellowgreen: #9ACD32;
+    --olive-drab: #6B8E23;
+    --olive: #808000;
+    --darkolivegreen: #556B2F;
+    --mediumaquamarine: #66CDAA;
+    --darkseagreen: #8FBC8F;
+    --lightseagreen: #20B2AA;
+    --darkcyan: #008B8B;
+    --teal: #008080;
+
+    /* --- BLUES / CYANS --- */
+    --aqua: #00FFFF;
+    --cyan: #00FFFF;
+    --lightcyan: #E0FFFF;
+    --paleturquoise: #AFEEEE;
+    --aquamarine: #7FFFD4;
+    --turquoise: #40E0D0;
+    --mediumturquoise: #48D1CC;
+    --darkturquoise: #00CED1;
+    --cadetblue: #5F9EA0;
+    --steelblue: #4682B4;
+    --lightsteelblue: #B0C4DE;
+    --powderblue: #B0E0E6;
+    --lightblue: #ADD8E6;
+    --skyblue: #87CEEB;
+    --lightskyblue: #87CEFA;
+    --deepskyblue: #00BFFF;
+    --dodgerblue: #1E90FF;
+    --cornflowerblue: #6495ED;
+    --royalblue: #4169E1;
+    --blue: #0000FF;
+    --mediumblue: #0000CD;
+    --darkblue: #00008B;
+    --navy: #000080;
+    --midnightblue: #191970;
+
+    /* --- BROWNS --- */
+    --cornsilk: #FFF8DC;
+    --blanchedalmond: #FFEBCD;
+    --bisque: #FFE4C4;
+    --navajowhite: #FFDEAD;
+    --wheat: #F5DEB3;
+    --burlywood: #DEB887;
+    --tan: #D2B48C;
+    --rosybrown: #BC8F8F;
+    --sandybrown: #F4A460;
+    --goldenrod: #DAA520;
+    --peru: #CD853F;
+    --chocolate: #D2691E;
+    --saddlebrown: #8B4513;
+    --sienna: #A0522D;
+    --brown: #A52A2A;
+    --maroon: #800000;
+}
+
+
+/* DAFTAR WARNA LENGKAP (HEX & RGBA)
+   Simpan sebagai satu file: colors-library.css
+*/
+
+:root {
+    /* --- WHITES & NEUTRALS --- */
+     --white-rgba: rgba(255, 255, 255, 1);
+    --black-rgba: rgba(0, 0, 0, 1);
+    --red-rgba: rgba(255, 0, 0, 1);
+    --green-rgba: rgba(0, 128, 0, 1);
+    --blue-rgba: rgba(0, 0, 255, 1);
+    --gray-rgba: rgba(128, 128, 128, 1);
+    
+    --white: rgba(255, 255, 255, 1);
+    --whitesmoke: rgba(245, 245, 245, 1);
+    --snow: rgba(255, 250, 250, 1);
+    --ivory: rgba(255, 255, 240, 1);
+    --ghostwhite: rgba(248, 248, 255, 1);
+    --aliceblue: rgba(240, 248, 255, 1);
+
+    /* --- GRAYS --- */
+    --gainsboro: rgba(220, 220, 220, 1);
+    --lightgray: rgba(211, 211, 211, 1);
+    --silver: rgba(192, 192, 192, 1);
+    --gray: rgba(128, 128, 128, 1);
+    --dimgray: rgba(105, 105, 105, 1);
+    --slategray: rgba(112, 128, 144, 1);
+    --darkslategray: rgba(47, 79, 79, 1);
+    --black: rgba(0, 0, 0, 1);
+
+    /* --- REDS --- */
+    --red: rgba(255, 0, 0, 1);
+    --crimson: rgba(220, 20, 60, 1);
+    --firebrick: rgba(178, 34, 34, 1);
+    --darkred: rgba(139, 0, 0, 1);
+    --tomato: rgba(255, 99, 71, 1);
+    --coral: rgba(255, 127, 80, 1);
+    --indianred: rgba(205, 92, 92, 1);
+
+    /* --- PINKS --- */
+    --pink: rgba(255, 192, 203, 1);
+    --lightpink: rgba(255, 182, 193, 1);
+    --hotpink: rgba(255, 105, 180, 1);
+    --deeppink: rgba(255, 20, 147, 1);
+    --mediumvioletred: rgba(199, 21, 133, 1);
+
+    /* --- ORANGES & YELLOWS --- */
+    --orange: rgba(255, 165, 0, 1);
+    --darkorange: rgba(255, 140, 0, 1);
+    --gold: rgba(255, 215, 0, 1);
+    --yellow: rgba(255, 255, 0, 1);
+    --khaki: rgba(240, 230, 140, 1);
+    --lemonchiffon: rgba(255, 250, 205, 1);
+
+    /* --- PURPLES --- */
+    --lavender: rgba(230, 230, 250, 1);
+    --thistle: rgba(216, 191, 216, 1);
+    --plum: rgba(221, 160, 221, 1);
+    --violet: rgba(238, 130, 238, 1);
+    --magenta: rgba(255, 0, 255, 1);
+    --purple: rgba(128, 0, 128, 1);
+    --indigo: rgba(75, 0, 130, 1);
+    --rebeccapurple: rgba(102, 51, 153, 1);
+
+    /* --- GREENS --- */
+    --lime: rgba(0, 255, 0, 1);
+    --limegreen: rgba(50, 205, 50, 1);
+    --forestgreen: rgba(34, 139, 34, 1);
+    --green: rgba(0, 128, 0, 1);
+    --darkgreen: rgba(0, 100, 0, 1);
+    --seagreen: rgba(46, 139, 87, 1);
+    --olive: rgba(128, 128, 0, 1);
+    --teal: rgba(0, 128, 128, 1);
+
+    /* --- BLUES --- */
+    --aqua: rgba(0, 255, 255, 1);
+    --cyan: rgba(0, 255, 255, 1);
+    --skyblue: rgba(135, 206, 235, 1);
+    --deepskyblue: rgba(0, 191, 255, 1);
+    --dodgerblue: rgba(30, 144, 255, 1);
+    --royalblue: rgba(65, 105, 225, 1);
+    --blue: rgba(0, 0, 255, 1);
+    --mediumblue: rgba(0, 0, 205, 1);
+    --navy: rgba(0, 0, 128, 1);
+    --midnightblue: rgba(25, 25, 112, 1);
+
+    /* --- BROWNS --- */
+    --cornsilk: rgba(255, 248, 220, 1);
+    --wheat: rgba(245, 222, 179, 1);
+    --rosybrown: rgba(188, 143, 143, 1);
+    --chocolate: rgba(210, 105, 30, 1);
+    --saddlebrown: rgba(139, 69, 19, 1);
+    --brown: rgba(165, 42, 42, 1);
+    --maroon: rgba(128, 0, 0, 1);
+}
+
