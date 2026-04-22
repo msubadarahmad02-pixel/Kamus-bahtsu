@@ -52,7 +52,7 @@ const kategoriUnik = [...new Set(data.map(item => item.kategori))].sort((a, b) =
                 // Tambahkan fungsi klik untuk mengarahkan ke daftar rumusan kategori
                 itemElement.addEventListener('click', () => {
                     // Mengirim nama kategori via URL (Query Parameter)
-                    window.location.href = `Daftar_Rumusan_by_Kategori.html?kategori=${encodeURIComponent(kategori)}`;
+                    window.location.href = `daftar_rumusan_by_kategori.html?kategori=${encodeURIComponent(kategori)}`;
                 });
 
                 kategoriListElement.appendChild(itemElement);
