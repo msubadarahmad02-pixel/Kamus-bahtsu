@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer Pro - Kamus Bahtsu Kanza</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="lihat_pdf.css"> 
+</head>
+<body>
+
+    <div class="viewer-wrapper">
+        <header class="toolbar">
+            <div class="toolbar-left">
+                <button id="prev-page" class="btn-icon" title="Halaman Sebelumnya"><i class="fas fa-arrow-left"></i></button>
+                <div class="page-control">
+                    <input type="number" id="pageNumberInput" value="1" min="1">
+                    <span id="pageTotalDisplay">/ --</span>
+                </div>
+                <button id="next-page" class="btn-icon" title="Halaman Selanjutnya"><i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="toolbar-center">
+                <div class="zoom-group">
+                    <button id="zoom-out" class="btn-icon"><i class="fas fa-minus"></i></button>
+                    <span id="scale-display">100%</span>
+                    <button id="zoom-in" class="btn-icon"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+
+            <div class="toolbar-right">
+                <button id="fullscreen-btn" class="btn-icon" title="Layar Penuh"><i class="fas fa-expand"></i></button>
+                
+            </div>
+        </header>
+
+        <main id="pdf-main-container">
+            <div id="loading-spinner" class="spinner-container">
+                <div class="spinner"></div>
+                <p>Memuat Dokumen...</p>
+            </div>
+            <canvas id="pdf-canvas"></canvas>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script> 
+    <script src="lihat_pdf.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/* lihat_pdf.css */
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #3498db;
+    --bg-gray: #e9ecef;
+    --toolbar-bg: #ffffff;
+    --text-main: #333;
+    --shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-gray);
+    color: var(--text-main);
+    overflow: hidden; /* Mencegah scroll double */
+}
+
+.viewer-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Toolbar Style */
+.toolbar {
+    height: 60px;
+    background: var(--toolbar-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.toolbar-left, .toolbar-center, .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Button & Controls */
+.btn-icon {
+    background: transparent;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: all 0.2s;
+    font-size: 1.1rem;
+}
+
+.btn-icon:hover:not(:disabled) {
+    background: #f0f2f5;
+    color: var(--accent-color);
+}
+
+.btn-icon:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.page-control {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+#pageNumberInput {
+    width: 35px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: 600;
+    font-family: inherit;
+}
+
+/* Main Viewer Area */
+#pdf-main-container {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+    position: relative;
+    scroll-behavior: smooth;
+}
+
+#pdf-canvas {
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 4px;
+}
+
+/* Loading Spinner */
+.spinner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none; /* Muncul lewat JS */
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ddd;
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Zoom Display */
+#scale-display {
+    min-width: 60px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
