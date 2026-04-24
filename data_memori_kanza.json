@@ -9,15 +9,15 @@
  
 {
     "id": 2, 
-    "judul": "2. Bag-A1",
-    "image_url": "img/memori_kanza2.jpg",
+    "judul": "2. Agus H. Muhammad Kafanihi\nbeserta keluarga",
+    "image_url": "memori_kanza2.jpg",
     "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nhanya pohon yang berbuah manis yang dilempari batu\n\nKesan:",
     "audio_url": "audio/slide2.mp3"
 },
 
 {
      "id": 3,
-     "judul": "3. Bag-A2",
+     "judul": "3. Bag-A1",
      "image_url": "img/memori_kanza3.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
         "audio_url": "audio/slide3.mp3"
@@ -25,7 +25,7 @@
     
       {
         "id": 4,
-        "judul": "4. Bag-A3",
+        "judul": "4. Bag-A2",
         "image_url": "img/memori_kanza4.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
         "audio_url": "audio/slide4.mp3"
@@ -34,7 +34,7 @@
     
       {
         "id": 5,
-        "judul": "5. Bag-A4",
+        "judul": "5. Bag-A3",
         "image_url": "img/memori_kanza5.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
         "audio_url": "audio/alquran1.mp3"
@@ -43,7 +43,7 @@
     
     {
     "id": 6,
-    "judul": "6. Bag-B1",
+    "judul": "6. Bag-A4",
     "image_url": "img/memori_kanza6.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
     "audio_url": "audio/slide6.m4a"
@@ -52,7 +52,7 @@
     
     {
     "id": 7,
-    "judul": "7. Bag-B2",
+    "judul": "7. Bag-B1",
     "image_url": "img/memori_kanza6.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
     "audio_url": "audio/slide6.m4a"
@@ -61,7 +61,7 @@
     
     {
     "id": 8,
-    "judul": "8. Bag-B3",
+    "judul": "8. Bag-B2",
     "image_url": "img/memori_kanza6.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
     "audio_url": "audio/slide6.m4a"
@@ -70,7 +70,16 @@
     
     {
     "id": 9,
-    "judul": "9. Bag-B4",
+    "judul": "9. Bag-B3",
+    "image_url": "img/memori_kanza6.jpg",
+     "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
+    "audio_url": "audio/slide6.m4a"
+},
+
+    
+    {
+    "id": 10,
+    "judul": "10. Bag-B4",
     "image_url": "img/memori_kanza6.jpg",
      "lirik": "Nama:\n\nAlamat:\n\nBagian:\n\nPesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
     "audio_url": "audio/slide6.m4a"
