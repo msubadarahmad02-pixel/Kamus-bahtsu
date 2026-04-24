@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "judul": "1. Mustahiqnya",
+        "judul": "1. Mustahiq",
         "image_url": "memori_kanza4.jpg",
         "lirik": "Pesan:\nsemua bunga akan layu namun jadilah bunga yang indah terlebih dahulu\n\nKesan:",
         "audio_url": "yarosulalloh.mp3"
@@ -9,9 +9,9 @@
  
 {
     "id": 2, 
-    "judul": "2. Agus H. Muhammad Kafabihi&keluarga",
+    "judul": "2. Agus H. Muhammad Kafabihi\n dan keluarga",
     "image_url": "memori_kanza2.jpg",
-    "lirik": "اللهم طول عمرهم في الصحة والعافية وطاعة الله",
+    "lirik": "🤲اللهم طوّل عمرهم في الصحة والعافية وطاعة الله",
     "audio_url": "slide1.mp3"
 },
 
