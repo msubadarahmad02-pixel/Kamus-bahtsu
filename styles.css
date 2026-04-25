@@ -150,21 +150,6 @@ body {
     line-height: 1.6;
 }
 
-/* STEP 1: Daftarkan filenya dulu */
-@font-face {
-    font-family: 'LPMQ Misbah';
-    src: url('folder-font/lpmq-misbah.ttf'); /* Sesuaikan lokasi file */
-}
-
-/* STEP 2: Terapkan ke kelas tertentu */
-.teks-alquran {
-    font-family: 'LPMQ Misbah', serif;
-    font-size: 32px;
-    line-height: 2; /* Memberi jarak antar baris agar harakat tidak bertumpuk */
-    direction: rtl;
-}
-
-
 /* Tombol Salin */
 .copy-area {
     text-align: right;
