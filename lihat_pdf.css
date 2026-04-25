@@ -84,9 +84,9 @@ body {
 #pdf-main-container {
     flex: 1;
     overflow: auto;
-    display: flex;
-    justify-content: center;
-    padding: 30px 15px;
+    display: block;
+    text-align: center;
+    padding: 20px 10px;
     position: relative;
     scroll-behavior: smooth;
 }
@@ -95,6 +95,9 @@ body {
     background: white;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border-radius: 4px;
+    max-width: 100%; /* TAMBAHKAN ini agar canvas tidak melebihi lebar layar */
+    height: auto !important; /* TAMBAHKAN agar proporsi tetap terjaga */
+    display: inline-block; /* Agar text-align: center di parent bekerja */
 }
 
 /* Loading Spinner */
