@@ -449,5 +449,9 @@ body {
 /* TIDAK PERLU RE-DEFINISI LAGI DI BAWAHNYA */
 
 
+#pertanyaan, #jawaban {
+    white-space: pre-wrap;
+}
+
 
 
