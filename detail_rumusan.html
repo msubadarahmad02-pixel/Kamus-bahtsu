@@ -115,21 +115,22 @@ function removeDiacritics(text) {
 }).join('');
 
                     document.getElementById('rumusanContent').innerHTML = `
-    <div class="section-group">
+   <div class="section-group">
         <div class="section-title">Deskripsi:</div>
-        <p class="content-text">${item.deskripsi}</p>
+        <p class="content-text">${item.deskripsi.replace(/\n/g, '<br>')}</p>
+
     </div>
 
     <div class="section-group">
         <div class="section-title">Pertanyaan:</div>
-        <p class="content-text">${item.pertanyaan}</p>
+        <p class="content-text">${item.pertanyaan.replace(/\n/g, '<br>')}</p>
     </div>
 
     <div class="section-group">
         <div class="section-title">Jawaban:</div>
-        <p class="content-text">${item.jawaban}</p>
+        <p class="content-text">${item.jawaban.replace(/\n/g, '<br>')}</p>
     </div>
-
+    
     <div class="section-group">
         <div class="section-title">Referensi:</div>
         ${refHtml}
