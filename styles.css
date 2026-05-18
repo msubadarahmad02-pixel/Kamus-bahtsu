@@ -449,8 +449,9 @@ body {
 /* TIDAK PERLU RE-DEFINISI LAGI DI BAWAHNYA */
 
 
-#pertanyaan, #jawaban {
-    white-space: pre-wrap;
+.content-text {
+    /* Properti Anda yang lain... */
+    white-space: pre-line; /* Ini akan mengubah \n menjadi baris baru di HTML */
 }
 
 
