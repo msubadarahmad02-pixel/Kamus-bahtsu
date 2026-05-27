@@ -7,38 +7,44 @@ function hasilJSON() {
     document.getElementById('output').value = JSON.stringify(data, null, 2);
 }
 
+// Fungsi baru untuk menampilkan pop-up kustom yang elegan
+function showAlert(pesan) {
+    document.getElementById('modalMessage').innerText = pesan;
+    document.getElementById('customAlert').classList.add('show');
+}
+
+// Fungsi untuk menutup pop-up
+function closeAlert() {
+    document.getElementById('customAlert').classList.remove('show');
+}
+
 function copyToClipboard() {
     const outputArea = document.getElementById('output');
     if (outputArea.value === "") {
-        alert("Generate JSON dulu!");
+        showAlert("Generate dulu nduk!"); // Menggunakan pop-up baru
         return;
     }
     outputArea.select();
     outputArea.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(outputArea.value).then(() => {
-        alert("Berhasil disalin!");
+        showAlert("Berhasil disalin! 📋"); // Menggunakan pop-up baru
     }).catch(err => {
-        alert("Gagal menyalin: ", err);
+        showAlert("Gagal menyalin data.");
     });
 }
 
 function sendToWhatsApp() {
     const outputArea = document.getElementById('output');
     if (outputArea.value === "") {
-        alert("Generate JSON dulu!");
+        showAlert("Generate dulu nduk!"); // Menggunakan pop-up baru
         return;
     }
 
-    // GANTI NOMOR DI BAWAH INI DENGAN NOMOR WA SERVER / ADMIN
-    const nomorWA = "6283833183971"; // Sudah disesuaikan dengan screenshot kamu
-    
-    // Mengubah teks JSON menjadi format url-safe
+    const nomorWA = "6283833183971"; 
     const teksPesan = encodeURIComponent(outputArea.value);
     
-    // MENGGUNAKAN PROTOKOL DIRECT APP LINK (whatsapp://)
-    const urlWA = `whatsapp://send?phone=${nomorWA}&text=${teksPesan}`;
+    // Menggunakan HTTPS API agar aman dibuka di web Vercel/Chrome HP kamu
+    const urlWA = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${teksPesan}`;
     
-    // Alihkan halaman window saat ini agar Acode langsung memicu aplikasi luar (WhatsApp)
-    window.location.href = urlWA;
+    window.open(urlWA, '_blank');
 }
-
