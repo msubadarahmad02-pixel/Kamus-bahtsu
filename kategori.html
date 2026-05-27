@@ -62,6 +62,31 @@ const kategoriUnik = [...new Set(data.map(item => item.kategori))].sort((a, b) =
             console.error('Error memuat atau memproses data:', error);
             kategoriListElement.innerHTML = '<p>Error: Gagal memuat daftar kategori.</p>';
         });
+
+// === KODE UNTUK FITUR PENCARIAN/FILTER KATEGORI ===
+const filterInput = document.getElementById('filterInput');
+
+filterInput.addEventListener('input', function() {
+    // Ambil teks yang diketik user dan ubah ke huruf kecil
+    const kataKunci = this.value.toLowerCase(); 
+    
+    // Ambil semua elemen kategori yang sudah di-generate
+    const daftarKategori = document.querySelectorAll('.rumusan-item'); 
+
+    // Lakukan perulangan untuk mengecek setiap kategori
+    daftarKategori.forEach(item => {
+        const namaKategori = item.textContent.toLowerCase(); 
+        
+        // Jika nama kategori mengandung kata kunci yang diketik
+        if (namaKategori.includes(kataKunci)) {
+            item.style.display = 'flex'; // Tampilkan (menggunakan 'flex' agar ikon dan teks tetap sejajar sesuai CSS)
+        } else {
+            item.style.display = 'none'; // Sembunyikan jika tidak cocok
+        }
+    });
+});
+
+    
 </script>
 
 </body>
