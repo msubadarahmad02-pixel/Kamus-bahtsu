@@ -1,0 +1,112 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    padding: 20px; 
+    background: #fdf8f4; 
+    color: #4a3b32;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-box { 
+    background: #ffffff; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.05);
+    border: 1px solid #f1e5db;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #6d3d1a;
+    font-size: 24px;
+    border-bottom: 2px solid #f1e5db;
+    padding-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #5c4d42;
+}
+
+input[type="text"], textarea { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #dcd1c4; 
+    border-radius: 6px; 
+    background-color: #fffcf9;
+    font-size: 15px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus, textarea :focus {
+    border-color: #8b4513;
+}
+
+textarea { 
+    height: 80px; 
+    resize: vertical; 
+}
+
+.tall-textarea {
+    height: 120px;
+}
+
+#output {
+    background: #2d241e;
+    color: #f7e7dc;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    height: 200px;
+}
+
+button { 
+    display: block;
+    width: 100%;
+    color: white; 
+    padding: 14px; 
+    border: none; 
+    border-radius: 6px;
+    cursor: pointer; 
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.2s;
+}
+
+.btn-generate {
+    background: #8b4513; 
+}
+
+.btn-generate:hover {
+    background: #72380f;
+}
+
+.btn-copy { 
+    background-color: #5c4d42; 
+    margin-top: 10px; 
+}
+
+.btn-copy:hover {
+    background-color: #4a3d34;
+}
+
+hr {
+    margin: 25px 0;
+    border: 0;
+    border-top: 1px dashed #dcd1c4;
+}

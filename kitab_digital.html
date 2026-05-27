@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitab Digital</title>
+    <link rel="stylesheet" href="kitab_digital.css">
+</head>
+<body>
+
+    <div id="search-page" class="app-container">
+        <div class="quote-wrapper">
+    <div class="quote-text">
+        "Termasuk meneruskan perjuangan ulama setelah mengusir penjajah adalah <br>ber-Bahtsul Masail"<br>
+        KH. Ahmad Idris Marzuqi
+    </div>
+    <img src="img/img19.jpg" class="quote-image" alt="Foto">
+</div>
+
+        <div class="search-box">
+            <div class="search-wrapper">
+                <input type="text" id="search-input" dir="rtl" placeholder="بحث">
+                
+                <button onclick="cariTeks()" class="btn-cari-mini">🔍</button>
+                
+                <div class="custom-select-wrapper">
+    <div class="custom-select-trigger" onclick="toggleDropdown(event)">
+        <span id="selected-kitab-text">📚الكتاب</span>
+    </div>
+    <div class="custom-options" id="custom-options-list">
+        <input type="text" id="filter-kitab-input" placeholder="Cari kitab..." onkeyup="filterPilihanKitab()" autocomplete="off">
+        
+        <div class="options-scroll-container" id="options-scroll-container">
+            <div class="custom-option" onclick="pilihKitab('semua', '📚الكتاب')">📚الكتاب</div>
+            <div class="custom-option" onclick="pilihKitab('bajuri', '📖 باجوري٢')">📖 باجوري٢</div>
+            <div class="custom-option" onclick="pilihKitab('sarqowi', '📖 شرقاوي٢')">📖 شرقاوي٢</div>
+            </div>
+    </div>
+</div>
+<input type="hidden" id="kitab-select" value="semua">
+
+            </div>
+        </div>
+
+        <h2 class="section-title">نتائج البحث</h2>
+        <div id="results-container" class="placeholder-text">
+            Memuat daftar halaman...
+        </div>
+    </div>
+
+    <div id="reader-page" class="full-reader" style="display: none;">
+        <div class="reader-header" dir="rtl">
+            <div class="header-right-side">
+                <button onclick="tutupReader()" class="btn-back-arrow">kembali</button>
+                <span id="active-book-title" class="book-title-header">اسم الكتاب</span>
+            </div>
+            <div class="goto-page-wrapper">
+    <input type="number" id="goto-page-input" placeholder="ص">
+    <button onclick="lompatKeHalaman()" class="btn-goto-page">Go</button>
+    <span id="total-page-badge" class="total-page-badge">0</span>
+</div>
+
+        </div>
+        <div id="reader-content" class="reader-body"></div>
+    </div>
+
+    <script src="kitab_digital.js"></script>
+</body>
+</html>

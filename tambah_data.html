@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel - Tambah Kitab</title>
+    <link rel="stylesheet" href="tambah_data.css">
+</head>
+<body>
+
+<div class="form-box">
+    <h3>Halaman Baru</h3>
+    <input type="number" id="halaman" placeholder="Nomor Halaman"><br><br>
+    <textarea id="matan" placeholder="Isi Matan"></textarea>
+    <textarea id="syarah" placeholder="Isi Syarah"></textarea>
+    
+    <button onclick="hasilJSON()">Generate</button>
+    
+    <p>Hasil (Salin kode di bawah ini):</p>
+    <textarea id="output" readonly></textarea>
+    
+    <button onclick="copyToClipboard()" class="btn-copy">Salin ke Clipboard 📋</button>
+</div>
+
+<script src="tambah_data.js"></script>
+</body>
+</html>
