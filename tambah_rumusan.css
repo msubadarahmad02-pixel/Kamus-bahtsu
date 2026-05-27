@@ -53,7 +53,7 @@ input[type="text"], textarea {
     transition: border-color 0.2s;
 }
 
-input[type="text"]:focus, textarea :focus {
+input[type="text"]:focus, textarea:focus {
     border-color: #8b4513;
 }
 
@@ -127,6 +127,110 @@ hr {
 .btn-wa:hover {
     background-color: #128C7E;
 }
+
+/* ==========================================================================
+   Tambahan Gaya untuk Tombol Group & Modal Pop-Up Elegan
+   ========================================================================== */
+
+/* Kelompok Tombol Bagian Bawah */
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.button-group button {
+    flex: 1;
+    margin-top: 0;
+}
+
+.btn-copy { 
+    background-color: #5c4d42; 
+}
+
+.btn-copy:hover {
+    background-color: #4a3d34;
+}
+
+.btn-wa {
+    background-color: #25D366; 
+}
+
+.btn-wa:hover {
+    background-color: #128C7E;
+}
+
+/* Styling Modal Pop-Up Elegan */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-box {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
+    border: 1px solid #f1e5db;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-box {
+    transform: scale(1);
+}
+
+.modal-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.modal-message {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 16px;
+    color: #4a3b32;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.modal-btn {
+    background: #8b4513;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    width: auto;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.modal-btn:hover {
+    background: #72380f;
+}
+
+
 
 
 
