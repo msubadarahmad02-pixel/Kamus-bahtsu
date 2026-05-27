@@ -16,9 +16,9 @@ function hasilJSON() {
         referensi: referensiArray
     };
 
-    // Validasi sederhana agar data utama tidak kosong
+    // Validasi sederhana menggunakan modal pop-up kustom
     if (!data.id || !data.judul_pendek) {
-        alert("Mohon isi ID dan Judul Pendek terlebih dahulu!");
+        showAlert("Mohon isi ID dan Judul Pendek terlebih dahulu!");
         return;
     }
 
@@ -26,42 +26,48 @@ function hasilJSON() {
     document.getElementById('output').value = JSON.stringify(data, null, 2);
 }
 
+// Fungsi pengontrol Tampilan Pop-Up Kustom
+function showAlert(pesan) {
+    document.getElementById('modalMessage').innerText = pesan;
+    document.getElementById('customAlert').classList.add('show');
+}
+
+function closeAlert() {
+    document.getElementById('customAlert').classList.remove('show');
+}
+
 function copyToClipboard() {
     const outputArea = document.getElementById('output');
     if (outputArea.value === "") {
-        alert("Generate JSON dulu sebelum menyalin!");
+        showAlert("Generate dulu nduk!"); 
         return;
     }
     
     outputArea.select();
-    outputArea.setSelectionRange(0, 99999); // Untuk mendukung perangkat mobile/tablet
+    outputArea.setSelectionRange(0, 99999); 
     
     navigator.clipboard.writeText(outputArea.value).then(() => {
-        alert("JSON berhasil disalin! Tinggal kamu paste ke file .json kamu.");
+        showAlert("Berhasil disalin! 📋");
     }).catch(err => {
-        alert("Gagal menyalin text: ", err);
+        showAlert("Gagal menyalin data.");
     });
 }
 
 function sendToWhatsApp() {
     const outputArea = document.getElementById('output');
     if (outputArea.value === "") {
-        alert("Generate JSON dulu sebelum mengirim!");
+        showAlert("Generate dulu nduk!"); 
         return;
     }
 
-    // GANTI NOMOR DI BAWAH INI DENGAN NOMOR WA SERVER / ADMIN
     const nomorWA = "6283833183971"; 
     
+    // Memberikan format teks khusus agar di WhatsApp terkirim rapi sebagai blok kode monospaced
     const idData = document.getElementById('id').value.trim();
     const pesanPengantar = `*Setoran Rumusan Baru*\nID: ${idData}\n\n\`\`\`\n${outputArea.value}\n\`\`\``;
     
     const teksPesan = encodeURIComponent(pesanPengantar);
+    const urlWA = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${teksPesan}`;
     
-    // MENGGUNAKAN PROTOKOL DIRECT APP LINK (whatsapp://)
-    const urlWA = `whatsapp://send?phone=${nomorWA}&text=${teksPesan}`;
-    
-    // Alihkan langsung agar memicu aplikasi eksternal di Android
-    window.location.href = urlWA;
+    window.open(urlWA, '_blank');
 }
-
