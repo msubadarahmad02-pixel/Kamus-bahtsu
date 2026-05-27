@@ -62,11 +62,9 @@ function sendToWhatsApp() {
 
     const nomorWA = "6283833183971"; 
     
-    // Memberikan format teks khusus agar di WhatsApp terkirim rapi sebagai blok kode monospaced
-    const idData = document.getElementById('id').value.trim();
-    const pesanPengantar = `*Setoran Rumusan Baru*\nID: ${idData}\n\n\`\`\`\n${outputArea.value}\n\`\`\``;
+    // MODIFIKASI DISINI: Langsung mengambil nilai output JSON tanpa teks pengantar
+    const teksPesan = encodeURIComponent(outputArea.value);
     
-    const teksPesan = encodeURIComponent(pesanPengantar);
     const urlWA = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${teksPesan}`;
     
     window.open(urlWA, '_blank');
