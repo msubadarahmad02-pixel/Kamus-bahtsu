@@ -10,13 +10,14 @@
 <body>
 
     <div class="container">
-       <span class="back-button" onclick="history.back()">KANZA28</span>
-        <h1 class="title" id="kategoriTitle"></h1>
+    <span class="back-button" onclick="history.back()">KANZA28</span>
+    <h1 class="title" id="kategoriTitle"></h1>
 
-        <div class="menu-list" id="rumusanList">
-            </div>
+    <input type="text" id="filterRumusanInput" placeholder="Cari Rumusan..." class="filter-input">
 
-    </div>
+    <div class="menu-list" id="rumusanList"></div>
+</div>
+
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -72,6 +73,27 @@ const filteredRumusan = data
         titleElement.textContent = 'Kategori Tidak Ditemukan';
         rumusanListElement.innerHTML = '<p style="text-align: center; color: #795548;">Silakan kembali ke Daftar Rumusan Utama.</p>';
     }
+
+    // === KODE UNTUK FITUR PENCARIAN RUMUSAN BY KATEGORI ===
+    const filterRumusanInput = document.getElementById('filterRumusanInput');
+
+    filterRumusanInput.addEventListener('input', function() {
+        const kataKunci = this.value.toLowerCase(); // Ambil input & ubah ke huruf kecil
+        const daftarRumusan = document.querySelectorAll('.menu-item'); // Ambil semua item rumusan
+
+        daftarRumusan.forEach(item => {
+            const judulRumusan = item.textContent.toLowerCase();
+            
+            // Jika judul cocok dengan kata kunci, tampilkan. Jika tidak, sembunyikan.
+            if (judulRumusan.includes(kataKunci)) {
+                item.style.display = 'flex'; // Tetap 'flex' agar ikon & teks sejajar
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+    
 </script>
 
 </body>
