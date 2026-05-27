@@ -6,20 +6,30 @@
 </head>
 <body>
 
-<div class="form-box">
-    <h3>Halaman Baru</h3>
-    <input type="number" id="halaman" placeholder="Nomor Halaman"><br><br>
-    <textarea id="matan" placeholder="Isi Matan"></textarea>
-    <textarea id="syarah" placeholder="Isi Syarah"></textarea>
-    
-    <button onclick="hasilJSON()">Generate</button>
-    
-    <p>Hasil akan muncul disini:</p>
-    <textarea id="output" readonly></textarea>
-    
- <div class="button-group">
-        <button onclick="copyToClipboard()" class="btn-copy">Salin ke Clipboard 📋</button>
-        <button onclick="sendToWhatsApp()" class="btn-wa">Kirim ke WA 💬</button>
+<div class="container">
+    <div class="form-box">
+        <h3>Halaman Baru</h3>
+        
+        <label for="halaman">Nomor Halaman:</label>
+        <input type="number" id="halaman" placeholder="Contoh: 15">
+        
+        <label for="matan">Isi Matan:</label>
+        <textarea id="matan" placeholder="Masukkan isi teks matan..."></textarea>
+        
+        <label for="syarah">Isi Syarah:</label>
+        <textarea id="syarah" class="tall-textarea" placeholder="Masukkan isi teks syarah..."></textarea>
+        
+        <button onclick="hasilJSON()" class="btn-generate">Generate JSON</button>
+        
+        <hr>
+        
+        <label>Hasil Output:</label>
+        <textarea id="output" readonly placeholder="Hasil akan muncul di sini..."></textarea>
+        
+        <div class="button-group">
+            <button onclick="copyToClipboard()" class="btn-copy">Salin ke Clipboard 📋</button>
+            <button onclick="sendToWhatsApp()" class="btn-wa">Kirim ke WA 💬</button>
+        </div>
     </div>
 </div>
 
