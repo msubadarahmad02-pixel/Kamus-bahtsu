@@ -21,3 +21,24 @@ function copyToClipboard() {
         alert("Gagal menyalin: ", err);
     });
 }
+
+function sendToWhatsApp() {
+    const outputArea = document.getElementById('output');
+    if (outputArea.value === "") {
+        alert("Generate JSON dulu!");
+        return;
+    }
+
+    // GANTI NOMOR DI BAWAH INI DENGAN NOMOR WA SERVER / ADMIN
+    const nomorWA = "6283833183971"; // Sudah disesuaikan dengan screenshot kamu
+    
+    // Mengubah teks JSON menjadi format url-safe
+    const teksPesan = encodeURIComponent(outputArea.value);
+    
+    // MENGGUNAKAN PROTOKOL DIRECT APP LINK (whatsapp://)
+    const urlWA = `whatsapp://send?phone=${nomorWA}&text=${teksPesan}`;
+    
+    // Alihkan halaman window saat ini agar Acode langsung memicu aplikasi luar (WhatsApp)
+    window.location.href = urlWA;
+}
+
