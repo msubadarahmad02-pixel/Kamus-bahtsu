@@ -42,3 +42,26 @@ function copyToClipboard() {
         alert("Gagal menyalin text: ", err);
     });
 }
+
+function sendToWhatsApp() {
+    const outputArea = document.getElementById('output');
+    if (outputArea.value === "") {
+        alert("Generate JSON dulu sebelum mengirim!");
+        return;
+    }
+
+    // GANTI NOMOR DI BAWAH INI DENGAN NOMOR WA SERVER / ADMIN
+    const nomorWA = "6283833183971"; 
+    
+    const idData = document.getElementById('id').value.trim();
+    const pesanPengantar = `*Setoran Rumusan Baru*\nID: ${idData}\n\n\`\`\`\n${outputArea.value}\n\`\`\``;
+    
+    const teksPesan = encodeURIComponent(pesanPengantar);
+    
+    // MENGGUNAKAN PROTOKOL DIRECT APP LINK (whatsapp://)
+    const urlWA = `whatsapp://send?phone=${nomorWA}&text=${teksPesan}`;
+    
+    // Alihkan langsung agar memicu aplikasi eksternal di Android
+    window.location.href = urlWA;
+}
+
