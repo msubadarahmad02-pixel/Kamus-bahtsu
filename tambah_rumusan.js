@@ -18,7 +18,7 @@ function hasilJSON() {
 
     // Validasi sederhana menggunakan modal pop-up kustom
     if (!data.id || !data.judul_pendek) {
-        showAlert("Mohon isi ID dan Judul Pendek terlebih dahulu!");
+        showAlert("isi ID dan Judul Pendeknya nduk");
         return;
     }
 
