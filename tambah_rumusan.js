@@ -47,7 +47,7 @@ function copyToClipboard() {
     outputArea.setSelectionRange(0, 99999); 
     
     navigator.clipboard.writeText(outputArea.value).then(() => {
-        showAlert("Berhasil disalin! 📋");
+    
     }).catch(err => {
         showAlert("Gagal menyalin data.");
     });
