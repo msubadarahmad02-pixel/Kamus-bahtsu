@@ -361,6 +361,24 @@ mark {
     background-color: #5c461a;
 }
 
+.total-page-badge {
+    background-color: #ffffff;
+    color: #8b4513;
+    border: 1px solid #8b4513;
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 11px;
+    font-weight: bold;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 30px;
+}
+
+
+
 
 /* --- CUSTOM DROPDOWN DENGAN FITUR FILTER & SCROLL --- */
 .custom-select-wrapper {
