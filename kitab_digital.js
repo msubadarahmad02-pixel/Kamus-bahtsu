@@ -163,14 +163,13 @@ function bukaLayarBaruKitab(kunciKitab, halamanTarget, kataKunci) {
     headerTitle.innerText = kitab.nama;
     readerContent.innerHTML = ""; 
 
-    // Hitung total halaman berdasarkan panjang data array kitab
-    if (kitab.data && kitab.data.length > 0) {
-        // Jika nomor halaman di database tidak urut dari 1, ambil angka halaman terakhir
-        const halamanTerakhir = kitab.data[kitab.data.length - 1].halaman;
-        totalPageBadge.innerText = halamanTerakhir;
-    } else {
-        totalPageBadge.innerText = "0";
-    }
+// Hitung total halaman berdasarkan jumlah total elemen di array data kitab
+if (kitab.data && kitab.data.length > 0) {
+    // Menampilkan total jumlah halaman yang tersedia di dalam database kitab
+    totalPageBadge.innerText = kitab.data.length;
+} else {
+    totalPageBadge.innerText = "0";
+}
 
     const regexPencari = (kataKunci !== "") 
         ? (/[\u0600-\u06FF]/.test(kataKunci) ? buatPolaRegexArab(kataKunci) : new RegExp(kataKunci, "gi"))
@@ -229,7 +228,7 @@ function lompatKeHalaman() {
     const nomorHalaman = inputHalaman.value.trim();
 
     if (nomorHalaman === "") {
-        alert("Masukkan nomor halaman terlebih dahulu!");
+        tampilkanToast("Masukkan nomor halaman terlebih dahulu!"); // Mengganti alert
         return;
     }
 
@@ -243,7 +242,7 @@ function lompatKeHalaman() {
         
         inputHalaman.value = "";
     } else {
-        alert(`Halaman ${nomorHalaman} tidak ditemukan di kitab ini.`);
+        tampilkanToast(`Halaman ${nomorHalaman} tidak ada nduk🫰`); // Mengganti alert seperti di file 1000639323.jpg
     }
 }
 
@@ -349,3 +348,20 @@ window.addEventListener("click", function(event) {
         }
     }
 });
+
+
+// Fungsi memunculkan pesan pop-up elegan pengganti alert
+function tampilkanToast(pesan) {
+    const toast = document.getElementById("custom-toast");
+    toast.innerText = pesan;
+    toast.classList.add("show");
+    
+    // Otomatis menghilang setelah 3 detik
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+
+
+
