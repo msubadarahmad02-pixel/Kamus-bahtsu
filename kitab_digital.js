@@ -23,14 +23,17 @@ function buatElemenHasil(kunciKitab, kitab, item, kataKunci = "", regexPencari =
     const elemenHasil = document.createElement('div');
     elemenHasil.className = 'result-item';
     
-    let teksGabungan = `${item.matan} ${item.syarah}`;
-    let teksPreview = teksGabungan;
+    // Pisahkan pemrosesan teks matan dan syarah agar bisa diberi desain berbeda
+    let matanPreview = item.matan;
+    let syarahPreview = item.syarah;
 
-    // Jika ada kata kunci pencarian, beri highlight (mark)
+    // Jika ada kata kunci pencarian, beri highlight (mark) pada masing-masing teks
     if (kataKunci !== "" && regexPencari) {
-        teksPreview = teksGabungan.replace(regexPencari, match => `<mark>${match}</mark>`);
+        matanPreview = item.matan.replace(regexPencari, match => `<mark>${match}</mark>`);
+        syarahPreview = item.syarah.replace(regexPencari, match => `<mark>${match}</mark>`);
     }
 
+    // Susun struktur HTML dengan pemisah yang jelas antara matan dan syarah
     elemenHasil.innerHTML = `
         <div class="result-header-wrapper">
             <div class="badge-group">
@@ -40,10 +43,15 @@ function buatElemenHasil(kunciKitab, kitab, item, kataKunci = "", regexPencari =
             </div>
             <button class="btn-baca-full-screen">📖 Lihat Penuh</button>
         </div>
-        <p class="teks-arab-hasil">${teksPreview}</p>
+        <div class="teks-arab-hasil-wrapper">
+            <div class="matan-preview">${matanPreview}</div>
+            <hr class="pemisah-preview">
+            <div class="syarah-preview">${syarahPreview}</div>
+        </div>
     `;
     
-    const pTeks = elemenHasil.querySelector('.teks-arab-hasil');
+    // Menyesuaikan query selector ke wrapper baru agar fungsi buka/tutup (toggle) tidak rusak
+    const pTeks = elemenHasil.querySelector('.teks-arab-hasil-wrapper');
     const btnPanah = elemenHasil.querySelector('.btn-toggle-detail');
     const btnFull = elemenHasil.querySelector('.btn-baca-full-screen');
 
