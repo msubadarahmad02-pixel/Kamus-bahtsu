@@ -33,6 +33,7 @@ h2 {
 }
 
 label {
+    font-family: 'EB Garamond', Garamond, 'Times New Roman', serif;
     display: block;
     margin-top: 15px;
     margin-bottom: 5px;
