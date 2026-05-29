@@ -375,27 +375,30 @@ mark {
     min-width: 30px;
 }
 
-/* --- CUSTOM DROPDOWN DENGAN FITUR FILTER & SCROLL --- */
 .custom-select-wrapper {
     position: relative;
-    width: 100px; /* Saya kembalikan ke 100px agar pas dengan kotak pencarianmu */
+    width: 85px; /* Menentukan lebar kotak tombol di HP kecil */
+    flex-shrink: 0; /* KUNCI UTAMA: Melarang browser memperkecil tombol ini secara paksa */
 }
 
 .custom-select-trigger {
     height: 40px;
-    padding: 0 3px;
+    padding: 0 4px;
     border: 1px solid #cccccc;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 13px; /* Sedikit disesuaikan agar teks Arabnya muat */
     background-color: #f1f3f5;
     color: #333333;
     cursor: pointer;
     display: flex;
+    flex-direction: column; /* Membuat ikon buku dan tulisan 'الكتاب' tersusun atas-bawah */
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     transition: background 0.2s;
+    line-height: 1.2; /* Mengatur jarak vertikal antara emoji buku dan teks */
 }
+
 
 .custom-select-trigger:active {
     background-color: #dfcca0;
