@@ -33,6 +33,7 @@ body {
 
 #search-input {
     flex: 1;
+    min-width: 100px;    /* Batas paling kecil agar tetap bisa mengetik nyaman */
     padding: 10px;
     border: 1px solid #cccccc;
     border-radius: 6px;
@@ -41,6 +42,7 @@ body {
     height: 40px;
     box-sizing: border-box;
 }
+
 
 .btn-cari-mini {
     height: 40px;
