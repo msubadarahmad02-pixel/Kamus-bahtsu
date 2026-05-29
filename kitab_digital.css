@@ -468,3 +468,33 @@ mark {
     border: 2px solid #dfcca0; 
     flex-shrink: 0; /* Mencegah kotak foto ikut menyusut terdesak teks */
 }
+
+
+/* --- CUSTOM TOAST NOTIFICATION ELEGAN --- */
+.toast {
+    visibility: hidden;
+    min-width: 280px;
+    background-color: #8b4513; /* Cokelat senada dengan header */
+    color: #fff8e1; /* Teks krem lembut */
+    text-align: center;
+    border: 2px solid #dfcca0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    position: fixed;
+    z-index: 10000; /* Pastikan berada di atas layar baca penuh */
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.4s, bottom 0.4s, visibility 0.4s;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px; /* Sedikit naik saat muncul */
+}
+
