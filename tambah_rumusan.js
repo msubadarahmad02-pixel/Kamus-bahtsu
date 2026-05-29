@@ -16,13 +16,8 @@ function hasilJSON() {
         referensi: referensiArray
     };
 
-    // Validasi sederhana menggunakan modal pop-up kustom
-    if (!data.id || !data.judul_pendek) {
-        showAlert("isi ID dan Judul Pendeknya nduk");
-        return;
-    }
-
-    // Tampilkan hasil format JSON di textarea output
+    // Validasi ID dan Judul Pendek sudah dihapus di sini
+    // Langsung tampilkan hasil format JSON di textarea output
     document.getElementById('output').value = JSON.stringify(data, null, 2);
 }
 
@@ -47,7 +42,7 @@ function copyToClipboard() {
     outputArea.setSelectionRange(0, 99999); 
     
     navigator.clipboard.writeText(outputArea.value).then(() => {
-    
+        // Alert berhasil disalin telah dihapus agar proses berjalan silent
     }).catch(err => {
         showAlert("Gagal menyalin data.");
     });
@@ -62,7 +57,7 @@ function sendToWhatsApp() {
 
     const nomorWA = "6283833183971"; 
     
-    // MODIFIKASI DISINI: Langsung mengambil nilai output JSON tanpa teks pengantar
+    // Langsung mengambil nilai output JSON tanpa teks pengantar
     const teksPesan = encodeURIComponent(outputArea.value);
     
     const urlWA = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${teksPesan}`;
