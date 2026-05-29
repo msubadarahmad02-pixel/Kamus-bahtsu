@@ -1,17 +1,5 @@
 [
-  {
-    "id": "text",
-    "kategori": "text",
-    "judul_pendek": "text",
-    "deskripsi": "text",
-    "pertanyaan": "text",
-    "jawaban": "text",
-    "referensi": [
-      "text",
-      "text",
-      "text"
-    ]
-  },
+  
   {
     "id": "thoharoh_batas_perempuan",
     "kategori": "Thoharoh",
