@@ -404,17 +404,17 @@ mark {
 .custom-options {
     display: none;
     position: absolute;
-    top: 115%;
+    top: 105%;
     left: 0;
-    width: 150%;
+    min-width: 160px; /* Mengunci lebar minimal agar teks kitab tidak berdesakan */
+    width: max-content; /* Lebar otomatis melebar mengikuti nama kitab terpanjang */
     background-color: #ffffff;
     border: 1px solid #dfcca0;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
-    z-index: 100;
-    overflow: hidden;
+    z-index: 1000;
+    /* overflow: hidden;  <-- HAPUS baris ini agar scroll internal berfungsi lancar */
 }
-
 .custom-options.show {
     display: block;
 }
@@ -440,14 +440,16 @@ mark {
 }
 
 .custom-option {
-    padding: 10px;
+    padding: 10px 14px;
     font-size: 13px;
     text-align: right;
     cursor: pointer;
     color: #5c461a;
     border-bottom: 1px solid #f4ecd8;
     transition: background-color 0.2s ease;
-    white-space: nowrap;
+    white-space: nowrap; /* Teks dipaksa tetap satu baris, tidak boleh patah ke bawah */
+    display: flex;
+    justify-content: flex-end; /* Memastikan teks arab dan emoji merapat anggun di sisi kanan */
 }
 
 .custom-option:last-child {
