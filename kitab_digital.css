@@ -377,8 +377,8 @@ mark {
 
 .custom-select-wrapper {
     position: relative;
-    width: 85px; /* Menentukan lebar kotak tombol di HP kecil */
-    flex-shrink: 0; /* KUNCI UTAMA: Melarang browser memperkecil tombol ini secara paksa */
+    width: 90px; /* Lebar kotak pas agar tidak memakan banyak tempat */
+    flex-shrink: 0; /* WAJIB: Melarang browser memperkecil kotak ini di HP sempit */
 }
 
 .custom-select-trigger {
@@ -386,18 +386,23 @@ mark {
     padding: 0 4px;
     border: 1px solid #cccccc;
     border-radius: 6px;
-    font-size: 13px; /* Sedikit disesuaikan agar teks Arabnya muat */
+    font-size: 12px; /* Ukuran teks proporsional untuk HP kecil */
     background-color: #f1f3f5;
     color: #333333;
     cursor: pointer;
+    
+    /* KUNCI UTAMA KEMBALI KE HORIZONTAL YANG AMAN */
     display: flex;
-    flex-direction: column; /* Membuat ikon buku dan tulisan 'الكتاب' tersusun atas-bawah */
+    flex-direction: row; /* Kembali berjejer ke samping agar tidak terpotong ke kiri */
     align-items: center;
     justify-content: center;
+    gap: 2px; /* Jarak tipis antara emoji buku dan teks الكتاب */
+    
     box-sizing: border-box;
     transition: background 0.2s;
-    line-height: 1.2; /* Mengatur jarak vertikal antara emoji buku dan teks */
+    white-space: nowrap; /* Mencegah teks Arab patah baris ke bawah */
 }
+
 
 
 .custom-select-trigger:active {
