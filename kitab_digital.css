@@ -94,25 +94,46 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
-.teks-arab-hasil {
-    font-size: 16px;
-    direction: rtl;
-    text-align: justify;
-    text-justify: inter-word;
-    line-height: 1.6;
-    margin-top: 12px;
-    color: #5c461a;
+/* Hasil Pencarian & Halaman Awal */
+.teks-arab-hasil-wrapper {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4; /* Membatasi total baris gabungan saat tertutup */
     -webkit-box-orient: vertical;  
     overflow: hidden;
     transition: max-height 0.3s ease;
+    margin-top: 12px;
 }
 
-.teks-arab-hasil.buka-penuh {
+.teks-arab-hasil-wrapper.buka-penuh {
     display: block;
     overflow: visible;
     -webkit-line-clamp: unset;
+}
+
+/* Gaya Khusus Teks Matan & Syarah di Preview */
+.matan-preview {
+    direction: rtl;
+    text-align: justify;
+    font-size: 16px;
+    font-weight: bold; /* Matan dibuat tebal agar kontras */
+    color: #5c461a;
+    line-height: 1.6;
+}
+
+.syarah-preview {
+    direction: rtl;
+    text-align: justify;
+    font-size: 15px;
+    color: #70551e; /* Warna syarah sedikit dibedakan */
+    line-height: 1.6;
+}
+
+/* Garis Pemisah Tipis yang Anggun */
+.pemisah-preview {
+    border: 0;
+    border-top: 1px dashed #b38f4d;
+    margin: 8px 0;
+    width: 100%;
 }
 
 .kitab-badge { background: #b38f4d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
