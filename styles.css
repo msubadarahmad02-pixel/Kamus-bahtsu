@@ -287,13 +287,12 @@ body {
 }
 
 /* --- GAYA UNTUK DAFTAR KATEGORI DAN DAFTAR RUMUSAN --- */
-
 /* Gaya untuk wadah list (agar ada jarak antar item) */
 .rumusan-list, .menu-list {
     display: flex;
     flex-direction: column;
     gap: 15px; 
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 /* Gaya untuk Item Kategori / Rumusan */
@@ -301,14 +300,26 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 5px 0; /* Padding vertikal sedikit */
+    padding: 4px 0; /* Padding vertikal sedikit */
+}
+
+
+/* Update gaya untuk Item Kategori / Rumusan agar rapi */
+.rumusan-item, .menu-item {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start; /* Mengubah dari 'center' ke 'flex-start' agar ikon tetap rapi di atas saat teks panjang */
+    gap: 10px;               /* Memberikan jarak horizontal yang pasti antara ikon dan teks */
+    padding: 1px 1px;       /* Menambah sedikit padding agar tidak terlalu rapat ke tepi */
+    border-radius: 8px;      /* Opsional: memberi sedikit kelengkungan jika di-hover */
 }
 
 /* Mengubah warna ICON menjadi pink marun */
 .rumusan-item i, .menu-item i {
     color: #f8bbd0; /* Pink Marun */
-    margin-right: 15px;
     font-size: 1.1em;
+    margin-top: 3px; /* Menyelaraskan posisi ikon agar pas di tengah baris pertama teks */
+    flex-shrink: 0;  /* Mencegah ikon menjadi gepeng saat teks di kanan sangat padat */
     transition: color 0.3s;
 }
 
@@ -317,8 +328,11 @@ body {
     font-size: 1em;
     font-weight: bold;
     color: #c2185b; /* Pink Marun */
+    text-align: left; /* Memastikan teks rata kiri dengan rapi */
+    line-height: 1.3; /* Mengatur jarak antar baris teks agar enak dibaca */
     transition: color 0.3s;
 }
+
 
 /* --- GAYA UNTUK TOMBOL BACK (Teks "kanza28") --- */
 .back-button {
