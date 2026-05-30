@@ -1,11 +1,17 @@
 function hasilJSON() {
+    // Mengambil nilai teks dan mengganti semua enter (\n) menjadi <br>
+    const matanText = document.getElementById('matan').value.replace(/\n/g, '<br>');
+    const syarahText = document.getElementById('syarah').value.replace(/\n/g, '<br>');
+
     const data = {
         halaman: parseInt(document.getElementById('halaman').value),
-        matan: document.getElementById('matan').value,
-        syarah: document.getElementById('syarah').value
+        matan: matanText,
+        syarah: syarahText
     };
+    
     document.getElementById('output').value = JSON.stringify(data, null, 2);
 }
+
 
 // Fungsi baru untuk menampilkan pop-up kustom yang elegan
 function showAlert(pesan) {
