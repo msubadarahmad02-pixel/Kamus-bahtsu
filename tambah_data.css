@@ -159,14 +159,13 @@ hr {
     padding: 25px;
     border-radius: 12px;
     width: 85%;
-    max-width: 320px;
+    max-width: 380px; /* Diubah dari 320px agar lebih pas di HP */
     text-align: center;
     box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
     border: 1px solid #f1e5db;
     transform: scale(0.8);
     transition: transform 0.3s ease;
 }
-
 .modal-overlay.show .modal-box {
     transform: scale(1);
 }
