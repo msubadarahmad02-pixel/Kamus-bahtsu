@@ -1,0 +1,212 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fdf8f4;
+    padding: 20px;
+    color: #4a3b32;
+}
+
+.container {
+    max-width: 750px;
+    margin: auto;
+}
+
+.form-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #f1e5db;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.08);
+}
+
+h3 {
+    color: #6d3d1a;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1e5db;
+    font-size: 24px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    color: #C71585;
+    font-weight: 600;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dcd1c4;
+    border-radius: 8px;
+    background: #fffcf9;
+    font-size: 15px;
+    outline: none;
+    transition: .2s;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #8b4513;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.tall-textarea {
+    min-height: 250px;
+}
+
+#output {
+    background: #2d241e;
+    color: #f7e7dc;
+    font-family: Consolas, monospace;
+    min-height: 180px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.btn-generate {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: #8b4513;
+}
+
+.btn-generate:hover {
+    background: #6f360f;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px;
+}
+
+.btn-copy {
+    background: #8b4513;
+}
+
+.btn-copy:hover {
+    background: #6f360f;
+}
+
+.btn-wa {
+    background: #25D366;
+}
+
+.btn-wa:hover {
+    background: #128C7E;
+}
+
+hr {
+    margin: 25px 0;
+    border: none;
+    border-top: 1px dashed #dcd1c4;
+}
+
+/* --- REPARASI CSS MODAL POP-UP (KEMBALI MELAYANG) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-box {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
+    border: 1px solid #f1e5db;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-box {
+    transform: scale(1);
+}
+
+.modal-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.modal-message {
+    font-size: 16px;
+    color: #4a3b32;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.modal-btn {
+    background: #8b4513;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    width: auto;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.modal-btn:hover {
+    background: #72380f;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .form-box {
+        padding: 20px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}

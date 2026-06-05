@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanza28 - Tambah Sholawat</title>
+    <link rel="stylesheet" href="tambah_sholawat.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="form-box">
+        <h3>Formulir Untuk Menambah Sholawat Baru</h3>
+        
+        <label for="id_sholawat">ID (Angka Terakhir Kelanjutan):</label>
+        <input type="number" id="id_sholawat" placeholder="Contoh: 8">
+        
+        <label for="judul">Judul Sholawat:</label>
+        <input type="text" id="judul" placeholder="Contoh: 8. Sholawat Baru">
+        
+        <label for="lirik">Lirik (Arab & Terjemahan):</label>
+        <textarea id="lirik" class="tall-textarea" placeholder="Tempel lirik arab, pisahkan dengan *** lalu arti di bawahnya..."></textarea>
+        
+        <label for="audio">Nama File Audio URL:</label>
+        <input type="text" id="audio" placeholder="Contoh: audio/slide8.mp3">
+        
+        <button onclick="hasilJSON()" class="btn-generate">Generate (Buat Sholawat Baru)</button>
+        
+        <hr>
+        
+        <label>Hasil Output JSON:</label>
+        <textarea id="output" readonly placeholder="Hasil akan muncul di sini..."></textarea>
+        
+        <div class="button-group">
+            <button onclick="copyToClipboard()" class="btn-copy">Salin📋</button>
+            <button onclick="sendToWhatsApp()" class="btn-wa">Kirim💬</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Pop-up Kustom (Sekarang tersembunyi, melayang saat aktif) -->
+<div id="customAlert" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">🫰</div>
+        <div id="modalMessage" class="modal-message">Generate dulu nduk!</div>
+        <button onclick="closeAlert()" class="modal-btn">Oke</button>
+    </div>
+</div>
+
+<script src="tambah_sholawat.js"></script>
+</body>
+</html>
