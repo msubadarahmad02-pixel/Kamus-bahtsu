@@ -1,6 +1,8 @@
 // 1. DEKLARASI DAFTAR KITAB & FILE DATABASE
 const daftarKitab = {
+  bajuri: { nama: "باجوري١", file: "kitab_bajuri1.json", data: [] },
     bajuri: { nama: "باجوري٢", file: "kitab_bajuri.json", data: [] },
+    sarqowi1: { nama: "شرقاوي١", file: "kitab_sarqowi1.json", data: [] },
     sarqowi: { nama: "شرقاوي٢", file: "kitab_sarqowi.json", data: [] }
 };
 
