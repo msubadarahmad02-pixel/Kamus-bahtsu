@@ -162,3 +162,18 @@
     visibility: visible; 
     opacity: 1; 
 }
+
+/* --- ANIMASI UNTUK KOTAK TEKS --- */
+.memori-text-box {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.memori-text-box.show-animasi {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
