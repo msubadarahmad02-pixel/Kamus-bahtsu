@@ -74,9 +74,10 @@ function copyQuote(element) {
     });
 }
 
-// Inisialisasi Event Listener
+// Inisialisasi Event Listener setelah DOM siap
 document.addEventListener('DOMContentLoaded', () => {
-    // Listener untuk Ikon Play
+    
+    // 1. Jalankan fungsi utama bawaan kamu terlebih dahulu
     document.querySelectorAll('.play-icon').forEach(icon => {
         icon.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -84,8 +85,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Listener untuk Nama Pengarang (Salin Teks)
     document.querySelectorAll('.memori-author').forEach(author => {
         author.addEventListener('click', () => copyQuote(author));
+    });
+
+    // 2. Jalankan Animasi Scroll (Intersection Observer)
+    const observerOptions = {
+        root: null,
+        threshold: 0.1
+    };
+
+    const textAnimationObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show-animasi');
+                observer.unobserve(entry.target); // Animasi cukup sekali saat di-scroll
+            }
+        });
+    }, observerOptions);
+
+    // Daftarkan kotak teks untuk diawasi animasinya
+    document.querySelectorAll('.memori-text-box').forEach(box => {
+        textAnimationObserver.observe(box);
     });
 });
