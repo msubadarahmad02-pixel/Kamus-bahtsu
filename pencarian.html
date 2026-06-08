@@ -42,10 +42,17 @@
     const countContainer = document.getElementById('countResult');
     let allData = [];
 
-    // Fungsi hapus harakat
+    // Fungsi hapus harakat dan normalisasi Alif
     function removeDiacritics(text) {
-        return text.replace(/[\u064B-\u0652]/g, "");
+        // 1. Menghapus harakat
+        let bersih = text.replace(/[\u064B-\u0652]/g, "");
+        
+        // 2. Menyamakan semua variasi Alif (أ, إ, آ) menjadi Alif biasa (ا)
+        bersih = bersih.replace(/[\u0622\u0623\u0625]/g, "ا");
+        
+        return bersih;
     }
+
 
     fetch('rumusan_data.json')
         .then(res => res.json())
