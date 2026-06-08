@@ -109,14 +109,21 @@ function hilangkanHarakat(teks) {
     return teks.replace(/[\u064B-\u0652]/g, "");
 }
 
+
 // 6. MEMBUAT POLA REGEX ARAB (MENCARI KATA GUNDUL PADA TEKS BERHARAKAT)
 function buatPolaRegexArab(kataKunci) {
     const kataKunciGundul = hilangkanHarakat(kataKunci);
     const pola = kataKunciGundul.split("").map(huruf => {
+        // Jika huruf adalah salah satu dari keluarga Alif, cari semua variasi Alif tersebut
+        if (/[اأإآ]/.test(huruf)) {
+            return `[اأإآ][\\u064B-\\u0652]*`;
+        }
+        // Jika huruf biasa, proses seperti biasa
         return huruf.replace(/[\u0600-\u06FF]/, `${huruf}[\\u064B-\\u0652]*`);
     }).join("");
     return new RegExp(pola, "gi");
 }
+
 
 // 7. KODE UNTUK PENCARIAN TEKS
 function cariTeks() {
@@ -134,6 +141,8 @@ function cariTeks() {
 
     let hasilDitemukan = false;
     const kitabYangDicari = (pilihanKitab === "semua") ? Object.keys(daftarKitab) : [pilihanKitab];
+    
+    // Mesin regex otomatis menangani pencarian Alif berdasarkan fungsi nomor 6
     const regexPencari = /[\u0600-\u06FF]/.test(kataKunci) ? buatPolaRegexArab(kataKunci) : new RegExp(kataKunci, "gi");
 
     kitabYangDicari.forEach(kunciKitab => {
@@ -147,7 +156,6 @@ function cariTeks() {
 
             if (cocokMatan || cocokSyarah) {
                 hasilDitemukan = true;
-                // Panggil Helper Function di sini
                 const elemenHasil = buatElemenHasil(kunciKitab, kitab, item, kataKunci, regexPencari);
                 containerHasil.appendChild(elemenHasil);
             }
@@ -160,6 +168,8 @@ function cariTeks() {
     }
 }
 
+
+// 8. FUNGSI UNTUK MEMBUKA LAYAR BACAAN PENUH (MODE KITAB)
 function bukaLayarBaruKitab(kunciKitab, halamanTarget, kataKunci) {
     const kitab = daftarKitab[kunciKitab];
     const searchPage = document.getElementById('search-page');
@@ -167,23 +177,22 @@ function bukaLayarBaruKitab(kunciKitab, halamanTarget, kataKunci) {
     const readerContent = document.getElementById('reader-content');
     const headerTitle = document.getElementById('active-book-title');
     
-    // Ambil elemen badge total halaman yang baru
     const totalPageBadge = document.getElementById('total-page-badge');
 
     headerTitle.innerText = kitab.nama;
     readerContent.innerHTML = ""; 
 
-// Hitung total halaman berdasarkan jumlah total elemen di array data kitab
-if (kitab.data && kitab.data.length > 0) {
-    // Menampilkan total jumlah halaman yang tersedia di dalam database kitab
-    totalPageBadge.innerText = kitab.data.length;
-} else {
-    totalPageBadge.innerText = "0";
-}
+    if (kitab.data && kitab.data.length > 0) {
+        totalPageBadge.innerText = kitab.data.length;
+    } else {
+        totalPageBadge.innerText = "0";
+    }
 
-    const regexPencari = (kataKunci !== "") 
-        ? (/[\u0600-\u06FF]/.test(kataKunci) ? buatPolaRegexArab(kataKunci) : new RegExp(kataKunci, "gi"))
-        : null;
+    // Buat regex pencari langsung dari kata kunci asli
+    let regexPencari = null;
+    if (kataKunci !== "") {
+        regexPencari = /[\u0600-\u06FF]/.test(kataKunci) ? buatPolaRegexArab(kataKunci) : new RegExp(kataKunci, "gi");
+    }
 
     kitab.data.forEach(item => {
         const divHalaman = document.createElement('div');
