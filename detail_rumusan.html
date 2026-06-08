@@ -56,19 +56,24 @@ function removeDiacritics(text) {
     
     
     
-    function applyGlobalHighlight() {
+function applyGlobalHighlight() {
     if (!highlightKey) return;
     const container = document.getElementById('rumusanContent');
     
     // 1. Bersihkan keyword dari harakat agar kita punya teks dasarnya
     const cleanKey = removeDiacritics(highlightKey).toLowerCase();
     
-    // 2. Buat pola Regex yang mengabaikan harakat di antara huruf-huruf Arab
-    // Pola ini akan mencari huruf keyword dan mengizinkan ada harakat di antaranya
+    // 2. Buat pola Regex yang mengabaikan harakat DAN menyamakan semua jenis Alif
     const arabicDiacritics = "[\\u064B-\\u0652]*";
     const regexPattern = cleanKey.split('').map(char => {
-        const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        // Jika karakter adalah huruf Arab, selipkan pola pengabaian harakat
+        let escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        
+        // JIKA KARAKTER ADALAH ALIF (ا atau variannya), buat regex agar mencocokkan semua jenis Alif
+        if (/[\u0622\u0623\u0625\u0627]/.test(char)) {
+            escapedChar = "[\\u0622\\u0623\\u0625\\u0627]";
+        }
+        
+        // Jika karakter adalah huruf Arab secara umum, selipkan pola pengabaian harakat setelahnya
         return /[\u0600-\u06FF]/.test(char) ? escapedChar + arabicDiacritics : escapedChar;
     }).join('');
 
