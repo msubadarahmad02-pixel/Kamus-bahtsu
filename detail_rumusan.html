@@ -114,28 +114,47 @@ function removeDiacritics(text) {
                         return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
 }).join('');
 
-                    document.getElementById('rumusanContent').innerHTML = `
-   <div class="section-group">
-        <div class="section-title">Deskripsi:</div>
-        <p class="content-text">${item.deskripsi.replace(/\n/g, '<br>')}</p>
+// 1. Proses deskripsi per baris agar bisa mendeteksi teks Arab
+const deskripsiHtml = item.deskripsi.split('\n').map(line => {
+    const isAr = /[\u0600-\u06FF]/.test(line);
+    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${line}</p>`;
+}).join('');
 
+// 2. Proses pertanyaan per baris (jaga-jaga jika ada teks Arab)
+const pertanyaanHtml = item.pertanyaan.split('\n').map(line => {
+    const isAr = /[\u0600-\u06FF]/.test(line);
+    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${line}</p>`;
+}).join('');
+
+// 3. Proses jawaban per baris (jaga-jaga jika ada teks Arab)
+const jawabanHtml = item.jawaban.split('\n').map(line => {
+    const isAr = /[\u0600-\u06FF]/.test(line);
+    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${line}</p>`;
+}).join('');
+
+// 4. Masukkan variabel yang sudah diproses ke dalam HTML
+document.getElementById('rumusanContent').innerHTML = `
+    <div class="section-group">
+        <div class="section-title">Deskripsi:</div>
+        ${deskripsiHtml}
     </div>
 
     <div class="section-group">
         <div class="section-title">Pertanyaan:</div>
-        <p class="content-text">${item.pertanyaan.replace(/\n/g, '<br>')}</p>
+        ${pertanyaanHtml}
     </div>
 
     <div class="section-group">
         <div class="section-title">Jawaban:</div>
-        <p class="content-text">${item.jawaban.replace(/\n/g, '<br>')}</p>
+        ${jawabanHtml}
     </div>
-    
+
     <div class="section-group">
         <div class="section-title">Referensi:</div>
         ${refHtml}
     </div>
 `;
+
                     
 
                     setTimeout(applyGlobalHighlight, 800);
