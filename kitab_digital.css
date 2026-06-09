@@ -143,10 +143,15 @@ body {
 .kitab-badge { background: #b38f4d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 .page-badge { background: #7f8c8d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
 
+/* --- HIGHLIGHT PENCARIAN PINK ELEGAN --- */
 mark {
-    background-color: transparent;
-    color: #c2185b;
+    background-color: #ffcdd2 !important; /* Warna background pink pastel yang cerah */
+    color: #c2185b !important;            /* Warna teks merah tua agar kontras */
     font-weight: bold;
+    padding: 0 4px;
+    border-radius: 4px;
+    display: inline-block;                 /* Menjaga bentuk block kecil di sekitar lafadz */
+    direction: rtl;                        /* Memastikan teks Arab tidak terbalik posisinya */
 }
 
 /* LAYAR BACAAN BARU KREM ELEGAN */
