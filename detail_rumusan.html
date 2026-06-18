@@ -113,7 +113,7 @@ function applyGlobalHighlight() {
             .then(data => {
                 const item = data.find(i => i.id === rumusanId);
                 if (item) {
-                    document.getElementById('detailTitle').textContent = item.judul_pendek;
+                    document.getElementById('detailTitle').innerHTML = item.judul_pendek;
                     const refHtml = item.referensi.map(ref => {
                         const isAr = /[\u0600-\u06FF]/.test(ref);
                         return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
