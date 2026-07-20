@@ -218,19 +218,26 @@ function bukaLayarBaruKitab(kunciKitab, halamanTarget, kataKunci) {
     searchPage.style.display = "none";
     readerPage.style.display = "flex";
 
-    setTimeout(() => {
+        setTimeout(() => {
         const elemenTarget = document.getElementById(`page-target-${halamanTarget}`);
-        if (elemenTarget) {
-            elemenTarget.scrollIntoView({ behavior: 'auto', block: 'center' });
-            
-            if (kataKunci !== "") {
-                elemenTarget.style.backgroundColor = "#ebdcb9";
-                setTimeout(() => {
-                    elemenTarget.style.backgroundColor = "transparent";
-                }, 2000);
-            }
+        
+        if (halamanTarget == 1 || halamanTarget == "1") {
+            // Jika halaman 1, langsung posisikan ke paling atas
+            readerContent.scrollTop = 0;
+        } else if (elemenTarget) {
+            // Jika halaman lain, posisikan tepat di bawah header
+            elemenTarget.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
+
+        // Efek sorotan warna jika ada kata kunci pencarian
+        if (elemenTarget && kataKunci !== "") {
+            elemenTarget.style.backgroundColor = "#ebdcb9";
+            setTimeout(() => {
+                elemenTarget.style.backgroundColor = "transparent";
+            }, 2000);
         }
     }, 100);
+
 }
 
 
