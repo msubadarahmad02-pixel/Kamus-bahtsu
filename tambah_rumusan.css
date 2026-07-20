@@ -17,11 +17,11 @@ body {
 }
 
 .form-box { 
-    background: #ffffff; 
+    background: #fff8e1; 
     padding: 30px; 
     border-radius: 12px; 
     box-shadow: 0 4px 15px rgba(139, 69, 19, 0.05);
-    border: 1px solid #f1e5db;
+    border: 1px solid #d88998;
 }
 
 h2 {
@@ -45,9 +45,9 @@ label {
 input[type="text"], textarea { 
     width: 100%; 
     padding: 12px; 
-    border: 1px solid #dcd1c4; 
+    border: 1px solid #d88998; 
     border-radius: 6px; 
-    background-color: #fffcf9;
+    background-color: #ffffff;
     font-size: 15px;
     color: #333;
     outline: none;
