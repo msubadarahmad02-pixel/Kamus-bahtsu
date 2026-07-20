@@ -64,3 +64,27 @@ function sendToWhatsApp() {
     
     window.open(urlWA, '_blank');
 }
+
+// --- FUNGSI AUTO GENERATE ID ---
+function updateID() {
+    const kategori = document.getElementById('kategori').value;
+    const judulPendek = document.getElementById('judul_pendek').value;
+
+    // Gabungkan Kategori dan Judul Pendek
+    let gabungan = (kategori + " " + judulPendek).trim();
+
+    // 1. Ubah ke huruf kecil semua (.toLowerCase())
+    // 2. Ganti spasi (atau spasi ganda) menjadi underscore (_)
+    // 3. Hapus karakter khusus selain huruf, angka, dan underscore
+    let idOtomatis = gabungan
+        .toLowerCase()
+        .replace(/\s+/g, '_')        // ganti spasi dengan _
+        .replace(/[^a-z0-9_]/g, '');  // hapus tanda baca seperti ?, !, koma, dll.
+
+    document.getElementById('id').value = idOtomatis;
+}
+
+// Jalankan fungsi otomatis saat pengikut mengetik di Kategori atau Judul Pendek
+document.getElementById('kategori').addEventListener('input', updateID);
+document.getElementById('judul_pendek').addEventListener('input', updateID);
+
