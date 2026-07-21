@@ -173,8 +173,7 @@ mark {
     display: flex;
     align-items: center;
     direction: rtl;
-    border-bottom: 4px double #8b4513;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border-bottom: 2px double #8b4513;
     box-sizing: border-box;
     height: 60px;
     position: relative;
