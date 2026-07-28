@@ -102,6 +102,8 @@
     <script src="script.js"></script> 
 
     <script>
+
+        /*
       // Password yang kamu atur
 const PASSWORD_MEMORI = "alhamdulillah"; // <-- Password kamu
 
@@ -138,9 +140,14 @@ function verifikasiPassword() {
         window.location.href = 'lain_lain.html'; // Jika salah, LANGSUNG lempar ke Al-Qur'an
     }
 }
+*/
 
 
-
+// Tautan ke MEMORI (Langsung masuk ke lain_lain.html tanpa password)
+document.getElementById('memori_kanzaLink').addEventListener('click', function() {
+    window.location.href = 'lain_lain.html';
+});
+        
         // 2. Tautan ke PENCARIAN
         document.getElementById('pencarianLink').addEventListener('click', function() {
             window.location.href = 'pencarian.html'; 
