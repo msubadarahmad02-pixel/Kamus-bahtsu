@@ -5,14 +5,18 @@
     padding: 0;
 }
 
-/* Pastikan body dan html mengambil tinggi dan lebar viewport penuh */
+/* SESUDAH */
 html, body {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    height: 100dvh; /* Menyesuaikan layar HP di Chrome */
     font-family: Georgia, sans-serif;
-    /* Latar belakang yang lebih mirip gambar */
     background-color: #fff8e1; 
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Mencegah seluruh halaman bisa di-scroll naik turun */
 }
+
 
 /* Kontainer utama yang menampung area geser */
 .lyrics-container {
