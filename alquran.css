@@ -321,3 +321,38 @@ html, body {
     justify-content: center;
     box-sizing: border-box;
 }
+
+/* Styling Tombol Kunci Halaman */
+.title-lock-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-lock {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #9ca3af; /* Warna abu saat gembok terbuka */
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.btn-lock.locked {
+    color: var(--primary-orange); /* Warna oranye saat gembok terkunci */
+    transform: scale(1.1);
+}
+
+/* Mengatur container gambar agar mendukung Zoom & Pan bawaan browser HP */
+.quran-card {
+    touch-action: pan-x pan-y pinch-zoom;
+    overflow: auto;
+}
+
+/* Efek saat tombol navigasi nonaktif (terkunci) */
+.btn-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
