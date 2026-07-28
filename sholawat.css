@@ -5,16 +5,12 @@
     padding: 0;
 }
 
-/* SESUDAH */
 html, body {
     width: 100%;
-    height: 100vh;
-    height: 100dvh; /* Menyesuaikan layar HP di Chrome */
+    height: 100%;
     font-family: Georgia, sans-serif;
+    /* Latar belakang yang lebih mirip gambar */
     background-color: #fff8e1; 
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Mencegah seluruh halaman bisa di-scroll naik turun */
 }
 
 
