@@ -14,9 +14,18 @@
         <button onclick="window.location.href='alquran.html'" class="btn-icon">
             <i class="fa-solid fa-arrow-left"></i>
         </button>
-        <h2 id="viewerTitle" class="quran-title">Halaman 1</h2>
+        
+        <!-- Wadah Judul & Tombol Kunci Halaman -->
+        <div class="title-lock-wrapper">
+            <h2 id="viewerTitle" class="quran-title">Halaman 1</h2>
+            <button id="btnLockPage" class="btn-lock" title="Kunci Layar">
+                <i id="lockIcon" class="fa-solid fa-lock-open"></i>
+            </button>
+        </div>
+
         <div class="header-placeholder"></div>
     </header>
+
 
     <!-- Container Utama Flipbook -->
     <main class="quran-viewer">
