@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus Bahtsu Kanza</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Menghubungkan ke Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Mengatur warna browser di HP -->
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Script untuk mendaftarkan Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker terdaftar!', reg))
+            .catch(err => console.log('Gagal daftar Service Worker:', err));
+        });
+      }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">Kamus Bahtsu<br>Kanza</h1>
+        
+        <div class="icon-grid">
+            <div class="icon-item top-center" id="memori_kanzaLink">
+                <i class="fa-solid fa-image icon"></i>
+                <p>Memori</p>
+            </div>
+
+            <div class="icon-item left-center" id="pencarianLink">
+                <i class="fa-solid fa-search icon"></i>
+                <p>Pencarian</p>
+            </div>
+            
+            <div class="icon-item center-center" id="pdfDaftarLink">
+                <i class="fas fa-file-pdf icon"></i>
+                <p>Daftar PDF</p>
+            </div>
+            
+            <div class="icon-item right-center" id="sholawatLink">
+                <i class="fa-solid fa-heart icon"></i>
+                <p>Sholawat</p>
+            </div>
+            
+            <div class="icon-item bottom-left" id="alquranLink">
+                <i class="fa-solid fa-book-open icon"></i>
+                <p>Kitab Digital</p>
+            </div>
+
+            <div class="icon-item bottom-center" id="daftarIsiLink">
+                <i class="fa-solid fa-book icon"></i>
+                <p>Daftar Isi</p>
+            </div>
+            
+          <div class="icon-item bottom-right" id="lainLainLink">
+    <i class="fa-solid fa-book-open-reader icon"></i>
+    <p>Al-Qur'an</p>
+</div>
+
+
+        </div> 
+
+        <div class="admin-buttons">
+            <button id="tambahRumusanLink" class="btn-small">Data1</button>
+            <button id="tambahDataLink" class="btn-small">Data2</button>
+            <button id="tambahSholawatLink" class="btn-small">Data3</button>
+        </div>
+    </div> <!-- PENUTUP CONTAINER DI SINI -->
+
+   <!-- Pop-up Password Elegan -->
+<div id="modalPassword" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 class="modal-title">Masukkan Password</h3>
+        <p class="modal-sub">Masukkan password apa saja</p>
+        
+        <input type="password" id="inputPasswordMemori" placeholder="Ketik password..." autocomplete="off">
+        
+        <!-- TEKS PESAN SALAH (BARU) -->
+        <p id="pesanErrorPassword" style="color: #d32f2f; font-size: 0.8rem; margin-top: 8px; display: none; font-weight: bold;"></p>
+        
+        <div class="modal-buttons">
+            <button type="button" class="btn-modal btn-batal" onclick="tutupModalPassword()">Batal</button>
+            <button type="button" class="btn-modal btn-masuk" onclick="verifikasiPassword()">Masuk</button>
+        </div>
+    </div>
+</div>
+
+
+    <script src="script.js"></script> 
+
+    <script>
+      // Password yang kamu atur
+const PASSWORD_MEMORI = "alhamdulillah"; // <-- Password kamu
+
+// 1. Tautan ke MEMORI (Buka Modal)
+document.getElementById('memori_kanzaLink').addEventListener('click', function() {
+    const modal = document.getElementById('modalPassword');
+    const input = document.getElementById('inputPasswordMemori');
+    const pesanError = document.getElementById('pesanErrorPassword');
+    
+    input.value = ""; 
+    if (pesanError) pesanError.style.display = "none"; // Sembunyikan pesan error saat modal dibuka
+    
+    modal.classList.add('show');
+    setTimeout(() => input.focus(), 150); 
+});
+
+// Fungsi untuk menutup modal
+function tutupModalPassword() {
+    const modal = document.getElementById('modalPassword');
+    const pesanError = document.getElementById('pesanErrorPassword');
+    modal.classList.remove('show');
+    if (pesanError) pesanError.style.display = "none";
+}
+
+// Fungsi verifikasi password
+function verifikasiPassword() {
+    const input = document.getElementById('inputPasswordMemori').value;
+    
+    if (input === PASSWORD_MEMORI) {
+        tutupModalPassword();
+        window.location.href = 'memori_kanza.html'; // Jika benar, buka Memori
+    } else {
+        tutupModalPassword();
+        window.location.href = 'lain_lain.html'; // Jika salah, LANGSUNG lempar ke Al-Qur'an
+    }
+}
+
+
+
+        // 2. Tautan ke PENCARIAN
+        document.getElementById('pencarianLink').addEventListener('click', function() {
+            window.location.href = 'pencarian.html'; 
+        });
+        
+        // 3. Tautan ke DAFTAR ISI
+        document.getElementById('daftarIsiLink').addEventListener('click', function() {
+            window.location.href = 'kategori.html'; 
+        });
+        
+        // 4. Tautan ke SHOLAWAT
+        document.getElementById('sholawatLink').addEventListener('click', function() {
+            window.location.href = 'sholawat.html'; 
+        });
+        
+        // 5. Tautan ke DAFTAR PDF
+        document.getElementById('pdfDaftarLink').addEventListener('click', function() {
+           window.location.href = 'daftar_pdf.html'; 
+        });
+        
+        // 6. Tautan ke KITAB DIGITAL
+        document.getElementById('alquranLink').addEventListener('click', function() {
+            window.location.href = 'kitab_digital.html'; 
+        });
+        
+        // 7. Tautan ke AL-QUR'AN
+document.getElementById('lainLainLink').addEventListener('click', function() {
+    window.location.href = 'alquran.html'; 
+});
+        
+        // 8. Tautan ke Tambah Rumusan (Admin)
+        document.getElementById('tambahRumusanLink').addEventListener('click', function() {
+            window.location.href = 'tambah_rumusan.html'; 
+        });
+
+        // 9. Tautan ke Tambah Data Kitab (Admin)
+        document.getElementById('tambahDataLink').addEventListener('click', function() {
+            window.location.href = 'tambah_data.html'; 
+        });
+        
+        // 10. Tautan ke Tambah Sholawat (Admin)
+        document.getElementById('tambahSholawatLink').addEventListener('click', function() {
+            window.location.href = 'tambah_sholawat.html'; 
+        });
+    </script>
+
+</body>
+</html>
