@@ -9,11 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const flipOverlay = document.getElementById('flipOverlay');
     const viewerTitle = document.getElementById('viewerTitle');
 
+    // Elemen Tombol Kunci & Navigasi
+    const btnLockPage = document.getElementById('btnLockPage');
+    const lockIcon = document.getElementById('lockIcon');
+    const btnNextPage = document.getElementById('btnNextPage');
+    const btnPrevPage = document.getElementById('btnPrevPage');
+
     // Elemen Fitur Lompat Halaman
     const gotoInput = document.getElementById('goto-page-input');
     const btnConfirmJump = document.getElementById('btnConfirmJump');
 
     let isAnimating = false;
+    let isLocked = false; // State status gembok
 
     // Set Tampilan Awal
     updatePageDisplay(currentPage);
@@ -23,14 +30,30 @@ document.addEventListener('DOMContentLoaded', () => {
         viewerTitle.textContent = `Halaman ${pageNumber}`;
     }
 
-       // --- LOGIKA LOMPAT HALAMAN HALUS ---
+    // --- LOGIKA GEMBOK / KUNCI HALAMAN ---
+    btnLockPage.addEventListener('click', () => {
+        isLocked = !isLocked; // Toggle status terkunci
+
+        if (isLocked) {
+            btnLockPage.classList.add('locked');
+            lockIcon.className = 'fa-solid fa-lock'; // Ganti ikon ke Gembok Tertutup
+            btnNextPage.disabled = true;
+            btnPrevPage.disabled = true;
+        } else {
+            btnLockPage.classList.remove('locked');
+            lockIcon.className = 'fa-solid fa-lock-open'; // Ganti ikon ke Gembok Terbuka
+            btnNextPage.disabled = false;
+            btnPrevPage.disabled = false;
+        }
+    });
+
+    // --- LOGIKA LOMPAT HALAMAN ---
     function eksekusiLompat() {
         let val = gotoInput.value.trim();
-        if (!val) return; // Jika kosong, abaikan (tanpa alert)
+        if (!val) return;
 
         let halTarget = parseInt(val);
         
-        // Batasi otomatis jika input melampaui 604 atau kurang dari 1
         if (halTarget > TOTAL_PAGES) {
             halTarget = TOTAL_PAGES;
         } else if (halTarget < 1) {
@@ -40,17 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPage = halTarget;
         updatePageDisplay(currentPage);
         
-        gotoInput.value = ""; // Kosongkan input
-        gotoInput.blur();     // Sembunyikan keyboard HP
+        gotoInput.value = "";
+        gotoInput.blur();
     }
 
-    // Batasi input maksimal 3 digit angka
     gotoInput.addEventListener('input', (e) => {
         if (e.target.value.length > 3) {
             e.target.value = e.target.value.slice(0, 3);
         }
     });
-
 
     btnConfirmJump.addEventListener('click', eksekusiLompat);
     gotoInput.addEventListener('keypress', (e) => {
@@ -59,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NAVIGASI FLIPBOOK ---
     function nextPage() {
-        if (currentPage >= TOTAL_PAGES || isAnimating) return;
+        if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return; // Abaikan jika terkunci
         isAnimating = true;
 
         overlayImg.src = `${FOLDER_GAMBAR}${currentPage}.jpg`;
@@ -75,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function prevPage() {
-        if (currentPage <= 1 || isAnimating) return;
+        if (isLocked || currentPage <= 1 || isAnimating) return; // Abaikan jika terkunci
         isAnimating = true;
 
         currentPage--;
@@ -90,24 +111,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }
 
-    document.getElementById('btnNextPage').addEventListener('click', nextPage);
-    document.getElementById('btnPrevPage').addEventListener('click', prevPage);
+    btnNextPage.addEventListener('click', nextPage);
+    btnPrevPage.addEventListener('click', prevPage);
 
-    // Fitur Usap (Swipe)
+    // --- FITUR USAP (SWIPE) ---
     let touchStartX = 0;
     let touchEndX = 0;
     const cardContainer = document.getElementById('quranCard');
 
     cardContainer.addEventListener('touchstart', (e) => {
+        if (isLocked) return; // Matikan deteksi usap jika gembok aktif
         touchStartX = e.changedTouches[0].screenX;
     });
 
     cardContainer.addEventListener('touchend', (e) => {
+        if (isLocked) return; // Matikan deteksi usap jika gembok aktif
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
     });
 
     function handleSwipe() {
+        if (isLocked) return;
         const swipeThreshold = 40;
         if (touchEndX - touchStartX > swipeThreshold) {
             nextPage();
