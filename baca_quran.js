@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    function prevPage() {
+        function prevPage() {
         if (isLocked || currentPage <= 1 || isAnimating) return;
         isAnimating = true;
 
@@ -177,20 +177,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tempImg.onload = () => {
             if (overlayImg) {
+                // Tahan gambar halaman saat ini di kertas overlay yang akan tersingkap
                 overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
             }
 
+            // Langsung perbarui gambar utama di bawah ke halaman sebelumnya
             currentPage = prevpageNum;
+            updatePageDisplay(currentPage);
 
+            // Jalankan animasi kertas tersingkap
             if (flipOverlay) {
                 flipOverlay.className = 'flip-overlay turning-prev';
                 setTimeout(() => {
-                    updatePageDisplay(currentPage);
                     flipOverlay.className = 'flip-overlay';
                     isAnimating = false;
                 }, 500);
             } else {
-                updatePageDisplay(currentPage);
                 isAnimating = false;
             }
         };
@@ -201,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isAnimating = false;
         };
     }
+
 
 
     if (btnNextPage) btnNextPage.addEventListener('click', nextPage);
