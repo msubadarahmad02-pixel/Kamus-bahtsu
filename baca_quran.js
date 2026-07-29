@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkBookmarkState(pageNumber);
 
         // --- PRELOAD 5 HALAMAN DEPAN & BELAKANG ---
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= 1; i++) {
             if (pageNumber + i <= TOTAL_PAGES) {
                 new Image().src = `${BASE_URL_GAMBAR}${pageNumber + i}.jpg`;
             }
