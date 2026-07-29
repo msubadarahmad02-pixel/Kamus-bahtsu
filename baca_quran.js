@@ -126,49 +126,82 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConfirmJump.addEventListener('click', eksekusiLompat);
     }
 
-    // --- NAVIGASI FLIPBOOK (RTL PERBAIKAN) ---
+        // --- NAVIGASI FLIPBOOK (SINKRON DENGAN LOADING GAMBAR) ---
     function nextPage() {
         if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
         isAnimating = true;
 
-        if (overlayImg) {
-            overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
-        }
-        currentPage++;
-        updatePageDisplay(currentPage);
+        const nextpageNum = currentPage + 1;
+        const tempImg = new Image(); // Buat objek gambar di memori untuk pre-load
+        
+        // Pasang link gambar tujuan
+        tempImg.src = `${BASE_URL_GAMBAR}${nextpageNum}.jpg`;
 
-        if (flipOverlay) {
-            flipOverlay.className = 'flip-overlay turning-next';
-            setTimeout(() => {
-                flipOverlay.className = 'flip-overlay';
+        // Setelah gambar tujuan selesai di-download 100%:
+        tempImg.onload = () => {
+            if (overlayImg) {
+                overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`; // Tahan gambar lama di atas
+            }
+            
+            currentPage = nextpageNum;
+            updatePageDisplay(currentPage); // Ganti gambar utama di bawah ke halaman baru
+
+            // Jalankan animasi kertas terbuka
+            if (flipOverlay) {
+                flipOverlay.className = 'flip-overlay turning-next';
+                setTimeout(() => {
+                    flipOverlay.className = 'flip-overlay';
+                    isAnimating = false;
+                }, 500);
+            } else {
                 isAnimating = false;
-            }, 500);
-        } else {
+            }
+        };
+
+        // Jika koneksi lambat/error, cegah aplikasi macet
+        tempImg.onerror = () => {
+            currentPage = nextpageNum;
+            updatePageDisplay(currentPage);
             isAnimating = false;
-        }
+        };
     }
 
     function prevPage() {
         if (isLocked || currentPage <= 1 || isAnimating) return;
         isAnimating = true;
 
-        if (overlayImg) {
-            overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
-        }
-        currentPage--;
+        const prevpageNum = currentPage - 1;
+        const tempImg = new Image();
 
-        if (flipOverlay) {
-            flipOverlay.className = 'flip-overlay turning-prev';
-            setTimeout(() => {
+        tempImg.src = `${BASE_URL_GAMBAR}${prevpageNum}.jpg`;
+
+        tempImg.onload = () => {
+            if (overlayImg) {
+                overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
+            }
+
+            currentPage = prevpageNum;
+
+            if (flipOverlay) {
+                flipOverlay.className = 'flip-overlay turning-prev';
+                setTimeout(() => {
+                    updatePageDisplay(currentPage);
+                    flipOverlay.className = 'flip-overlay';
+                    isAnimating = false;
+                }, 500);
+            } else {
                 updatePageDisplay(currentPage);
-                flipOverlay.className = 'flip-overlay';
                 isAnimating = false;
-            }, 500);
-        } else {
+            }
+        };
+
+        tempImg.onerror = () => {
+            currentPage = prevpageNum;
             updatePageDisplay(currentPage);
             isAnimating = false;
-        }
+        };
     }
+
 
     if (btnNextPage) btnNextPage.addEventListener('click', nextPage);
     if (btnPrevPage) btnPrevPage.addEventListener('click', prevPage);
