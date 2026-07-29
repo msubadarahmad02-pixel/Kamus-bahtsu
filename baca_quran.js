@@ -166,43 +166,48 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-        function prevPage() {
+            function prevPage() {
         if (isLocked || currentPage <= 1 || isAnimating) return;
         isAnimating = true;
 
         const prevpageNum = currentPage - 1;
         const tempImg = new Image();
 
+        // Download gambar halaman sebelumnya di latar belakang
         tempImg.src = `${BASE_URL_GAMBAR}${prevpageNum}.jpg`;
 
         tempImg.onload = () => {
+            // 1. Pasang gambar halaman sebelumnya ke overlay (kertas yang mau masuk)
             if (overlayImg) {
-                // Tahan gambar halaman saat ini di kertas overlay yang akan tersingkap
-                overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
+                overlayImg.src = `${BASE_URL_GAMBAR}${prevpageNum}.jpg`;
             }
 
-            // Langsung perbarui gambar utama di bawah ke halaman sebelumnya
-            currentPage = prevpageNum;
-            updatePageDisplay(currentPage);
-
-            // Jalankan animasi kertas tersingkap
+            // 2. Jalankan animasi pembalikan kertas
             if (flipOverlay) {
                 flipOverlay.className = 'flip-overlay turning-prev';
+                
+                // 3. Setelah animasi lembaran kertas selesai tersingkap sempurna:
                 setTimeout(() => {
-                    flipOverlay.className = 'flip-overlay';
+                    currentPage = prevpageNum;
+                    updatePageDisplay(currentPage); // Update gambar utama di latar
+                    flipOverlay.className = 'flip-overlay'; // Reset overlay
                     isAnimating = false;
                 }, 500);
             } else {
+                currentPage = prevpageNum;
+                updatePageDisplay(currentPage);
                 isAnimating = false;
             }
         };
 
+        // Pengaman jika koneksi lambat/putus
         tempImg.onerror = () => {
             currentPage = prevpageNum;
             updatePageDisplay(currentPage);
             isAnimating = false;
         };
     }
+
 
 
 
