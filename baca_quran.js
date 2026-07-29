@@ -1,7 +1,7 @@
 // ==========================================
 // KONFIGURASI SERVING GAMBAR DARI GITHUB RELEASES
 // ==========================================
-const BASE_URL_GAMBAR = "https://github.com/msubadarahmad02-pixel/Kamus-bahtsu/releases/download/v1.0/";
+const BASE_URL_GAMBAR = "https://cdn.jsdelivr.net/gh/msubadarahmad02-pixel/Kamus-bahtsu@v1.0/";
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     let currentPage = parseInt(urlParams.get('hal')) || 1;
