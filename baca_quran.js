@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set Tampilan Awal
     updatePageDisplay(currentPage);
 
-        function updatePageDisplay(pageNumber) {
+            function updatePageDisplay(pageNumber) {
         if (currentImg) {
             currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
         }
@@ -40,16 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         checkBookmarkState(pageNumber);
 
-        // --- DITAMBAHKAN BAGIAN INI: PRELOAD 3 HALAMAN DEPAN & BELAKANG ---
-        for (let i = 1; i <= 1; i++) {
-            if (pageNumber + i <= TOTAL_PAGES) {
-                new Image().src = `${BASE_URL_GAMBAR}${pageNumber + i}.jpg`;
+        // --- PRELOAD & SIMPAN KE MEMORI (CACHE) ---
+        for (let i = 1; i <= 5; i++) {
+            // Depan
+            let next = pageNumber + i;
+            if (next <= TOTAL_PAGES && !imageCache[next]) {
+                imageCache[next] = new Image();
+                imageCache[next].src = `${BASE_URL_GAMBAR}${next}.jpg`;
             }
-            if (pageNumber - i >= 1) {
-                new Image().src = `${BASE_URL_GAMBAR}${pageNumber - i}.jpg`;
+            // Belakang
+            let prev = pageNumber - i;
+            if (prev >= 1 && !imageCache[prev]) {
+                imageCache[prev] = new Image();
+                imageCache[prev].src = `${BASE_URL_GAMBAR}${prev}.jpg`;
             }
         }
     }
+
 
 
     // --- LOGIKA BOOKMARK / TANDAI HALAMAN ---
