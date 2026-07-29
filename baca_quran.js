@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkBookmarkState(pageNumber);
 
         // --- DITAMBAHKAN BAGIAN INI: PRELOAD 3 HALAMAN DEPAN & BELAKANG ---
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= 4; i++) {
             if (pageNumber + i <= TOTAL_PAGES) {
                 new Image().src = `${BASE_URL_GAMBAR}${pageNumber + i}.jpg`;
             }
