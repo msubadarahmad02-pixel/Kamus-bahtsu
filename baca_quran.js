@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (viewerTitle) {
             viewerTitle.textContent = `Halaman ${pageNumber}`;
         }
-        checkBookmarkState(pageNumber); // Cek status bookmark
+        checkBookmarkState(pageNumber);
     }
 
     // --- LOGIKA BOOKMARK / TANDAI HALAMAN ---
@@ -126,15 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConfirmJump.addEventListener('click', eksekusiLompat);
     }
 
-    // --- NAVIGASI FLIPBOOK (DENGAN PROTEKSI ANIMASI) ---
+    // --- NAVIGASI DENGAN PROTEKSI AMAN (ANTI-STUCK) ---
     function nextPage() {
         if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
+        
         isAnimating = true;
-
-        if (overlayImg) {
-            overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
-        }
-
         currentPage++;
         updatePageDisplay(currentPage);
 
@@ -143,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 flipOverlay.className = 'flip-overlay';
                 isAnimating = false;
-            }, 500);
+            }, 300); // Durasi dibikin lebih cepat (300ms)
         } else {
             isAnimating = false;
         }
@@ -151,23 +147,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function prevPage() {
         if (isLocked || currentPage <= 1 || isAnimating) return;
+
         isAnimating = true;
-
-        if (overlayImg) {
-            overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
-        }
-
         currentPage--;
-        
+        updatePageDisplay(currentPage);
+
         if (flipOverlay) {
             flipOverlay.className = 'flip-overlay turning-prev';
             setTimeout(() => {
-                updatePageDisplay(currentPage);
                 flipOverlay.className = 'flip-overlay';
                 isAnimating = false;
-            }, 500);
+            }, 300);
         } else {
-            updatePageDisplay(currentPage);
             isAnimating = false;
         }
     }
@@ -196,10 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSwipe() {
         if (isLocked) return;
         const swipeThreshold = 40;
-        if (touchEndX - touchStartX > swipeThreshold) {
-            nextPage();
-        } else if (touchStartX - touchEndX > swipeThreshold) {
-            prevPage();
+        if (touchStartX - touchEndX > swipeThreshold) {
+            nextPage(); // Usap ke kiri -> Halaman Selanjutnya
+        } else if (touchEndX - touchStartX > swipeThreshold) {
+            prevPage(); // Usap ke kanan -> Halaman Sebelumnya
         }
     }
 });
