@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set Tampilan Awal
     updatePageDisplay(currentPage);
 
-    function updatePageDisplay(pageNumber) {
+        function updatePageDisplay(pageNumber) {
         if (currentImg) {
             currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
         }
@@ -39,7 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
             viewerTitle.textContent = `Halaman ${pageNumber}`;
         }
         checkBookmarkState(pageNumber);
+
+        // --- DITAMBAHKAN BAGIAN INI: PRELOAD 3 HALAMAN DEPAN & BELAKANG ---
+        for (let i = 1; i <= 3; i++) {
+            if (pageNumber + i <= TOTAL_PAGES) {
+                new Image().src = `${BASE_URL_GAMBAR}${pageNumber + i}.jpg`;
+            }
+            if (pageNumber - i >= 1) {
+                new Image().src = `${BASE_URL_GAMBAR}${pageNumber - i}.jpg`;
+            }
+        }
     }
+
 
     // --- LOGIKA BOOKMARK / TANDAI HALAMAN ---
     function getBookmarks() {
