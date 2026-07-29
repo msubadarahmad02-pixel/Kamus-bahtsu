@@ -1,8 +1,17 @@
+// ==========================================
+// KONFIGURASI SERVING GAMBAR DARI GITHUB RELEASES
+// ==========================================
+const BASE_URL_GAMBAR = "https://github.com/msubadarahmad02-pixel/Kamus-bahtsu/releases/download/v1.0/";
+
+// Fungsi pembantu jika ingin memformat nomor halaman (misal langsung angka 1, 2, 3... dst)
+function formatPageNumber(page) {
+    return page;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     let currentPage = parseInt(urlParams.get('hal')) || 1;
     const TOTAL_PAGES = 604;
-    const FOLDER_GAMBAR = "images_quran/";
 
     const currentImg = document.getElementById('currentImg');
     const overlayImg = document.getElementById('overlayImg');
@@ -28,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePageDisplay(currentPage);
 
     function updatePageDisplay(pageNumber) {
-        currentImg.src = `${FOLDER_GAMBAR}${pageNumber}.jpg`;
+        currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
         viewerTitle.textContent = `Halaman ${pageNumber}`;
         checkBookmarkState(pageNumber); // Cek apakah halaman ini ditandai
     }
@@ -105,6 +114,76 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    btnConfirmJump.addEventListener('click', eksekusiLompat);
+    gotoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') eksekusiLompat();
+    });
+
+    // --- NAVIGASI FLIPBOOK ---
+    function nextPage() {
+        if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
+        isAnimating = true;
+
+        overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
+
+        currentPage++;
+        updatePageDisplay(currentPage);
+
+        flipOverlay.className = 'flip-overlay turning-next';
+
+        setTimeout(() => {
+            flipOverlay.className = 'flip-overlay';
+            isAnimating = false;
+        }, 500);
+    }
+
+    function prevPage() {
+        if (isLocked || currentPage <= 1 || isAnimating) return;
+        isAnimating = true;
+
+        currentPage--;
+        overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
+
+        flipOverlay.className = 'flip-overlay turning-prev';
+
+        setTimeout(() => {
+            updatePageDisplay(currentPage);
+            flipOverlay.className = 'flip-overlay';
+            isAnimating = false;
+        }, 500);
+    }
+
+    btnNextPage.addEventListener('click', nextPage);
+    btnPrevPage.addEventListener('click', prevPage);
+
+    // --- FITUR USAP (SWIPE) ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const cardContainer = document.getElementById('quranCard');
+
+    if (cardContainer) {
+        cardContainer.addEventListener('touchstart', (e) => {
+            if (isLocked) return;
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        cardContainer.addEventListener('touchend', (e) => {
+            if (isLocked) return;
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+    }
+
+    function handleSwipe() {
+        if (isLocked) return;
+        const swipeThreshold = 40;
+        if (touchEndX - touchStartX > swipeThreshold) {
+            nextPage();
+        } else if (touchStartX - touchEndX > swipeThreshold) {
+            prevPage();
+        }
+    }
+});
     btnConfirmJump.addEventListener('click', eksekusiLompat);
     gotoInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') eksekusiLompat();
