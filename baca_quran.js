@@ -197,11 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Jari digeser dari KANAN ke KIRI -> Halaman Selanjutnya (Maju)
         if (touchEndX < touchStartX - swipeThreshold) {
-            nextPage();
+            prevPage();
         } 
         // Jari digeser dari KIRI ke KANAN -> Halaman Sebelumnya (Mundur)
         else if (touchEndX > touchStartX + swipeThreshold) {
-            prevPage();
+            nextPage();
         }
     }
 
