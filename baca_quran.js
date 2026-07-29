@@ -1,8 +1,17 @@
+// ==========================================
+// KONFIGURASI SERVER QURAN.COM
+// ==========================================
+const BASE_URL_QURAN = "https://static.quran.com/images/pages/page";
+
+// Fungsi pembantu untuk mengubah angka 1 menjadi "001", 12 menjadi "012", dst.
+function formatPageNumber(page) {
+    return String(page).padStart(3, '0');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     let currentPage = parseInt(urlParams.get('hal')) || 1;
     const TOTAL_PAGES = 604;
-    const FOLDER_GAMBAR = "images_quran/";
 
     const currentImg = document.getElementById('currentImg');
     const overlayImg = document.getElementById('overlayImg');
@@ -28,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePageDisplay(currentPage);
 
     function updatePageDisplay(pageNumber) {
-        currentImg.src = `${FOLDER_GAMBAR}${pageNumber}.jpg`;
+        currentImg.src = `${BASE_URL_QURAN}${formatPageNumber(pageNumber)}.png`;
         viewerTitle.textContent = `Halaman ${pageNumber}`;
         checkBookmarkState(pageNumber); // Cek apakah halaman ini ditandai
     }
@@ -115,7 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
         isAnimating = true;
 
-        overlayImg.src = `${FOLDER_GAMBAR}${currentPage}.jpg`;
+        overlayImg.src = `${BASE_URL_QURAN}${formatPageNumber(currentPage)}.png`;
+
         currentPage++;
         updatePageDisplay(currentPage);
 
@@ -132,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isAnimating = true;
 
         currentPage--;
-        overlayImg.src = `${FOLDER_GAMBAR}${currentPage}.jpg`;
+        overlayImg.src = `${BASE_URL_QURAN}${formatPageNumber(currentPage)}.png`;
 
         flipOverlay.className = 'flip-overlay turning-prev';
 
