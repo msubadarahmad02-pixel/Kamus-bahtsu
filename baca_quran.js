@@ -191,17 +191,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
-    function handleSwipe() {
+        function handleSwipe() {
         if (isLocked) return;
         const swipeThreshold = 40;
         
-        // Usap Kanan ke Kiri (Swipe Left) -> Halaman Selanjutnya (Next / RTL)
-        if (touchStartX - touchEndX > swipeThreshold) {
+        // Jari digeser dari KANAN ke KIRI -> Halaman Selanjutnya (Maju)
+        if (touchEndX < touchStartX - swipeThreshold) {
             nextPage();
         } 
-        // Usap Kiri ke Kanan (Swipe Right) -> Halaman Sebelumnya (Prev / RTL)
-        else if (touchEndX - touchStartX > swipeThreshold) {
+        // Jari digeser dari KIRI ke KANAN -> Halaman Sebelumnya (Mundur)
+        else if (touchEndX > touchStartX + swipeThreshold) {
             prevPage();
         }
     }
+
 });
