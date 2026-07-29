@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (viewerTitle) {
             viewerTitle.textContent = `Halaman ${pageNumber}`;
         }
-        checkBookmarkState(pageNumber); // Cek apakah halaman ini ditandai
+        checkBookmarkState(pageNumber);
     }
 
     // --- LOGIKA BOOKMARK / TANDAI HALAMAN ---
@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const bookmarks = getBookmarks();
         if (bookmarks.includes(pageNumber)) {
             btnBookmarkPage.classList.add('bookmarked');
-            bookmarkIcon.className = 'fa-solid fa-bookmark'; // Ikon pita terisi
+            bookmarkIcon.className = 'fa-solid fa-bookmark';
         } else {
             btnBookmarkPage.classList.remove('bookmarked');
-            bookmarkIcon.className = 'fa-regular fa-bookmark'; // Ikon pita garis luar
+            bookmarkIcon.className = 'fa-regular fa-bookmark';
         }
     }
 
@@ -62,10 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btnBookmarkPage.addEventListener('click', () => {
             let bookmarks = getBookmarks();
             if (bookmarks.includes(currentPage)) {
-                // Hapus dari penanda
                 bookmarks = bookmarks.filter(p => p !== currentPage);
             } else {
-                // Tambahkan ke penanda
                 bookmarks.push(currentPage);
             }
             localStorage.setItem('quran_page_bookmarks', JSON.stringify(bookmarks));
@@ -128,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConfirmJump.addEventListener('click', eksekusiLompat);
     }
 
-    // --- NAVIGASI FLIPBOOK (DARI KODE CADANGAN AWAL) ---
+    // --- NAVIGASI FLIPBOOK (RTL PERBAIKAN) ---
     function nextPage() {
         if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
         isAnimating = true;
@@ -154,10 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isLocked || currentPage <= 1 || isAnimating) return;
         isAnimating = true;
 
-        currentPage--;
         if (overlayImg) {
             overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
         }
+        currentPage--;
 
         if (flipOverlay) {
             flipOverlay.className = 'flip-overlay turning-prev';
@@ -175,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnNextPage) btnNextPage.addEventListener('click', nextPage);
     if (btnPrevPage) btnPrevPage.addEventListener('click', prevPage);
 
-    // --- FITUR USAP (SWIPE RTL DARI KODE CADANGAN AWAL) ---
+    // --- FITUR USAP (SWIPE RTL BENAR) ---
     let touchStartX = 0;
     let touchEndX = 0;
     const cardContainer = document.getElementById('quranCard');
@@ -196,12 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSwipe() {
         if (isLocked) return;
         const swipeThreshold = 40;
-        // Swipe Kiri -> Kanan = Maju Halaman (Sesuai Mushaf Al-Qur'an)
-        if (touchEndX - touchStartX > swipeThreshold) {
+        
+        // Usap Kanan ke Kiri (Swipe Left) -> Halaman Selanjutnya (Next / RTL)
+        if (touchStartX - touchEndX > swipeThreshold) {
             nextPage();
         } 
-        // Swipe Kanan -> Kiri = Mundur Halaman
-        else if (touchStartX - touchEndX > swipeThreshold) {
+        // Usap Kiri ke Kanan (Swipe Right) -> Halaman Sebelumnya (Prev / RTL)
+        else if (touchEndX - touchStartX > swipeThreshold) {
             prevPage();
         }
     }
