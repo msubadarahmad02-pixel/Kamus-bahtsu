@@ -1,7 +1,8 @@
 // ==========================================
 // KONFIGURASI SERVING GAMBAR DARI GITHUB RELEASES
 // ==========================================
-const BASE_URL_GAMBAR = "https://cdn.jsdelivr.net/gh/msubadarahmad02-pixel/Kamus-bahtsu@v1.0/";
+const BASE_URL_GAMBAR = "https://github.com/msubadarahmad02-pixel/Kamus-bahtsu/releases/download/v1.0/";
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     let currentPage = parseInt(urlParams.get('hal')) || 1;
@@ -50,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const bookmarks = getBookmarks();
         if (bookmarks.includes(pageNumber)) {
             btnBookmarkPage.classList.add('bookmarked');
-            bookmarkIcon.className = 'fa-solid fa-bookmark'; // Ikon pita terisi
+            bookmarkIcon.className = 'fa-solid fa-bookmark';
         } else {
             btnBookmarkPage.classList.remove('bookmarked');
-            bookmarkIcon.className = 'fa-regular fa-bookmark'; // Ikon pita garis luar
+            bookmarkIcon.className = 'fa-regular fa-bookmark';
         }
     }
 
@@ -61,10 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btnBookmarkPage.addEventListener('click', () => {
             let bookmarks = getBookmarks();
             if (bookmarks.includes(currentPage)) {
-                // Hapus dari penanda
                 bookmarks = bookmarks.filter(p => p !== currentPage);
             } else {
-                // Tambahkan ke penanda
                 bookmarks.push(currentPage);
             }
             localStorage.setItem('quran_page_bookmarks', JSON.stringify(bookmarks));
@@ -127,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConfirmJump.addEventListener('click', eksekusiLompat);
     }
 
-    // --- NAVIGASI FLIPBOOK (DENGAN PROTEKSI ELEMEN) ---
+    // --- NAVIGASI FLIPBOOK (DENGAN PROTEKSI ANIMASI) ---
     function nextPage() {
         if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
         isAnimating = true;
@@ -193,152 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
             handleSwipe();
         }, { passive: true });
     }
-
-    function handleSwipe() {
-        if (isLocked) return;
-        const swipeThreshold = 40; // Batas minimal usapan dalam pixel
-        if (touchEndX - touchStartX > swipeThreshold) {
-            nextPage();
-        } else if (touchStartX - touchEndX > swipeThreshold) {
-            prevPage();
-        }
-    }
-});
-        gotoInput.blur();
-    }
-
-    gotoInput.addEventListener('input', (e) => {
-        if (e.target.value.length > 3) {
-            e.target.value = e.target.value.slice(0, 3);
-        }
-    });
-
-    btnConfirmJump.addEventListener('click', eksekusiLompat);
-    gotoInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') eksekusiLompat();
-    });
-
-    // --- NAVIGASI FLIPBOOK ---
-    function nextPage() {
-        if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
-        isAnimating = true;
-
-        overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
-
-        currentPage++;
-        updatePageDisplay(currentPage);
-
-        flipOverlay.className = 'flip-overlay turning-next';
-
-        setTimeout(() => {
-            flipOverlay.className = 'flip-overlay';
-            isAnimating = false;
-        }, 500);
-    }
-
-    function prevPage() {
-        if (isLocked || currentPage <= 1 || isAnimating) return;
-        isAnimating = true;
-
-        currentPage--;
-        overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
-
-        flipOverlay.className = 'flip-overlay turning-prev';
-
-        setTimeout(() => {
-            updatePageDisplay(currentPage);
-            flipOverlay.className = 'flip-overlay';
-            isAnimating = false;
-        }, 500);
-    }
-
-    btnNextPage.addEventListener('click', nextPage);
-    btnPrevPage.addEventListener('click', prevPage);
-
-    // --- FITUR USAP (SWIPE) ---
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const cardContainer = document.getElementById('quranCard');
-
-    if (cardContainer) {
-        cardContainer.addEventListener('touchstart', (e) => {
-            if (isLocked) return;
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        cardContainer.addEventListener('touchend', (e) => {
-            if (isLocked) return;
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-    }
-
-    function handleSwipe() {
-        if (isLocked) return;
-        const swipeThreshold = 40;
-        if (touchEndX - touchStartX > swipeThreshold) {
-            nextPage();
-        } else if (touchStartX - touchEndX > swipeThreshold) {
-            prevPage();
-        }
-    }
-});
-    btnConfirmJump.addEventListener('click', eksekusiLompat);
-    gotoInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') eksekusiLompat();
-    });
-
-    // --- NAVIGASI FLIPBOOK ---
-    function nextPage() {
-        if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
-        isAnimating = true;
-
-        overlayImg.src = `${FOLDER_GAMBAR}${currentPage}.jpg`;
-        currentPage++;
-        updatePageDisplay(currentPage);
-
-        flipOverlay.className = 'flip-overlay turning-next';
-
-        setTimeout(() => {
-            flipOverlay.className = 'flip-overlay';
-            isAnimating = false;
-        }, 500);
-    }
-
-    function prevPage() {
-        if (isLocked || currentPage <= 1 || isAnimating) return;
-        isAnimating = true;
-
-        currentPage--;
-        overlayImg.src = `${FOLDER_GAMBAR}${currentPage}.jpg`;
-
-        flipOverlay.className = 'flip-overlay turning-prev';
-
-        setTimeout(() => {
-            updatePageDisplay(currentPage);
-            flipOverlay.className = 'flip-overlay';
-            isAnimating = false;
-        }, 500);
-    }
-
-    btnNextPage.addEventListener('click', nextPage);
-    btnPrevPage.addEventListener('click', prevPage);
-
-    // --- FITUR USAP (SWIPE) ---
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const cardContainer = document.getElementById('quranCard');
-
-    cardContainer.addEventListener('touchstart', (e) => {
-        if (isLocked) return;
-        touchStartX = e.changedTouches[0].screenX;
-    });
-
-    cardContainer.addEventListener('touchend', (e) => {
-        if (isLocked) return;
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
 
     function handleSwipe() {
         if (isLocked) return;
