@@ -3,11 +3,6 @@
 // ==========================================
 const BASE_URL_GAMBAR = "https://github.com/msubadarahmad02-pixel/Kamus-bahtsu/releases/download/v1.0/";
 
-// Fungsi pembantu jika ingin memformat nomor halaman (misal langsung angka 1, 2, 3... dst)
-function formatPageNumber(page) {
-    return page;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     let currentPage = parseInt(urlParams.get('hal')) || 1;
@@ -37,9 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePageDisplay(currentPage);
 
     function updatePageDisplay(pageNumber) {
-        currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
-        viewerTitle.textContent = `Halaman ${pageNumber}`;
-        checkBookmarkState(pageNumber); // Cek apakah halaman ini ditandai
+        if (currentImg) {
+            currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
+        }
+        if (viewerTitle) {
+            viewerTitle.textContent = `Halaman ${pageNumber}`;
+        }
+        checkBookmarkState(pageNumber); // Cek status bookmark
     }
 
     // --- LOGIKA BOOKMARK / TANDAI HALAMAN ---
@@ -48,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkBookmarkState(pageNumber) {
+        if (!btnBookmarkPage || !bookmarkIcon) return;
         const bookmarks = getBookmarks();
         if (bookmarks.includes(pageNumber)) {
             btnBookmarkPage.classList.add('bookmarked');
@@ -58,38 +58,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    btnBookmarkPage.addEventListener('click', () => {
-        let bookmarks = getBookmarks();
-        if (bookmarks.includes(currentPage)) {
-            // Hapus dari penanda
-            bookmarks = bookmarks.filter(p => p !== currentPage);
-        } else {
-            // Tambahkan ke penanda
-            bookmarks.push(currentPage);
-        }
-        localStorage.setItem('quran_page_bookmarks', JSON.stringify(bookmarks));
-        checkBookmarkState(currentPage);
-    });
+    if (btnBookmarkPage) {
+        btnBookmarkPage.addEventListener('click', () => {
+            let bookmarks = getBookmarks();
+            if (bookmarks.includes(currentPage)) {
+                // Hapus dari penanda
+                bookmarks = bookmarks.filter(p => p !== currentPage);
+            } else {
+                // Tambahkan ke penanda
+                bookmarks.push(currentPage);
+            }
+            localStorage.setItem('quran_page_bookmarks', JSON.stringify(bookmarks));
+            checkBookmarkState(currentPage);
+        });
+    }
 
     // --- LOGIKA GEMBOK / KUNCI HALAMAN ---
-    btnLockPage.addEventListener('click', () => {
-        isLocked = !isLocked;
+    if (btnLockPage) {
+        btnLockPage.addEventListener('click', () => {
+            isLocked = !isLocked;
 
-        if (isLocked) {
-            btnLockPage.classList.add('locked');
-            lockIcon.className = 'fa-solid fa-lock';
-            btnNextPage.disabled = true;
-            btnPrevPage.disabled = true;
-        } else {
-            btnLockPage.classList.remove('locked');
-            lockIcon.className = 'fa-solid fa-lock-open';
-            btnNextPage.disabled = false;
-            btnPrevPage.disabled = false;
-        }
-    });
+            if (isLocked) {
+                btnLockPage.classList.add('locked');
+                if (lockIcon) lockIcon.className = 'fa-solid fa-lock';
+                if (btnNextPage) btnNextPage.disabled = true;
+                if (btnPrevPage) btnPrevPage.disabled = true;
+            } else {
+                btnLockPage.classList.remove('locked');
+                if (lockIcon) lockIcon.className = 'fa-solid fa-lock-open';
+                if (btnNextPage) btnNextPage.disabled = false;
+                if (btnPrevPage) btnPrevPage.disabled = false;
+            }
+        });
+    }
 
     // --- LOGIKA LOMPAT HALAMAN ---
     function eksekusiLompat() {
+        if (!gotoInput) return;
         let val = gotoInput.value.trim();
         if (!val) return;
 
@@ -105,6 +110,101 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePageDisplay(currentPage);
         
         gotoInput.value = "";
+        gotoInput.blur();
+    }
+
+    if (gotoInput) {
+        gotoInput.addEventListener('input', (e) => {
+            if (e.target.value.length > 3) {
+                e.target.value = e.target.value.slice(0, 3);
+            }
+        });
+        gotoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') eksekusiLompat();
+        });
+    }
+
+    if (btnConfirmJump) {
+        btnConfirmJump.addEventListener('click', eksekusiLompat);
+    }
+
+    // --- NAVIGASI FLIPBOOK (DENGAN PROTEKSI ELEMEN) ---
+    function nextPage() {
+        if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
+        isAnimating = true;
+
+        if (overlayImg) {
+            overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
+        }
+
+        currentPage++;
+        updatePageDisplay(currentPage);
+
+        if (flipOverlay) {
+            flipOverlay.className = 'flip-overlay turning-next';
+            setTimeout(() => {
+                flipOverlay.className = 'flip-overlay';
+                isAnimating = false;
+            }, 500);
+        } else {
+            isAnimating = false;
+        }
+    }
+
+    function prevPage() {
+        if (isLocked || currentPage <= 1 || isAnimating) return;
+        isAnimating = true;
+
+        if (overlayImg) {
+            overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
+        }
+
+        currentPage--;
+        
+        if (flipOverlay) {
+            flipOverlay.className = 'flip-overlay turning-prev';
+            setTimeout(() => {
+                updatePageDisplay(currentPage);
+                flipOverlay.className = 'flip-overlay';
+                isAnimating = false;
+            }, 500);
+        } else {
+            updatePageDisplay(currentPage);
+            isAnimating = false;
+        }
+    }
+
+    if (btnNextPage) btnNextPage.addEventListener('click', nextPage);
+    if (btnPrevPage) btnPrevPage.addEventListener('click', prevPage);
+
+    // --- FITUR USAP (SWIPE UNTUK HP/TABLET) ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const cardContainer = document.getElementById('quranCard');
+
+    if (cardContainer) {
+        cardContainer.addEventListener('touchstart', (e) => {
+            if (isLocked) return;
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        cardContainer.addEventListener('touchend', (e) => {
+            if (isLocked) return;
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+
+    function handleSwipe() {
+        if (isLocked) return;
+        const swipeThreshold = 40; // Batas minimal usapan dalam pixel
+        if (touchEndX - touchStartX > swipeThreshold) {
+            nextPage();
+        } else if (touchStartX - touchEndX > swipeThreshold) {
+            prevPage();
+        }
+    }
+});
         gotoInput.blur();
     }
 
