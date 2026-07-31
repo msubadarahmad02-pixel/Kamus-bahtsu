@@ -130,18 +130,21 @@ html, body {
     flex: 1;
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
+    align-items: safe center;
+    justify-content: safe center;
+    padding: 10px;
     perspective: 1500px;
+    overflow: auto; /* Memunculkan scrollbar saat gambar di-zoom */
 }
 
 .flip-viewport {
     width: 100%;
     max-width: 450px;
-    height: 68vh; /* Dikurangi sedikit agar tombol bawah tidak terdorong */
+    height: 68vh;
     position: relative;
+    transition: transform 0.2s ease, margin 0.2s ease; /* Bikin pergerakan zoom mulus */
 }
+
 
 .quran-card {
     width: 100%;
