@@ -25,13 +25,72 @@ document.addEventListener('DOMContentLoaded', () => {
     const gotoInput = document.getElementById('goto-page-input');
     const btnConfirmJump = document.getElementById('btnConfirmJump');
 
+    // Elemen Fitur Zoom
+    const flipViewport = document.getElementById('flipViewport');
+    const btnZoomIn = document.getElementById('btnZoomIn');
+    const btnZoomOut = document.getElementById('btnZoomOut');
+
     let isAnimating = false;
     let isLocked = false;
 
-    // Set Tampilan Awal
-    updatePageDisplay(currentPage);
+    // Variabel Zoom
+    let zoomLevel = 1;
+    const ZOOM_STEP = 0.25;
+    const MAX_ZOOM = 2.5;
+    const MIN_ZOOM = 1;
 
-                function updatePageDisplay(pageNumber) {
+    // --- LOGIKA ZOOM PRESISI ---
+    function applyZoom() {
+        if (!flipViewport) return;
+        
+        flipViewport.style.transform = `scale(${zoomLevel})`;
+
+        if (zoomLevel > 1) {
+            const extraHeight = flipViewport.offsetHeight * (zoomLevel - 1);
+            const extraWidth = flipViewport.offsetWidth * (zoomLevel - 1);
+            
+            flipViewport.style.marginTop = `${(extraHeight / 2) + 10}px`;
+            flipViewport.style.marginBottom = `${(extraHeight / 2) + 20}px`;
+            flipViewport.style.marginLeft = `${(extraWidth / 2) + 20}px`;
+            flipViewport.style.marginRight = `${(extraWidth / 2) + 20}px`;
+        } else {
+            flipViewport.style.marginTop = '0px';
+            flipViewport.style.marginBottom = '0px';
+            flipViewport.style.marginLeft = 'auto';
+            flipViewport.style.marginRight = 'auto';
+        }
+    }
+
+    function resetZoom() {
+        zoomLevel = 1;
+        applyZoom();
+    }
+
+    // Event Listener Zoom In & Out
+    if (btnZoomIn) {
+        btnZoomIn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (zoomLevel < MAX_ZOOM) {
+                zoomLevel += ZOOM_STEP;
+                applyZoom();
+            }
+        });
+    }
+
+    if (btnZoomOut) {
+        btnZoomOut.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (zoomLevel > MIN_ZOOM) {
+                zoomLevel -= ZOOM_STEP;
+                applyZoom();
+            }
+        });
+    }
+
+    // --- UPDATE TAMPILAN HALAMAN ---
+    function updatePageDisplay(pageNumber) {
+        resetZoom(); // Reset Zoom otomatis saat pindah halaman
+
         if (currentImg) {
             currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
         }
@@ -40,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         checkBookmarkState(pageNumber);
 
-        // --- PRELOAD 5 HALAMAN DEPAN & BELAKANG ---
+        // Preload 1 halaman depan & belakang
         for (let i = 1; i <= 1; i++) {
             if (pageNumber + i <= TOTAL_PAGES) {
                 new Image().src = `${BASE_URL_GAMBAR}${pageNumber + i}.jpg`;
@@ -51,9 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-
-    // --- LOGIKA BOOKMARK / TANDAI HALAMAN ---
+    // --- LOGIKA BOOKMARK ---
     function getBookmarks() {
         return JSON.parse(localStorage.getItem('quran_page_bookmarks') || '[]');
     }
@@ -83,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- LOGIKA GEMBOK / KUNCI HALAMAN ---
+    // --- LOGIKA GEMBOK HALAMAN ---
     if (btnLockPage) {
         btnLockPage.addEventListener('click', () => {
             isLocked = !isLocked;
@@ -110,11 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let halTarget = parseInt(val);
         
-        if (halTarget > TOTAL_PAGES) {
-            halTarget = TOTAL_PAGES;
-        } else if (halTarget < 1) {
-            halTarget = 1;
-        }
+        if (halTarget > TOTAL_PAGES) halTarget = TOTAL_PAGES;
+        if (halTarget < 1) halTarget = 1;
 
         currentPage = halTarget;
         updatePageDisplay(currentPage);
@@ -138,27 +192,21 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConfirmJump.addEventListener('click', eksekusiLompat);
     }
 
-        // --- NAVIGASI FLIPBOOK (SINKRON DENGAN LOADING GAMBAR) ---
+    // --- NAVIGASI FLIPBOOK ---
     function nextPage() {
         if (isLocked || currentPage >= TOTAL_PAGES || isAnimating) return;
         isAnimating = true;
 
         const nextpageNum = currentPage + 1;
-        const tempImg = new Image(); // Buat objek gambar di memori untuk pre-load
-        
-        // Pasang link gambar tujuan
+        const tempImg = new Image();
         tempImg.src = `${BASE_URL_GAMBAR}${nextpageNum}.jpg`;
 
-        // Setelah gambar tujuan selesai di-download 100%:
         tempImg.onload = () => {
-            if (overlayImg) {
-                overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`; // Tahan gambar lama di atas
-            }
+            if (overlayImg) overlayImg.src = `${BASE_URL_GAMBAR}${currentPage}.jpg`;
             
             currentPage = nextpageNum;
-            updatePageDisplay(currentPage); // Ganti gambar utama di bawah ke halaman baru
+            updatePageDisplay(currentPage);
 
-            // Jalankan animasi kertas terbuka
             if (flipOverlay) {
                 flipOverlay.className = 'flip-overlay turning-next';
                 setTimeout(() => {
@@ -170,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Jika koneksi lambat/error, cegah aplikasi macet
         tempImg.onerror = () => {
             currentPage = nextpageNum;
             updatePageDisplay(currentPage);
@@ -178,31 +225,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-            function prevPage() {
+    function prevPage() {
         if (isLocked || currentPage <= 1 || isAnimating) return;
         isAnimating = true;
 
         const prevpageNum = currentPage - 1;
         const tempImg = new Image();
-
-        // Download gambar halaman sebelumnya di latar belakang
         tempImg.src = `${BASE_URL_GAMBAR}${prevpageNum}.jpg`;
 
         tempImg.onload = () => {
-            // 1. Pasang gambar halaman sebelumnya ke overlay (kertas yang mau masuk)
-            if (overlayImg) {
-                overlayImg.src = `${BASE_URL_GAMBAR}${prevpageNum}.jpg`;
-            }
+            if (overlayImg) overlayImg.src = `${BASE_URL_GAMBAR}${prevpageNum}.jpg`;
 
-            // 2. Jalankan animasi pembalikan kertas
             if (flipOverlay) {
                 flipOverlay.className = 'flip-overlay turning-prev';
-                
-                // 3. Setelah animasi lembaran kertas selesai tersingkap sempurna:
                 setTimeout(() => {
                     currentPage = prevpageNum;
-                    updatePageDisplay(currentPage); // Update gambar utama di latar
-                    flipOverlay.className = 'flip-overlay'; // Reset overlay
+                    updatePageDisplay(currentPage);
+                    flipOverlay.className = 'flip-overlay';
                     isAnimating = false;
                 }, 500);
             } else {
@@ -212,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Pengaman jika koneksi lambat/putus
         tempImg.onerror = () => {
             currentPage = prevpageNum;
             updatePageDisplay(currentPage);
@@ -220,131 +258,38 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-
-
-
     if (btnNextPage) btnNextPage.addEventListener('click', nextPage);
     if (btnPrevPage) btnPrevPage.addEventListener('click', prevPage);
 
-    // --- FITUR USAP (SWIPE RTL BENAR) ---
+    // --- FITUR USAP (SWIPE) ---
     let touchStartX = 0;
     let touchEndX = 0;
     const cardContainer = document.getElementById('quranCard');
 
     if (cardContainer) {
         cardContainer.addEventListener('touchstart', (e) => {
-            if (isLocked) return;
+            if (isLocked || zoomLevel > 1) return;
             touchStartX = e.changedTouches[0].screenX;
         }, { passive: true });
 
         cardContainer.addEventListener('touchend', (e) => {
-            if (isLocked) return;
+            if (isLocked || zoomLevel > 1) return;
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
         }, { passive: true });
     }
 
-        function handleSwipe() {
-        if (isLocked) return;
+    function handleSwipe() {
+        if (isLocked || zoomLevel > 1) return; // Nonaktifkan swipe jika layar di-zoom
         const swipeThreshold = 40;
         
-        // Jari digeser dari KANAN ke KIRI -> Halaman Selanjutnya (Maju)
         if (touchEndX < touchStartX - swipeThreshold) {
             prevPage();
-        } 
-        // Jari digeser dari KIRI ke KANAN -> Halaman Sebelumnya (Mundur)
-        else if (touchEndX > touchStartX + swipeThreshold) {
+        } else if (touchEndX > touchStartX + swipeThreshold) {
             nextPage();
         }
     }
 
+    // Set Tampilan Pertama Kali
+    updatePageDisplay(currentPage);
 });
-
-// --- ELEMEN & VARIABEL ZOOM ---
-const flipViewport = document.getElementById('flipViewport');
-const btnZoomIn = document.getElementById('btnZoomIn');
-const btnZoomOut = document.getElementById('btnZoomOut');
-
-let zoomLevel = 1;
-const ZOOM_STEP = 0.25;
-const MAX_ZOOM = 2.5;
-const MIN_ZOOM = 1;
-
-// --- LOGIKA ZOOM PRESISI (DAPAT DIGESER VERTIKAL & HORIZONTAL) ---
-function applyZoom() {
-    if (!flipViewport) return;
-    
-    flipViewport.style.transform = `scale(${zoomLevel})`;
-
-    if (zoomLevel > 1) {
-        // Hitung ekstra tinggi & lebar berdasarkan skala zoom
-        const extraHeight = flipViewport.offsetHeight * (zoomLevel - 1);
-        const extraWidth = flipViewport.offsetWidth * (zoomLevel - 1);
-        
-        // Berikan margin ke 4 sisi agar scrollbar aktif dengan tepat
-        flipViewport.style.marginTop = `${(extraHeight / 2) + 10}px`;
-        flipViewport.style.marginBottom = `${(extraHeight / 2) + 20}px`;
-        flipViewport.style.marginLeft = `${(extraWidth / 2) + 20}px`;
-        flipViewport.style.marginRight = `${(extraWidth / 2) + 20}px`;
-    } else {
-        // Reset margin saat posisi zoom normal (1x)
-        flipViewport.style.marginTop = '0px';
-        flipViewport.style.marginBottom = '0px';
-        flipViewport.style.marginLeft = 'auto';
-        flipViewport.style.marginRight = 'auto';
-    }
-}
-
-function resetZoom() {
-    zoomLevel = 1;
-    applyZoom();
-}
-
-// Event Listener Tombol Zoom In & Zoom Out
-if (btnZoomIn) {
-    btnZoomIn.addEventListener('click', () => {
-        if (zoomLevel < MAX_ZOOM) {
-            zoomLevel += ZOOM_STEP;
-            applyZoom();
-        }
-    });
-}
-
-if (btnZoomOut) {
-    btnZoomOut.addEventListener('click', () => {
-        if (zoomLevel > MIN_ZOOM) {
-            zoomLevel -= ZOOM_STEP;
-            applyZoom();
-        }
-    });
-}
-
-// --- PENTING: RESET ZOOM SETIAP GANTI HALAMAN ---
-// Panggil resetZoom() di dalam fungsi updatePageDisplay(pageNumber)
-function updatePageDisplay(pageNumber) {
-    resetZoom(); // Reset posisi zoom saat ganti halaman
-    
-    if (currentImg) {
-        currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
-    }
-    if (viewerTitle) {
-        viewerTitle.textContent = `Halaman ${pageNumber}`;
-    }
-    checkBookmarkState(pageNumber);
-
-    // Preload halaman...
-}
-
-// --- PENTING: NONAKTIFKAN SWIPE SAAT DI-ZOOM ---
-function handleSwipe() {
-    // Cegah swipe berpindah halaman jika layar dalam posisi di-zoom (> 1)
-    if (isLocked || zoomLevel > 1) return; 
-    
-    const swipeThreshold = 40;
-    if (touchEndX < touchStartX - swipeThreshold) {
-        prevPage();
-    } else if (touchEndX > touchStartX + swipeThreshold) {
-        nextPage();
-    }
-}
-
