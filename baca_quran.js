@@ -259,3 +259,92 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+// --- ELEMEN & VARIABEL ZOOM ---
+const flipViewport = document.getElementById('flipViewport');
+const btnZoomIn = document.getElementById('btnZoomIn');
+const btnZoomOut = document.getElementById('btnZoomOut');
+
+let zoomLevel = 1;
+const ZOOM_STEP = 0.25;
+const MAX_ZOOM = 2.5;
+const MIN_ZOOM = 1;
+
+// --- LOGIKA ZOOM PRESISI (DAPAT DIGESER VERTIKAL & HORIZONTAL) ---
+function applyZoom() {
+    if (!flipViewport) return;
+    
+    flipViewport.style.transform = `scale(${zoomLevel})`;
+
+    if (zoomLevel > 1) {
+        // Hitung ekstra tinggi & lebar berdasarkan skala zoom
+        const extraHeight = flipViewport.offsetHeight * (zoomLevel - 1);
+        const extraWidth = flipViewport.offsetWidth * (zoomLevel - 1);
+        
+        // Berikan margin ke 4 sisi agar scrollbar aktif dengan tepat
+        flipViewport.style.marginTop = `${(extraHeight / 2) + 10}px`;
+        flipViewport.style.marginBottom = `${(extraHeight / 2) + 20}px`;
+        flipViewport.style.marginLeft = `${(extraWidth / 2) + 20}px`;
+        flipViewport.style.marginRight = `${(extraWidth / 2) + 20}px`;
+    } else {
+        // Reset margin saat posisi zoom normal (1x)
+        flipViewport.style.marginTop = '0px';
+        flipViewport.style.marginBottom = '0px';
+        flipViewport.style.marginLeft = 'auto';
+        flipViewport.style.marginRight = 'auto';
+    }
+}
+
+function resetZoom() {
+    zoomLevel = 1;
+    applyZoom();
+}
+
+// Event Listener Tombol Zoom In & Zoom Out
+if (btnZoomIn) {
+    btnZoomIn.addEventListener('click', () => {
+        if (zoomLevel < MAX_ZOOM) {
+            zoomLevel += ZOOM_STEP;
+            applyZoom();
+        }
+    });
+}
+
+if (btnZoomOut) {
+    btnZoomOut.addEventListener('click', () => {
+        if (zoomLevel > MIN_ZOOM) {
+            zoomLevel -= ZOOM_STEP;
+            applyZoom();
+        }
+    });
+}
+
+// --- PENTING: RESET ZOOM SETIAP GANTI HALAMAN ---
+// Panggil resetZoom() di dalam fungsi updatePageDisplay(pageNumber)
+function updatePageDisplay(pageNumber) {
+    resetZoom(); // Reset posisi zoom saat ganti halaman
+    
+    if (currentImg) {
+        currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
+    }
+    if (viewerTitle) {
+        viewerTitle.textContent = `Halaman ${pageNumber}`;
+    }
+    checkBookmarkState(pageNumber);
+
+    // Preload halaman...
+}
+
+// --- PENTING: NONAKTIFKAN SWIPE SAAT DI-ZOOM ---
+function handleSwipe() {
+    // Cegah swipe berpindah halaman jika layar dalam posisi di-zoom (> 1)
+    if (isLocked || zoomLevel > 1) return; 
+    
+    const swipeThreshold = 40;
+    if (touchEndX < touchStartX - swipeThreshold) {
+        prevPage();
+    } else if (touchEndX > touchStartX + swipeThreshold) {
+        nextPage();
+    }
+}
+
