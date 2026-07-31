@@ -408,3 +408,14 @@ html, body {
     color: #d1d5db;
     font-style: italic;
 }
+
+/* Fix Chrome Mobile Touch Event untuk Tombol Header */
+.btn-lock, .btn-bookmark {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: auto;
+}
+
+.btn-lock i, .btn-bookmark i {
+    pointer-events: none; /* Mencegah ikon menyerap/memblokir tap */
+}
