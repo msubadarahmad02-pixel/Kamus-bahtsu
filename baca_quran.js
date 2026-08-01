@@ -39,27 +39,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const MAX_ZOOM = 2.5;
     const MIN_ZOOM = 1;
 
-    // --- LOGIKA ZOOM PRESISI ---
+      // --- LOGIKA ZOOM PRESISI ---
     function applyZoom() {
         if (!flipViewport) return;
         
-        flipViewport.style.transform = `scale(${zoomLevel})`;
+        // Panggil elemen pembungkus (kartu putih) dan gambar JPG di dalamnya
+        const quranCard = document.getElementById('quranCard'); 
+        const currentImg = document.getElementById('currentImg'); 
+        
+        // 1. Tambahkan efek transisi biar perbesaran (zoom) terlihat halus
+        flipViewport.style.transition = 'width 0.2s ease, max-width 0.2s ease, height 0.2s ease';
+        
+        // 2. Bersihkan sisa efek transform dan margin dari kode yang lama
+        flipViewport.style.transform = 'none';
+        flipViewport.style.margin = '0 auto';
+        
+        const viewerContainer = document.querySelector('.quran-viewer');
+        if (viewerContainer) {
+            viewerContainer.style.alignItems = 'safe center';
+            viewerContainer.style.justifyContent = 'safe center';
+        }
 
-        if (zoomLevel > 1) {
-            const extraHeight = flipViewport.offsetHeight * (zoomLevel - 1);
-            const extraWidth = flipViewport.offsetWidth * (zoomLevel - 1);
+        // 4. Ubah ukuran elemen secara fisik berdasarkan level zoom
+        if (zoomLevel === 1) {
+            // Ukuran normal (1x)
+            flipViewport.style.width = '100%';
+            flipViewport.style.maxWidth = '450px';
+            flipViewport.style.height = '68vh';
             
-            flipViewport.style.marginTop = `${(extraHeight / 2) + 10}px`;
-            flipViewport.style.marginBottom = `${(extraHeight / 2) + 20}px`;
-            flipViewport.style.marginLeft = `${(extraWidth / 2) + 20}px`;
-            flipViewport.style.marginRight = `${(extraWidth / 2) + 20}px`;
+            // Kembalikan background putih, bayangan, dan posisi gambar ke awal
+            if (quranCard) {
+                quranCard.style.backgroundColor = '#ffffff';
+                quranCard.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+            }
+            if (currentImg) {
+                currentImg.style.objectPosition = 'center center';
+            }
         } else {
-            flipViewport.style.marginTop = '0px';
-            flipViewport.style.marginBottom = '0px';
-            flipViewport.style.marginLeft = 'auto';
-            flipViewport.style.marginRight = 'auto';
+            // Ukuran saat diperbesar
+            flipViewport.style.width = `${100 * zoomLevel}%`;
+            flipViewport.style.maxWidth = `${450 * zoomLevel}px`;
+            flipViewport.style.height = `${68 * zoomLevel}vh`;
+            
+            // Hilangkan background putih dan posisikan gambar JPG rata atas (align top)
+            if (quranCard) {
+                quranCard.style.backgroundColor = 'transparent';
+                quranCard.style.boxShadow = 'none';
+            }
+            if (currentImg) {
+                currentImg.style.objectPosition = 'top center'; // Gambar JPG menempel ke atas
+            }
         }
     }
+
 
     function resetZoom() {
         zoomLevel = 1;
@@ -67,23 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event Listener Zoom In & Out
+      // Event Listener Zoom In (Sekali tekan langsung mentok besar)
     if (btnZoomIn) {
         btnZoomIn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (zoomLevel < MAX_ZOOM) {
-                zoomLevel += ZOOM_STEP;
-                applyZoom();
-            }
+            zoomLevel = MAX_ZOOM; // Langsung lompat ke batas maksimal (2.5x)
+            applyZoom();
         });
     }
 
+    // Event Listener Zoom Out (Sekali tekan langsung kembali ke ukuran awal)
     if (btnZoomOut) {
         btnZoomOut.addEventListener('click', (e) => {
             e.preventDefault();
-            if (zoomLevel > MIN_ZOOM) {
-                zoomLevel -= ZOOM_STEP;
-                applyZoom();
-            }
+            zoomLevel = 1; // Langsung kembali ke ukuran normal (1x)
+            applyZoom();
         });
     }
 
