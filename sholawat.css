@@ -101,33 +101,34 @@ html, body {
 }
 
 #play-pause-button:hover {
-    background-color: #green;
+    background-color: #32cd32;
 }
 
-/* --- GAYA UNTUK TOMBOL BACK (Teks "kanza28") --- */
+/* --- GAYA UNTUK JUDUL HALAMAN (PAGE TITLE) --- */
 .page-title {
     cursor: pointer;
     display: block; 
     
-    /* PROPERTI UNTUK CENTER */
-    margin: 5px auto 5px auto; /* Margin atas 0, kiri/kanan auto (pusatkan), bawah 15px */
-    width: fit-content; /* Pastikan lebar hanya sebesar konten */
+    /* Center alignment & Margin yang lebih ringkas */
+    margin: 6px auto 6px auto; 
+    width: fit-content; 
     
-    /* PROPERTI GAYA */
-    font-family: Georgia, sans-serif; /* Menggunakan font Latin yang jelas */
-    font-size: 1.1em;
+    /* Ukuran Font Diperkecil (Sebelumnya 1.1em, diubah menjadi 0.85em - 0.9em) */
+    font-family: Georgia, sans-serif;
+    font-size: 0.85em; /* <--- Sesuaikan ukuran font di sini */
     font-weight: bold;
-    color: #c2185b; /* Warna teks */
+    color: #c2185b;
     
-    /* BACKGROUND DAN BORDER */
-    background-color: #ffffff; /* Warna latar */
-    padding: 5px 15px;
-    border: 2px solid #d88998;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Efek bayangan */
+    /* Background & Padding lebih padat/ringkas */
+    background-color: #ffffff;
+    padding: 4px 12px; /* <--- Padding diperkecil */
+    border: 1.5px solid #d88998;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     
     transition: background-color 0.3s, transform 0.1s;
 }
+
 
 .back-button:hover {
     background-color: #795548; /* Cokelat yang sedikit lebih muda saat hover */
