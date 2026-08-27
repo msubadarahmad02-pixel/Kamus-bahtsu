@@ -83,26 +83,31 @@ html, body {
     gap: 10px; /* Memberikan jarak antar tombol */
 }
 
-/* Memastikan tombol home tidak memiliki margin otomatis yang merusak posisi */
-#back-to-home {
-    margin: 0 !important; 
-    display: inline-block;
-    padding: 8px 15px;
-}
-
-    #play-pause-button {
-    padding: 10px;
-    font-size: 1em;
+/* --- TOMBOL PLAY / PAUSE (DIPERKECIL) --- */
+#play-pause-button {
+    padding: 6px 10px; /* Diperkecil dari sebelumnya 10px */
+    font-size: 0.8em;  /* Ukuran ikon/teks diperkecil dari 1em */
     cursor: pointer;
     background-color: #ffffff; 
     color: #c2185b;
-    border-radius: 30px;
-   font-family: Georgia, sans-serif; 
+    border-radius: 20px;
+    font-family: Georgia, sans-serif; 
+    border: 1px solid #d88998; /* Opsional: tambah border tipis agar senada */
 }
 
 #play-pause-button:hover {
-    background-color: #32cd32;
+    background-color: #fce4ec;
 }
+
+/* --- TOMBOL BACK TO HOME (TEKS "Kanza28" DIPERKECIL) --- */
+#back-to-home {
+    margin: 0 !important; 
+    display: inline-block;
+    padding: 4px 10px; /* Diperkecil dari 8px 15px */
+    font-size: 0.8em;   /* Ukuran font diperkecil dari 1em */
+    cursor: pointer;
+}
+
 
 /* --- GAYA UNTUK JUDUL HALAMAN (PAGE TITLE) --- */
 .page-title {
@@ -137,4 +142,12 @@ html, body {
 .back-button:active {
     transform: scale(0.98);
 }
+
+#audio-player {
+    width: 100%;
+    margin-top: 3px;
+    transform: scale(0.85); /* Mengecilkan seluruh pemutar ke 85% */
+    transform-origin: center center; /* Menjaga posisi tetap seimbang di tengah */
+}
+
 
