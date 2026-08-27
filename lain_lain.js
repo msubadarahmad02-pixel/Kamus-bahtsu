@@ -166,38 +166,38 @@ function initSliderNavigation() {
 
 
 // 6. Fitur Copy Teks & Author
-function initCopyFeature() {
-    const quoteContainer = document.getElementById('quote-container');
-    const notification = document.getElementById('copyNotification');
+//function initCopyFeature() {
+   // const quoteContainer = document.getElementById('quote-container');
+  //  const notification = document.getElementById('copyNotification');
 
-    if (!quoteContainer) return;
+   // if (!quoteContainer) return;
 
-    quoteContainer.addEventListener('click', (e) => {
+   // quoteContainer.addEventListener('click', (e) => {
         // Jangan salin jika user mengklik ikon audio
-        if (e.target.classList.contains('play-icon')) return;
+     //   if (e.target.classList.contains('play-icon')) return;
 
-        const box = e.target.closest('.memori-text-box');
-        if (!box) return;
+      //  const box = e.target.closest('.memori-text-box');
+     //   if (!box) return;
 
-        const quoteLines = box.querySelectorAll('.arabic-quote-text, .indo-quote-text');
-        const authorEl = box.querySelector('.memori-author');
+      //  const quoteLines = box.querySelectorAll('.arabic-quote-text, .indo-quote-text');
+     //   const authorEl = box.querySelector('.memori-author');
 
-        let fullText = "";
-        quoteLines.forEach(line => {
-            if (line.textContent.trim()) fullText += line.textContent.trim() + "\n";
-        });
+      //  let fullText = "";
+     //   quoteLines.forEach(line => {
+        //    if (line.textContent.trim()) fullText += line.textContent.trim() + "\n";
+    //    });
 
-        if (authorEl) fullText += authorEl.textContent.trim();
+   //     if (authorEl) fullText += authorEl.textContent.trim();
 
-        navigator.clipboard.writeText(fullText.trim()).then(() => {
-            if ("vibrate" in navigator) navigator.vibrate(100);
+    //    navigator.clipboard.writeText(fullText.trim()).then(() => {
+    //        if ("vibrate" in navigator) navigator.vibrate(100);
 
-            if (notification) {
-                notification.classList.add('show');
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 2000);
-            }
-        });
-    });
-}
+      //      if (notification) {
+      //          notification.classList.add('show');
+         //       setTimeout(() => {
+        //            notification.classList.remove('show');
+     //           }, 2000);
+       //     }
+  //      });
+  //  });
+//}
