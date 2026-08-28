@@ -235,3 +235,37 @@ html, body {
     color: #5d4037;
 }
 
+/* =========================================================
+   12 EFEK ANIMASI MEWAH & ELASTIS UNTUK LIRIK SHOLAWAT
+   ========================================================= */
+
+/* Gaya Dasar Elemen Lirik */
+.lyric-text {
+    opacity: 0;
+    will-change: transform, opacity;
+    /* Transisi elastis memantul (bounce effect) */
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* VARIASI VARIEN ANIMASI KEMUNCULAN */
+.lyric-text.anim-top { transform: translateY(-150px) scale(0.7); }
+.lyric-text.anim-bottom { transform: translateY(150px) scale(0.7); }
+.lyric-text.anim-left { transform: translateX(-150px) rotate(-12deg) scale(0.7); }
+.lyric-text.anim-right { transform: translateX(150px) rotate(12deg) scale(0.7); }
+
+.lyric-text.anim-top-left { transform: translate(-120px, -120px) rotate(-15deg) scale(0.6); }
+.lyric-text.anim-top-right { transform: translate(120px, -120px) rotate(15deg) scale(0.6); }
+.lyric-text.anim-bottom-left { transform: translate(-120px, 120px) rotate(15deg) scale(0.6); }
+.lyric-text.anim-bottom-right { transform: translate(120px, 120px) rotate(-15deg) scale(0.6); }
+
+.lyric-text.anim-zoom-rotate { transform: scale(0.2) rotate(-25deg); }
+.lyric-text.anim-flip-x { transform: perspective(500px) rotateX(90deg) scale(0.6); }
+.lyric-text.anim-flip-y { transform: perspective(500px) rotateY(90deg) scale(0.6); }
+.lyric-text.anim-super-bounce { transform: translateY(-200px) scale(1.4); }
+
+/* STATE AKTIF (BERHENTI PRESISI DI TENGAH) */
+.lyric-text.show-lyric-anim {
+    opacity: 1 !important;
+    transform: translate(0, 0) rotate(0deg) scale(1) !important;
+}
