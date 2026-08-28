@@ -76,28 +76,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 5. FITUR CARI & LONCAT BERDASARKAN ID (SEARCH BUTTON)
+     // 5. FITUR CARI & LONCAT ID (EFEK NOTIFIKASI MINIMALIS)
+    const modal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const searchError = document.getElementById('search-error'); // Elemen error baru
+    const btnCancel = document.getElementById('modal-cancel');
+    const btnSubmit = document.getElementById('modal-submit');
+
+    // Buka Modal
     if (searchButton) {
         searchButton.addEventListener('click', () => {
-            const inputId = prompt("Masukkan Nomor ID Sholawat (misal: 1, 2, 3...):");
-            
-            if (!inputId) return; // Jika klik batal/kosong
-
-            const targetIndex = sholawatData.findIndex(item => item.id == inputId.trim());
-
-            if (targetIndex !== -1) {
-                const slideWidth = slidesContainer.offsetWidth;
-                
-                // Meluncur halus ke slide pilihan
-                slidesContainer.scrollTo({
-                    left: targetIndex * slideWidth,
-                    behavior: 'smooth'
-                });
-            } else {
-                alert(`Sholawat dengan ID ${inputId} tidak ditemukan!`);
-            }
+            searchInput.value = '';
+            if (searchError) searchError.style.display = 'none'; // Sembunyikan error lama
+            modal.classList.add('active');
+            searchInput.focus();
         });
     }
+
+    // Tutup Modal
+    const closeModal = () => {
+        modal.classList.remove('active');
+        if (searchError) searchError.style.display = 'none';
+    };
+    if (btnCancel) btnCancel.addEventListener('click', closeModal);
+
+    // Proses Pencarian
+    function executeSearch() {
+        const inputId = searchInput.value.trim();
+        if (!inputId) return;
+
+        const targetIndex = sholawatData.findIndex(item => item.id == inputId);
+
+        if (targetIndex !== -1) {
+            const slideWidth = slidesContainer.offsetWidth;
+            slidesContainer.scrollTo({
+                left: targetIndex * slideWidth,
+                behavior: 'smooth'
+            });
+            closeModal();
+        } else {
+            // TAMPILKAN PESAN ERROR DI DALAM MODAL (Bukan Alert Bawaan)
+            if (searchError) {
+                searchError.textContent = `ID ${inputId} tidak ditemukan!`;
+                searchError.style.display = 'block';
+            }
+        }
+    }
+
+    if (btnSubmit) btnSubmit.addEventListener('click', executeSearch);
+
+    // Support tombol Enter
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') executeSearch();
+        });
+        // Sembunyikan error jika pengguna mengetik ulang
+        searchInput.addEventListener('input', () => {
+            if (searchError) searchError.style.display = 'none';
+        });
+    }
+
 
     // 6. KONTROL PEMUTAR AUDIO (PLAY/PAUSE)
     playPauseButton.addEventListener('click', () => {
