@@ -130,42 +130,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. KONTROL PEMUTAR AUDIO (PLAY/PAUSE)
-playPauseButton.addEventListener('click', () => {
-    const slides = document.querySelectorAll('.lyric-slide');
-    const currentActiveSlide = slides[activeSlideIndex];
-    const audioUrl = currentActiveSlide ? currentActiveSlide.getAttribute('data-audio-url') : null;
+ // 6. KONTROL AUDIO (PLAY/PAUSE Sesuai Slide Aktif)
+    if (playPauseButton && audioPlayer) {
+        playPauseButton.addEventListener('click', () => {
+            const slides = document.querySelectorAll('.lyric-slide');
+            const currentActiveSlide = slides[activeSlideIndex];
+            const audioUrl = currentActiveSlide ? currentActiveSlide.getAttribute('data-audio-url') : null;
 
-    if (!audioUrl) {
-        alert("Audio tidak tersedia untuk slide ini.");
-        return;
-    }
-    
-    // Ambil nama file audio saat ini dan audio tujuan
-    const currentSrc = audioPlayer.src.split('/').pop();
-    const targetSrc = audioUrl.split('/').pop();
+            if (!audioUrl) {
+                alert("Audio tidak tersedia untuk slide ini.");
+                return;
+            }
+            
+            const currentSrc = audioPlayer.src.split('/').pop();
+            const targetSrc = audioUrl.split('/').pop();
 
-    // Jika lagu sedang PAUSE
-    if (audioPlayer.paused) {
-        // Hanya ubah src jika lagunya benar-benar beda
-        if (currentSrc !== targetSrc) {
-            audioPlayer.src = audioUrl;
-        }
-        audioPlayer.play()
-            .then(() => playPauseButton.innerHTML = "⏸️")
-            .catch(error => console.error("Gagal memutar audio:", error));
-    } 
-    // Jika lagu sedang PLAY dan pengguna menekan tombol pause
-    else {
-        // Jika menekan tombol play di slide yang sama -> Pause
-        if (currentSrc === targetSrc) {
-            audioPlayer.pause();
+            // Jika audio sedang pause ATAU lagu di slide saat ini berbeda dengan audio yang dimuat
+            if (audioPlayer.paused || currentSrc !== targetSrc) {
+                if (currentSrc !== targetSrc) {
+                    audioPlayer.src = audioUrl;
+                }
+                audioPlayer.play()
+                    .then(() => { playPauseButton.innerHTML = "⏸️"; })
+                    .catch(error => console.error("Gagal memutar audio:", error));
+            } else {
+                audioPlayer.pause();
+                playPauseButton.innerHTML = "▶️";
+            }
+        });
+
+        audioPlayer.addEventListener('ended', () => {
             playPauseButton.innerHTML = "▶️";
-        } else {
-            // Jika menekan tombol play di slide baru -> Ganti lagu & Play
-            audioPlayer.src = audioUrl;
-            audioPlayer.play()
-                .then(() => playPauseButton.innerHTML = "⏸️");
-        }
+        });
     }
+
+    loadSholawat();
 });
