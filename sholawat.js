@@ -1,31 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Inisialisasi Elemen DOM
     const slidesContainer = document.querySelector('.lyrics-container');
     const slidesWrapper = document.getElementById('slides-wrapper');
     const playPauseButton = document.getElementById('play-pause-button');
     const audioPlayer = document.getElementById('audio-player');
-    const titleElement = document.getElementById('page-title'); // Ambil elemen judul
-    const backButton = document.getElementById('back-to-home');
+    const titleElement = document.getElementById('page-title');
+    const searchButton = document.getElementById('search-by-id'); // Tombol pencarian ID
     
     let activeSlideIndex = 0;
-    let sholawatData = []; // Untuk menyimpan data yang dimuat dari JSON
-    
-    if (backButton) {
-        backButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-    }
-    
+    let sholawatData = []; // Menyimpan data JSON
 
-    // FUNGSI UTAMA: MEMUAT DAN MERENDER DATA SHOLAWAT
+    // 2. FUNGSI UTAMA: MEMUAT DATA JSON & RENDER SLIDE
     async function loadSholawat() {
         try {
-            const response = await fetch('data_sholawat.json');
+            const response = await fetch('Data_sholawat.json');
             sholawatData = await response.json();
             
-            sholawatData.forEach((item, index) => {
+            sholawatData.forEach((item) => {
                 const slide = document.createElement('div');
                 slide.className = 'lyric-slide';
-                // Menyimpan data yang diperlukan (URL audio dan Judul) di elemen slide
                 slide.setAttribute('data-audio-url', item.audio_url);
                 slide.setAttribute('data-judul', item.judul); 
                 
@@ -37,12 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 slidesWrapper.appendChild(slide);
             });
             
-            // Inisialisasi Judul Awal
+            // Set Judul & Aktifkan Slide Pertama saat Awal Muat
             if (sholawatData.length > 0) {
                 updateTitle(0);
+                const firstSlide = slidesWrapper.querySelector('.lyric-slide');
+                if (firstSlide) firstSlide.classList.add('active');
             }
 
-            // Setelah semua slide dimuat, inisialisasi event listener scroll
+            // Pasang event listener scroll setelah slide siap
             slidesContainer.addEventListener('scroll', handleScroll);
         
         } catch (error) {
@@ -51,43 +46,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // FUNGSI BARU: MEMPERBARUI JUDUL DI BAGIAN ATAS
+    // 3. FUNGSI UPDATE JUDUL
     function updateTitle(index) {
         if (sholawatData[index]) {
             titleElement.textContent = sholawatData[index].judul;
         }
     }
 
-    // FUNGSI 1: MENDETEKSI SLIDE YANG AKTIF DAN MEMPERBARUI JUDUL
+    // 4. FUNGSI MENDETEKSI SLIDE AKTIF SAAT DI-SCROLL
     function handleScroll() {
         const scrollPosition = slidesContainer.scrollLeft;
         const slideWidth = slidesContainer.offsetWidth;
-
-        // Menghitung index slide yang paling dekat atau yang sedang dilihat
         const newIndex = Math.round(scrollPosition / slideWidth);
+        const slides = document.querySelectorAll('.lyric-slide');
 
-        // Perbarui activeSlideIndex dan Judul jika ada perubahan posisi slide
         if (newIndex !== activeSlideIndex) {
+            // Lepas kelas active dari slide lama
+            if (slides[activeSlideIndex]) {
+                slides[activeSlideIndex].classList.remove('active');
+            }
+
             activeSlideIndex = newIndex;
-            updateTitle(activeSlideIndex); // Panggil fungsi updateTitle
+            updateTitle(activeSlideIndex);
             
+            // Tambah kelas active ke slide baru untuk efek animasi
+            if (slides[activeSlideIndex]) {
+                slides[activeSlideIndex].classList.add('active');
+            }
         }
     }
 
-    // FUNGSI 2: MENGONTROL PEMUTAR AUDIO 
+    // 5. FITUR CARI & LONCAT BERDASARKAN ID (SEARCH BUTTON)
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const inputId = prompt("Masukkan Nomor ID Sholawat (misal: 1, 2, 3...):");
+            
+            if (!inputId) return; // Jika klik batal/kosong
+
+            const targetIndex = sholawatData.findIndex(item => item.id == inputId.trim());
+
+            if (targetIndex !== -1) {
+                const slideWidth = slidesContainer.offsetWidth;
+                
+                // Meluncur halus ke slide pilihan
+                slidesContainer.scrollTo({
+                    left: targetIndex * slideWidth,
+                    behavior: 'smooth'
+                });
+            } else {
+                alert(`Sholawat dengan ID ${inputId} tidak ditemukan!`);
+            }
+        });
+    }
+
+    // 6. KONTROL PEMUTAR AUDIO (PLAY/PAUSE)
     playPauseButton.addEventListener('click', () => {
         const slides = document.querySelectorAll('.lyric-slide');
-
         const currentActiveSlide = slides[activeSlideIndex];
         const audioUrl = currentActiveSlide ? currentActiveSlide.getAttribute('data-audio-url') : null;
 
         if (!audioUrl) {
-            console.error("URL audio tidak ditemukan.");
-            alert("Rekaman tidak tersedia.");
+            alert("Audio tidak tersedia untuk slide ini.");
             return;
         }
         
-        // Logika Play/Pause
         if (audioPlayer.paused || audioPlayer.src.split('/').pop() !== audioUrl.split('/').pop()) {
             audioPlayer.src = audioUrl; 
             audioPlayer.play()
@@ -99,11 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // FUNGSI 3: MENGATUR ULANG TOMBOL KETIKA AUDIO SELESAI
+    // Reset tombol jika audio selesai diputar
     audioPlayer.addEventListener('ended', () => {
         playPauseButton.innerHTML = "▶️";
     });
 
-    // Panggil fungsi pemuatan saat DOM siap
+    // Jalankan Pemuatan Data
     loadSholawat();
 });
