@@ -5,17 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseButton = document.getElementById('play-pause-button');
     const audioPlayer = document.getElementById('audio-player');
     const titleElement = document.getElementById('page-title');
-    const searchButton = document.getElementById('search-by-id'); // Tombol pencarian ID
+    const searchButton = document.getElementById('search-by-id');
     
     let activeSlideIndex = 0;
-    let sholawatData = []; // Menyimpan data JSON
+    let sholawatData = [];
 
-    // 2. FUNGSI UTAMA: MEMUAT DATA JSON & RENDER SLIDE
+    // 2. MEMUAT DATA JSON & RENDER SLIDE
     async function loadSholawat() {
         try {
             const response = await fetch('Data_sholawat.json');
             sholawatData = await response.json();
             
+            slidesWrapper.innerHTML = ''; // Bersihkan wrapper sebelum mengisi
+
             sholawatData.forEach((item) => {
                 const slide = document.createElement('div');
                 slide.className = 'lyric-slide';
@@ -30,77 +32,76 @@ document.addEventListener('DOMContentLoaded', () => {
                 slidesWrapper.appendChild(slide);
             });
             
-            // Set Judul & Aktifkan Slide Pertama saat Awal Muat
             if (sholawatData.length > 0) {
                 updateTitle(0);
                 const firstSlide = slidesWrapper.querySelector('.lyric-slide');
                 if (firstSlide) firstSlide.classList.add('active');
             }
 
-            // Pasang event listener scroll setelah slide siap
             slidesContainer.addEventListener('scroll', handleScroll);
         
         } catch (error) {
             console.error("Gagal memuat data sholawat:", error);
-            titleElement.textContent = "Gagal memuat lirik.";
+            if (titleElement) titleElement.textContent = "Gagal memuat lirik.";
         }
     }
     
-    // 3. FUNGSI UPDATE JUDUL
+    // 3. UPDATE JUDUL
     function updateTitle(index) {
-        if (sholawatData[index]) {
+        if (sholawatData[index] && titleElement) {
             titleElement.textContent = sholawatData[index].judul;
         }
     }
 
-    // 4. FUNGSI MENDETEKSI SLIDE AKTIF SAAT DI-SCROLL
+    // 4. DETEKSI SLIDE AKTIF SAAT SCROLL
     function handleScroll() {
-        const scrollPosition = slidesContainer.scrollLeft;
         const slideWidth = slidesContainer.offsetWidth;
+        if (slideWidth === 0) return;
+
+        const scrollPosition = slidesContainer.scrollLeft;
         const newIndex = Math.round(scrollPosition / slideWidth);
         const slides = document.querySelectorAll('.lyric-slide');
 
-        if (newIndex !== activeSlideIndex) {
-            // Lepas kelas active dari slide lama
+        if (newIndex !== activeSlideIndex && slides[newIndex]) {
             if (slides[activeSlideIndex]) {
                 slides[activeSlideIndex].classList.remove('active');
             }
 
             activeSlideIndex = newIndex;
             updateTitle(activeSlideIndex);
-            
-            // Tambah kelas active ke slide baru untuk efek animasi
-            if (slides[activeSlideIndex]) {
-                slides[activeSlideIndex].classList.add('active');
+            slides[activeSlideIndex].classList.add('active');
+
+            // Hentikan pemutaran jika berpindah slide
+            if (!audioPlayer.paused) {
+                audioPlayer.pause();
+                playPauseButton.innerHTML = "▶️";
             }
         }
     }
 
-     // 5. FITUR CARI & LONCAT ID (EFEK NOTIFIKASI MINIMALIS)
+    // 5. FITUR CARI ID MODAL
     const modal = document.getElementById('search-modal');
     const searchInput = document.getElementById('search-input');
-    const searchError = document.getElementById('search-error'); // Elemen error baru
+    const searchError = document.getElementById('search-error');
     const btnCancel = document.getElementById('modal-cancel');
     const btnSubmit = document.getElementById('modal-submit');
 
-    // Buka Modal
     if (searchButton) {
         searchButton.addEventListener('click', () => {
-            searchInput.value = '';
-            if (searchError) searchError.style.display = 'none'; // Sembunyikan error lama
-            modal.classList.add('active');
-            searchInput.focus();
+            if (searchInput) searchInput.value = '';
+            if (searchError) searchError.style.display = 'none';
+            if (modal) modal.classList.add('active');
+            if (searchInput) searchInput.focus();
         });
     }
 
-    // Tutup Modal
     const closeModal = () => {
-        modal.classList.remove('active');
+        if (modal) modal.classList.remove('active');
         if (searchError) searchError.style.display = 'none';
     };
+
     if (btnCancel) btnCancel.addEventListener('click', closeModal);
 
-    // Proses Pencarian
     function executeSearch() {
         const inputId = searchInput.value.trim();
         if (!inputId) return;
@@ -115,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             closeModal();
         } else {
-            // TAMPILKAN PESAN ERROR DI DALAM MODAL (Bukan Alert Bawaan)
             if (searchError) {
                 searchError.textContent = `ID ${inputId} tidak ditemukan!`;
                 searchError.style.display = 'block';
@@ -125,45 +125,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnSubmit) btnSubmit.addEventListener('click', executeSearch);
 
-    // Support tombol Enter
     if (searchInput) {
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') executeSearch();
         });
-        // Sembunyikan error jika pengguna mengetik ulang
         searchInput.addEventListener('input', () => {
             if (searchError) searchError.style.display = 'none';
         });
     }
 
+    // 6. KONTROL AUDIO
+    if (playPauseButton && audioPlayer) {
+        playPauseButton.addEventListener('click', () => {
+            const slides = document.querySelectorAll('.lyric-slide');
+            const currentActiveSlide = slides[activeSlideIndex];
+            const audioUrl = currentActiveSlide ? currentActiveSlide.getAttribute('data-audio-url') : null;
 
-    // 6. KONTROL PEMUTAR AUDIO (PLAY/PAUSE)
-    playPauseButton.addEventListener('click', () => {
-        const slides = document.querySelectorAll('.lyric-slide');
-        const currentActiveSlide = slides[activeSlideIndex];
-        const audioUrl = currentActiveSlide ? currentActiveSlide.getAttribute('data-audio-url') : null;
+            if (!audioUrl) {
+                alert("Audio tidak tersedia untuk slide ini.");
+                return;
+            }
+            
+            // Konfirmasi path audio
+            const currentSrc = audioPlayer.src.split('/').pop();
+            const targetSrc = audioUrl.split('/').pop();
 
-        if (!audioUrl) {
-            alert("Audio tidak tersedia untuk slide ini.");
-            return;
-        }
-        
-        if (audioPlayer.paused || audioPlayer.src.split('/').pop() !== audioUrl.split('/').pop()) {
-            audioPlayer.src = audioUrl; 
-            audioPlayer.play()
-                .then(() => playPauseButton.innerHTML = "⏸️")
-                .catch(error => console.error("Gagal memutar audio:", error));
-        } else {
-            audioPlayer.pause();
+            if (audioPlayer.paused || currentSrc !== targetSrc) {
+                if (currentSrc !== targetSrc) {
+                    audioPlayer.src = audioUrl;
+                }
+                audioPlayer.play()
+                    .then(() => { playPauseButton.innerHTML = "⏸️"; })
+                    .catch(error => console.error("Gagal memutar audio:", error));
+            } else {
+                audioPlayer.pause();
+                playPauseButton.innerHTML = "▶️";
+            }
+        });
+
+        audioPlayer.addEventListener('ended', () => {
             playPauseButton.innerHTML = "▶️";
-        }
-    });
+        });
+    }
 
-    // Reset tombol jika audio selesai diputar
-    audioPlayer.addEventListener('ended', () => {
-        playPauseButton.innerHTML = "▶️";
-    });
-
-    // Jalankan Pemuatan Data
     loadSholawat();
 });
