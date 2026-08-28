@@ -1,20 +1,21 @@
 let currentPlayingAudio = null;
+let globalQuotesData = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Fetch data dari lain_lain.json
     fetch('lain_lain.json')
         .then(response => {
             if (!response.ok) throw new Error('Gagal memuat JSON');
             return response.json();
         })
         .then(data => {
+            globalQuotesData = data;
             renderPageContent(data);
             initCopyFeature();
+            initSearchFeature();
         })
         .catch(error => console.error('Error:', error));
 });
 
-// 2. Render Komponen HTML secara Dinamis
 function renderPageContent(quotes) {
     const sliderWrapper = document.getElementById('title-slides-wrapper');
     const quoteContainer = document.getElementById('quote-container');
@@ -25,14 +26,12 @@ function renderPageContent(quotes) {
     quoteContainer.innerHTML = '';
 
     quotes.forEach((item, index) => {
-        // Render Slider Judul
         const slideDiv = document.createElement('div');
         slideDiv.className = 'title-slide';
         slideDiv.setAttribute('data-index', index);
         slideDiv.innerHTML = `<h2 class="title-text">${item.judul}</h2>`;
         sliderWrapper.appendChild(slideDiv);
 
-        // Render Kotak Teks Quote
         const boxDiv = document.createElement('div');
         boxDiv.className = 'memori-text-box';
         boxDiv.setAttribute('data-index', index);
@@ -40,16 +39,16 @@ function renderPageContent(quotes) {
         const arabHTML = item.arab 
             ? `<span class="arabic-quote-text" dir="rtl">${item.arab.replace(/\n/g, '<br>')}</span><br>` 
             : '';
-        const indoHTML = `<span class="indo-quote-text">${item.indo.replace(/\n/g, '<br>')}</span>`;
+        const indoHTML = item.indo 
+            ? `<span class="indo-quote-text">${item.indo.replace(/\n/g, '<br>')}</span>` 
+            : '';
         
-        // Render Tombol Audio hanya jika file audio tersedia di JSON
         const audioHTML = item.audio 
             ? `<div class="audio-control-container">
                 <i class="fas fa-play-circle play-icon" data-audio-src="${item.audio}"></i>
                </div>` 
             : '';
 
-        // Render Author jika tersedia di JSON
         const authorHTML = item.author 
             ? `<p class="memori-author">- ${item.author}</p>` 
             : '';
@@ -71,11 +70,77 @@ function renderPageContent(quotes) {
     initScrollAnimation();
 }
 
-// 3. Fungsi Pemutar Audio (Play & Pause)
+function hilangkanHarakat(teks) {
+    if (!teks) return '';
+    return teks.replace(/[\u064B-\u0652]/g, "");
+}
+
+function initSearchFeature() {
+    const openBtn = document.getElementById('open-search-btn');
+    const modal = document.getElementById('search-modal');
+    const cancelBtn = document.getElementById('modal-cancel');
+    const submitBtn = document.getElementById('modal-submit');
+    const searchInput = document.getElementById('search-input');
+    const searchError = document.getElementById('search-error');
+
+    if (!openBtn || !modal) return;
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.add('active');
+        searchInput.value = '';
+        if (searchError) searchError.style.display = 'none';
+        setTimeout(() => searchInput.focus(), 100);
+    });
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+    };
+
+    cancelBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    const executeSearch = () => {
+        const keyword = searchInput.value.trim();
+        if (!keyword) return;
+
+        const keywordGundul = hilangkanHarakat(keyword).toLowerCase();
+
+        const targetIndex = globalQuotesData.findIndex(item => {
+            const idCocok = item.id.toString() === keyword;
+            const judulCocok = hilangkanHarakat(item.judul).toLowerCase().includes(keywordGundul);
+            const arabCocok = hilangkanHarakat(item.arab).toLowerCase().includes(keywordGundul);
+            const indoCocok = item.indo.toLowerCase().includes(keywordGundul);
+            const authorCocok = hilangkanHarakat(item.author).toLowerCase().includes(keywordGundul);
+
+            return idCocok || judulCocok || arabCocok || indoCocok || authorCocok;
+        });
+
+        if (targetIndex !== -1) {
+            const targetBox = document.querySelector(`.memori-text-box[data-index="${targetIndex}"]`);
+            if (targetBox) {
+                targetBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            closeModal();
+        } else {
+            if (searchError) {
+                searchError.textContent = `"${keyword}" tidak ditemukan!`;
+                searchError.style.display = 'block';
+            }
+        }
+    };
+
+    submitBtn.addEventListener('click', executeSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') executeSearch();
+    });
+}
+
 function initAudioControl() {
     document.querySelectorAll('.play-icon').forEach(icon => {
         icon.addEventListener('click', (e) => {
-            e.stopPropagation(); // Mencegah pemicu event copy saat ikon diklik
+            e.stopPropagation();
             toggleAudio(icon);
         });
     });
@@ -123,7 +188,6 @@ function toggleAudio(iconElement) {
     }
 }
 
-// 4. Animasi Scroll (Intersection Observer) - Bisa Berulang Naik & Turun
 function initScrollAnimation() {
     const observerOptions = { 
         root: null, 
@@ -145,8 +209,6 @@ function initScrollAnimation() {
     });
 }
 
-
-// 5. Navigasi Klik Slider Judul
 function initSliderNavigation() {
     const slides = document.querySelectorAll('.title-slide');
     slides.forEach((slide) => {
@@ -164,40 +226,47 @@ function initSliderNavigation() {
     });
 }
 
+function initCopyFeature() {
+    const quoteContainer = document.getElementById('quote-container');
+    const notification = document.getElementById('copyNotification');
 
-// 6. Fitur Copy Teks & Author
-//function initCopyFeature() {
-   // const quoteContainer = document.getElementById('quote-container');
-  //  const notification = document.getElementById('copyNotification');
+    if (!quoteContainer) return;
 
-   // if (!quoteContainer) return;
+    quoteContainer.addEventListener('click', (e) => {
+        const box = e.target.closest('.memori-text-box');
+        if (!box || e.target.classList.contains('play-icon')) return;
 
-   // quoteContainer.addEventListener('click', (e) => {
-        // Jangan salin jika user mengklik ikon audio
-     //   if (e.target.classList.contains('play-icon')) return;
+        const quoteElem = box.querySelector('.memori-quote');
+        const authorElem = box.querySelector('.memori-author');
 
-      //  const box = e.target.closest('.memori-text-box');
-     //   if (!box) return;
+        let textToCopy = quoteElem ? quoteElem.innerText.trim() : '';
+        if (authorElem) {
+            textToCopy += `\n\n${authorElem.innerText.trim()}`;
+        }
 
-      //  const quoteLines = box.querySelectorAll('.arabic-quote-text, .indo-quote-text');
-     //   const authorEl = box.querySelector('.memori-author');
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(() => showNotification());
+        } else {
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showNotification();
+            } catch (err) {
+                console.error('Gagal menyalin: ', err);
+            }
+            document.body.removeChild(textArea);
+        }
+    });
 
-      //  let fullText = "";
-     //   quoteLines.forEach(line => {
-        //    if (line.textContent.trim()) fullText += line.textContent.trim() + "\n";
-    //    });
-
-   //     if (authorEl) fullText += authorEl.textContent.trim();
-
-    //    navigator.clipboard.writeText(fullText.trim()).then(() => {
-    //        if ("vibrate" in navigator) navigator.vibrate(100);
-
-      //      if (notification) {
-      //          notification.classList.add('show');
-         //       setTimeout(() => {
-        //            notification.classList.remove('show');
-     //           }, 2000);
-       //     }
-  //      });
-  //  });
-//}
+    function showNotification() {
+        if (!notification) return;
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 2000);
+    }
+}
+     
