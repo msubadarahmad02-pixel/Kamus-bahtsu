@@ -243,3 +243,109 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+/* Styling Tombol Pencarian Utama (Menggantikan Back Button) */
+.main-search-button {
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    
+    margin: 0 auto 15px auto;
+    width: fit-content;
+    
+    font-family: 'Georgia', sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    color: #c2185b;
+    
+    background-color: #ffffff;
+    padding: 6px 18px; 
+    border: 2px solid #d88998;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.main-search-button:hover {
+    background-color: #795548;
+    color: #ffffff;
+}
+
+.main-search-button:active {
+    transform: scale(0.98);
+}
+
+/* Modal Search Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: #ffffff;
+    border: 2px solid #d88998;
+    border-radius: 15px;
+    padding: 20px;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-card h3 {
+    font-size: 1.1em;
+    color: #c2185b;
+    margin-bottom: 15px;
+}
+
+.modal-card input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d88998;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    outline: none;
+    font-size: 0.95em;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-secondary, .btn-primary {
+    padding: 6px 14px;
+    border-radius: 15px;
+    border: none;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-primary {
+    background: #c2185b;
+    color: #fff;
+}
