@@ -22,14 +22,26 @@
         <button id="play-pause-button" class="play-button">
             ▶️
         </button>
-        
-        <button id="back-to-home" class="page-title" style="margin: 0 10px; font-size: 1em; cursor: pointer;">
-          Kanza28
-    </button>
-        
-        
         <audio id="audio-player" controls controlsList="nodownload" style="width: 100%; margin-top: 3px;"></audio>
+        <button id="search-by-id" class="page-title" style="margin: 0 10px; font-size: 0.9em; cursor: pointer;">
+  🔍</button>
     </div>
+      
+<div id="search-modal" class="modal-overlay">
+    <div class="modal-card">
+        <h3>Cari Nomor Sholawat</h3>
+        <input type="number" id="search-input" placeholder="Kanza Bersholawat" min="1">
+        
+        <!-- ELEMEN PESAN ERROR BARU -->
+        <p id="search-error" style="color: #e53935; font-size: 0.85em; margin: -8px 0 12px; display: none;"></p>
+        
+        <div class="modal-buttons">
+            <button id="modal-cancel" class="btn-secondary">Batal</button>
+            <button id="modal-submit" class="btn-primary">Cari</button>
+        </div>
+    </div>
+</div>
+      
     <script src="sholawat.js"></script>
 </body>
 </html>
