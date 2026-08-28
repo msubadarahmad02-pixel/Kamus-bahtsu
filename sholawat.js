@@ -72,10 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
             slides[activeSlideIndex].classList.add('active');
 
             // Hentikan pemutaran jika berpindah slide
-            if (!audioPlayer.paused) {
-                audioPlayer.pause();
-                playPauseButton.innerHTML = "▶️";
-            }
         }
     }
 
