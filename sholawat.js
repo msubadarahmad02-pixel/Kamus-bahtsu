@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. MEMUAT DATA JSON & RENDER SLIDE
     async function loadSholawat() {
         try {
-            const response = await fetch('Data_sholawat.json');
+            const response = await fetch('data_sholawat.json');
             sholawatData = await response.json();
             
             slidesWrapper.innerHTML = ''; // Bersihkan wrapper sebelum mengisi
