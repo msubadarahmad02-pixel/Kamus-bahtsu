@@ -446,3 +446,30 @@ h1 {
   transform: scale(0.95);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
+
+/* === TOMBOL COPY DI POJOK KANAN ATAS === */
+.copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 20;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+  padding: 2px;
+  line-height: 1;
+}
+
+.copy-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Sembunyikan tombol copy saat mode centang/select aktif agar tidak bentrok */
+.is-select-mode .copy-btn {
+  display: none;
+}
+
