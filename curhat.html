@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mading Curhat Digital</title>
+
+  <!-- 1. Pemanggilan Google Fonts (Caveat, Dancing Script, & Pacifico) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+
+  <!-- 2. File CSS Utama -->
+  <link rel="stylesheet" href="curhat.css">
+</head>
+<body>
+
+  <!-- Judul dengan Tombol Emoji Paku -->
+  <h1 class="mading-header">
+    <button id="selectModeBtn" onclick="toggleSelectMode()" class="pin-icon-btn" title="Klik untuk Pilih & Hapus">📌</button>
+    <span>Coretan Kanza</span>
+  </h1>
+
+  <!-- Form Input Pesan -->
+  <div class="form-container">
+    <textarea id="noteInput" placeholder="Tulis curhatan atau pesanmu di sini..."></textarea>
+    <button onclick="addNote()">Tempel di Mading</button>
+    
+    <!-- Tombol Hapus Kertas Terpilih -->
+    <button id="deleteSelectedBtn" onclick="openDeleteSelectedModal()" style="display: none; background-color: #d9534f;">🗑️ Hapus Kertas Terpilih (<span id="selectedCount">0</span>)</button>
+  </div>
+
+  <!-- Area Papan Mading -->
+  <div class="mading-board" id="madingBoard"></div>
+
+  <!-- Modal Input Password Admin -->
+  <div id="adminModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>🔐 Masukkan Kata Sandi Admin</h3>
+      <input type="password" id="adminPasswordInput" placeholder="Sandi admin...">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeAdminModal()">Batal</button>
+        <button class="btn-confirm" onclick="confirmDelete()">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Alert Peringatan -->
+  <div id="alertModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 id="alertTitle">⚠️ Peringatan</h3>
+      <p id="alertMessage" style="margin-bottom: 15px; font-size: 14px; color: #4a2e1b;"></p>
+      <div class="modal-actions" style="justify-content: center;">
+        <button class="btn-confirm" onclick="closeAlertModal()">OKE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Library Supabase & Script JS Utama -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="curhat.js"></script>
+</body>
+</html>
