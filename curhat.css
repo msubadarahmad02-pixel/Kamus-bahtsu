@@ -6,9 +6,9 @@
   font-family: 'Caveat', 'Comic Sans MS', 'Comic Neue', cursive, sans-serif;
 }
 
-/* Body dengan Gradasi Warna Hangat (Tengah Terang, Pinggir Oranye-Emas) */
+/* Body dengan Latar Warna Krem Solid (Komentar disesuaikan) */
 body {
-  background: radial-gradient(circle at center, #fff6d9 0%, #ffc837 50%, #e67e22 100%);
+  background-color: #fff8e1; 
   background-attachment: fixed;
   min-height: 100vh;
   padding: 20px;
@@ -21,19 +21,20 @@ body {
 
 /* Watermark Pola Berulang (kanza28) Menggunakan Font Caveat */
 body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.18;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='100'><text x='20' y='50' fill='%238c0000' font-size='24' font-family='Caveat' font-weight='bold'>❇️</text></svg>");
-  background-repeat: repeat;
-  background-position: center;
+    content: "";
+    position: fixed; /* DIGANTI MENJADI FIXED AGAR AMAN SAAT DI-SCROLL */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.18;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><text x='20' y='40' fill='%238c0000' font-size='20' font-family='Caveat' transform='rotate(15, 20, 40)'>❇️</text><text x='120' y='80' fill='%238c0000' font-size='18' font-family='Caveat' transform='rotate(-25, 120, 80)'>❇️</text><text x='60' y='150' fill='%238c0000' font-size='22' font-family='Caveat' transform='rotate(45, 60, 150)'>❇️</text><text x='150' y='170' fill='%238c0000' font-size='16' font-family='Caveat' transform='rotate(-10, 150, 170)'>❇️</text></svg>");
+    background-repeat: repeat;
+    background-position: center;
 }
+
 
 
 /* Memastikan Konten Mading Tetap di Atas Watermark */
