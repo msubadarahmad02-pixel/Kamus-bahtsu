@@ -92,15 +92,11 @@ async function addNote() {
 function renderNote(noteData) {
   const board = document.getElementById('madingBoard');
 
-  // Mencegah duplikasi rendering jika ID sudah tampil di mading
   if (document.querySelector(`[data-id="${noteData.id}"]`)) return;
 
   const noteEl = document.createElement('div');
   
-  // Pola Sobekan Acak (rip-pattern-1 s/d rip-pattern-4)
   const randomRipPattern = 'rip-pattern-' + (Math.floor(Math.random() * 4) + 1);
-  
-  // Variasi Animasi Scroll Acak
   const animList = ['anim-slide-up', 'anim-slide-down', 'anim-slide-left', 'anim-slide-right', 'anim-spin', 'anim-flip'];
   const randomAnim = animList[Math.floor(Math.random() * animList.length)];
   
@@ -110,6 +106,17 @@ function renderNote(noteData) {
   
   const rotation = noteData.rotation || (Math.random() * 12 - 6).toFixed(1);
   noteEl.style.setProperty('--note-rotate', `${rotation}deg`);
+
+  // Tombol Copy di Pojok Kanan Atas
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'copy-btn';
+  copyBtn.title = 'Salin Teks';
+  copyBtn.innerHTML = 'x'; // Ikon Copy
+  copyBtn.onclick = (e) => {
+    e.stopPropagation();
+    copyNoteText(noteData.text, copyBtn);
+  };
+  noteEl.appendChild(copyBtn);
 
   // Teks Curhatan (Format Enter Tetap Ke Bawah)
   const textContent = document.createElement('p');
@@ -130,6 +137,19 @@ function renderNote(noteData) {
   // Tempel ke Papan Mading & Daftarkan ke Observer
   board.prepend(noteEl);
   noteObserver.observe(noteEl);
+}
+
+// === FUNGSI SALIN TEKS (COPY) ===
+function copyNoteText(text, btnElement) {
+  navigator.clipboard.writeText(text).then(() => {
+    const originalIcon = btnElement.innerHTML;
+    btnElement.innerHTML = 'x'; // Berubah jadi centang saat berhasil disalin
+    setTimeout(() => {
+      btnElement.innerHTML = originalIcon;
+    }, 1500);
+  }).catch(err => {
+    console.error('Gagal menyalin teks: ', err);
+  });
 }
 
 // === 6. AMBIL SEMUA DATA SAAT AWAL DIMUAT ===
