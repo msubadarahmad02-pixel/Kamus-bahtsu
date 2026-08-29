@@ -194,7 +194,7 @@ function closeAdminModal() {
 async function confirmDelete() {
   const password = document.getElementById('adminPasswordInput').value;
   
-  if (password === 'admin123') { 
+  if (password === 'alhamdulillah') { 
     if (isSelectMode) {
       const selectedNotes = document.querySelectorAll('.note.selected');
       const idsToDelete = Array.from(selectedNotes).map(el => el.getAttribute('data-id'));
