@@ -17,6 +17,23 @@ body {
     width: 300px; /* Lebar kotak */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.18;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><text x='20' y='40' fill='%238c0000' font-size='20' font-family='Caveat' transform='rotate(15, 20, 40)'>❇️</text><text x='120' y='80' fill='%238c0000' font-size='18' font-family='Caveat' transform='rotate(-25, 120, 80)'>❇️</text><text x='60' y='150' fill='%238c0000' font-size='22' font-family='Caveat' transform='rotate(45, 60, 150)'>❇️</text><text x='150' y='170' fill='%238c0000' font-size='16' font-family='Caveat' transform='rotate(-10, 150, 170)'>❇️</text></svg>");
+    background-repeat: repeat;
+    background-position: center;
 }
 
 .title {
