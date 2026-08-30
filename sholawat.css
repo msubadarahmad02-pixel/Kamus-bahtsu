@@ -146,9 +146,8 @@ html, body {
 #audio-player {
     width: 100%;
     margin-top: 3px;
-    transform: scale(0.85); /* Mengecilkan seluruh pemutar ke 85% */
-    transform-origin: center center; /* Menjaga posisi tetap seimbang di tengah */
 }
+
 
 /* --- MODAL CARI ID MINIMALIS --- */
 .modal-overlay {
