@@ -29,6 +29,10 @@
 <body>
 
     <div class="container">
+        <button id="btnInstallPWA" class="btn-install" title="Instal Aplikasi">
+            <i class="fa-solid fa-download"></i>
+        </button>
+
         <h1 class="title">Pena Kanza</h1>
         
         <div class="icon-grid">
@@ -102,6 +106,33 @@
     <script src="script.js"></script> 
 
     <script>
+// Logika Tombol Instal PWA
+let deferredPrompt;
+const installBtn = document.getElementById('btnInstallPWA');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'inline-flex'; // Munculkan tombol saat browser siap dipasang PWA
+});
+
+installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('Pengguna menginstal PWA');
+            }
+            deferredPrompt = null;
+            installBtn.style.display = 'none'; // Sembunyikan tombol setelah diklik/diinstal
+        });
+    }
+});
+
+window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+    deferredPrompt = null;
+});
 
         /*
       // Password yang kamu atur
