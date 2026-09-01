@@ -53,21 +53,28 @@ const ASSETS_TO_CACHE = [
   './kitab_sharqawi.json',
   './lain_lain.json',
 
-  // Font & FontAwesome External
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap'
+    // Font & FontAwesome External (Menggunakan Request no-cors agar tidak terblokir)
+  new Request('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css', { mode: 'no-cors' }),
+  new Request('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap', { mode: 'no-cors' })
 ];
 
-// 1. Install Service Worker & Simpan Aset Utama
+
+// 1. Install Service Worker & Simpan Aset Utama (Versi Aman Offline)
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
+    caches.open(CACHE_NAME).then(async (cache) => {
       console.log('[Service Worker] Menyimpan seluruh aset ke cache...');
-      return cache.addAll(ASSETS_TO_CACHE);
+      // Menggunakan Promise.allSettled agar jika 1 file error/404, file lain tetap tersimpan
+      await Promise.allSettled(
+        ASSETS_TO_CACHE.map(url => 
+          cache.add(url).catch(err => console.error(`Gagal menyimpan cache: ${url}`, err))
+        )
+      );
     })
   );
   self.skipWaiting();
 });
+
 
 // 2. Aktivasi & Hapus Cache Lama
 self.addEventListener('activate', (event) => {
