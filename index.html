@@ -106,31 +106,36 @@
     <script src="script.js"></script> 
 
     <script>
-// Logika Tombol Instal PWA (Cek Mode Standalone/Aplikasi)
+// Logika Tombol Instal PWA (Metode Hapus Elemen)
 let deferredPrompt;
-const installBtn = document.getElementById('btnInstallPWA');
 
-// Fungsi untuk mengecek apakah aplikasi dibuka sebagai PWA yang terinstal
-function isRunningStandalone() {
-    return (
-        window.matchMedia('(display-mode: standalone)').matches ||
-        window.navigator.standalone === true ||
-        document.referrer.includes('android-app://')
-    );
+function sembunyikanAtauHapusTombol() {
+    const btn = document.getElementById('btnInstallPWA');
+    if (btn) {
+        btn.remove(); // Hapus tombol dari halaman agar tidak bisa muncul lagi
+    }
 }
 
-// Jika dibuka di dalam aplikasi PWA yang terinstal, sembunyikan tombol secara paksa
-if (isRunningStandalone()) {
-    if (installBtn) installBtn.style.display = 'none';
+// Cek apakah dibuka di PWA (Standalone / TWA / WebAPK / Display Mode)
+const isPWA = window.matchMedia('(display-mode: standalone)').matches 
+              || window.navigator.standalone 
+              || document.referrer.includes('android-app://')
+              || window.location.search.includes('utm_source=homescreen');
+
+if (isPWA) {
+    // Jika di aplikasi, langsung hapus tombolnya
+    sembunyikanAtauHapusTombol();
 } else {
-    // Jika dibuka lewat browser Chrome biasa, baru aktifkan event ini
+    // Jika di browser Chrome biasa, tunggu sinyal install
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        const installBtn = document.getElementById('btnInstallPWA');
         if (installBtn) installBtn.style.display = 'inline-flex';
     });
 }
 
+const installBtn = document.getElementById('btnInstallPWA');
 if (installBtn) {
     installBtn.addEventListener('click', () => {
         if (deferredPrompt) {
@@ -140,16 +145,17 @@ if (installBtn) {
                     console.log('Pengguna menginstal PWA');
                 }
                 deferredPrompt = null;
-                installBtn.style.display = 'none';
+                sembunyikanAtauHapusTombol();
             });
         }
     });
 }
 
 window.addEventListener('appinstalled', () => {
-    if (installBtn) installBtn.style.display = 'none';
+    sembunyikanAtauHapusTombol();
     deferredPrompt = null;
 });
+
 
 
         /*
