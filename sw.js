@@ -98,13 +98,9 @@ self.addEventListener('fetch', (event) => {
 
       return fetch(event.request)
         .then((networkResponse) => {
-          if (
-            !networkResponse || 
-            networkResponse.status !== 200 || 
-            (networkResponse.type !== 'basic' && !event.request.url.includes('cdnjs') && !event.request.url.includes('fonts'))
-          ) {
-            return networkResponse;
-          }
+           if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
+  return networkResponse;
+}
 
           const responseToCache = networkResponse.clone();
 
