@@ -11,8 +11,15 @@
         .title { color: white; font-weight: 700; margin-bottom: 20px; font-size: 1.3em; padding: 10px; border-radius: 15px; background-color: #8b4513; border: 3px solid #6d4c41; }
         .section-group { margin-top: 15px; padding: 12px; border: 1px solid #d88998; border-radius: 10px; background-color: #fff; text-align: left; }
         .section-title { font-weight: bold; color: #c2185b; border-bottom: 2px solid #f8bbd0; margin-bottom: 5px; font-size: 0.9em; }
-        .content-text { font-size: 0.9em; color: #6d4c41; line-height: 1.6; text-align: justify; margin: 5px 0; }
-        
+        .content-text { 
+    font-size: 0.9em; 
+    color: #6d4c41; 
+    line-height: 1.6; 
+    text-align: justify; 
+    margin: 5px 0; 
+    white-space: pre-line; /* Menjaga teks enter di JSON agar tampil sebagai baris baru */
+}
+
         .content-text[style*="direction: rtl"] {direction: rtl;
         text-align: justify; 
     text-justify: inter-word; 
@@ -119,23 +126,16 @@ function applyGlobalHighlight() {
                         return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
 }).join('');
 
-// 1. Proses deskripsi per baris agar bisa mendeteksi teks Arab
-const deskripsiHtml = item.deskripsi.split('\n').map(line => {
-    const isAr = /[\u0600-\u06FF]/.test(line);
-    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${line}</p>`;
-}).join('');
+// Cek teks Arab & biarkan karakter \n utuh agar dibaca CSS pre-line
+const isArDeskripsi = /[\u0600-\u06FF]/.test(item.deskripsi);
+const deskripsiHtml = `<p class="content-text" ${isArDeskripsi ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${item.deskripsi}</p>`;
 
-// 2. Proses pertanyaan per baris (jaga-jaga jika ada teks Arab)
-const pertanyaanHtml = item.pertanyaan.split('\n').map(line => {
-    const isAr = /[\u0600-\u06FF]/.test(line);
-    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${line}</p>`;
-}).join('');
+const isArPertanyaan = /[\u0600-\u06FF]/.test(item.pertanyaan);
+const pertanyaanHtml = `<p class="content-text" ${isArPertanyaan ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${item.pertanyaan}</p>`;
 
-// 3. Proses jawaban per baris (jaga-jaga jika ada teks Arab)
-const jawabanHtml = item.jawaban.split('\n').map(line => {
-    const isAr = /[\u0600-\u06FF]/.test(line);
-    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${line}</p>`;
-}).join('');
+const isArJawaban = /[\u0600-\u06FF]/.test(item.jawaban);
+const jawabanHtml = `<p class="content-text" ${isArJawaban ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${item.jawaban}</p>`;
+
 
 // 4. Masukkan variabel yang sudah diproses ke dalam HTML
 document.getElementById('rumusanContent').innerHTML = `
