@@ -679,4 +679,10 @@ position: relative;
 .btn-install:active {
     transform: scale(0.95);
 }
+/* Jika dibuka sebagai aplikasi terinstal (standalone PWA), sembunyikan tombol */
+@media display-mode: standalone {
+    .btn-install {
+        display: none !important;
+    }
+}
 
