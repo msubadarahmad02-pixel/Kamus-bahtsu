@@ -5,7 +5,7 @@ const DYNAMIC_CACHE = 'pena-kanza-dynamic-v1';
 const ASSETS_TO_CACHE = [
   './',
   './icon.png',
-  
+  './img/img19.jpg',
   // File HTML
   './index.html',
   './alquran.html',
