@@ -679,10 +679,11 @@ position: relative;
 .btn-install:active {
     transform: scale(0.95);
 }
-/* Jika dibuka sebagai aplikasi terinstal (standalone PWA), sembunyikan tombol */
-@media display-mode: standalone {
-    .btn-install {
+/* Wajib menggunakan tanda kurung (display-mode: standalone) */
+@media (display-mode: standalone) {
+    #btnInstallPWA, .btn-install {
         display: none !important;
     }
 }
+
 
