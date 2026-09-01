@@ -106,33 +106,51 @@
     <script src="script.js"></script> 
 
     <script>
-// Logika Tombol Instal PWA
+// Logika Tombol Instal PWA (Cek Mode Standalone/Aplikasi)
 let deferredPrompt;
 const installBtn = document.getElementById('btnInstallPWA');
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = 'inline-flex'; // Munculkan tombol saat browser siap dipasang PWA
-});
+// Fungsi untuk mengecek apakah aplikasi dibuka sebagai PWA yang terinstal
+function isRunningStandalone() {
+    return (
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true ||
+        document.referrer.includes('android-app://')
+    );
+}
 
-installBtn.addEventListener('click', () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('Pengguna menginstal PWA');
-            }
-            deferredPrompt = null;
-            installBtn.style.display = 'none'; // Sembunyikan tombol setelah diklik/diinstal
-        });
-    }
-});
+// Jika dibuka di dalam aplikasi PWA yang terinstal, sembunyikan tombol secara paksa
+if (isRunningStandalone()) {
+    if (installBtn) installBtn.style.display = 'none';
+} else {
+    // Jika dibuka lewat browser Chrome biasa, baru aktifkan event ini
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) installBtn.style.display = 'inline-flex';
+    });
+}
+
+if (installBtn) {
+    installBtn.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Pengguna menginstal PWA');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            });
+        }
+    });
+}
 
 window.addEventListener('appinstalled', () => {
-    installBtn.style.display = 'none';
+    if (installBtn) installBtn.style.display = 'none';
     deferredPrompt = null;
 });
+
 
         /*
       // Password yang kamu atur
