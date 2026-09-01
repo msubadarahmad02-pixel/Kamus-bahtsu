@@ -106,27 +106,23 @@
     <script src="script.js"></script> 
 
     <script>
-// Logika Tombol Instal PWA (Metode Hapus Elemen)
+// Logika Tombol Instal PWA (Paksa Hapus Elemen di App)
 let deferredPrompt;
 
 function sembunyikanAtauHapusTombol() {
     const btn = document.getElementById('btnInstallPWA');
-    if (btn) {
-        btn.remove(); // Hapus tombol dari halaman agar tidak bisa muncul lagi
-    }
+    if (btn) btn.remove(); // Hapus tombol dari DOM
 }
 
-// Cek apakah dibuka di PWA (Standalone / TWA / WebAPK / Display Mode)
+// Cek apakah dibuka lewat PWA / Standalone / TWA Android
 const isPWA = window.matchMedia('(display-mode: standalone)').matches 
               || window.navigator.standalone 
               || document.referrer.includes('android-app://')
               || window.location.search.includes('utm_source=homescreen');
 
 if (isPWA) {
-    // Jika di aplikasi, langsung hapus tombolnya
     sembunyikanAtauHapusTombol();
 } else {
-    // Jika di browser Chrome biasa, tunggu sinyal install
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -142,10 +138,9 @@ if (installBtn) {
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
-                    console.log('Pengguna menginstal PWA');
+                    sembunyikanAtauHapusTombol();
                 }
                 deferredPrompt = null;
-                sembunyikanAtauHapusTombol();
             });
         }
     });
@@ -155,6 +150,7 @@ window.addEventListener('appinstalled', () => {
     sembunyikanAtauHapusTombol();
     deferredPrompt = null;
 });
+
 
 
 
