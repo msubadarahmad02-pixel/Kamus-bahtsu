@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pena-kanza-v3';
+const CACHE_NAME = 'pena-kanza-v4';
 const DYNAMIC_CACHE = 'pena-kanza-dynamic-v1';
 
 // Daftar semua file HTML, CSS, JS, JSON dari repository + icon.png
@@ -93,34 +93,30 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// 3. Fetch (Cek Cache + Runtime Caching untuk Gambar/File Lain)
+// 3. Fetch (Strategi Network First untuk File Aplikasi)
 self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
 
+  // Jangan sentuh/cache permintaan ke Supabase sama sekali
+  if (event.request.url.includes('supabase.co')) {
+    return;
+  }
+
   event.respondWith(
-    // Tambahkan { ignoreSearch: true } di sini
-    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(event.request)
-        .then((networkResponse) => {
-          if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
-            return networkResponse;
-          }
-
+    // Utamakan mengambil dari Network (Internet) dulu agar selalu dapat versi terbaru
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
-
           caches.open(DYNAMIC_CACHE).then((cache) => {
             cache.put(event.request, responseToCache);
           });
-
-          return networkResponse;
-        })
-        .catch(() => {
-          console.log('[Service Worker] Gagal mengambil file secara offline.');
-        });
-    })
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        // Jika sedang OFFLINE, baru ambil dari Cache HP
+        return caches.match(event.request, { ignoreSearch: true });
+      })
   );
 });
