@@ -98,16 +98,17 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
+    // Tambahkan { ignoreSearch: true } di sini
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
 
       return fetch(event.request)
         .then((networkResponse) => {
-           if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
-  return networkResponse;
-}
+          if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
+            return networkResponse;
+          }
 
           const responseToCache = networkResponse.clone();
 
