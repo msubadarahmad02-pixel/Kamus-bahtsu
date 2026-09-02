@@ -93,6 +93,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+
 // 3. Fetch (Strategi Network First untuk File Aplikasi)
 self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
