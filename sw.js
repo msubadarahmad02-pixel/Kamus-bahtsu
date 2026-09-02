@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pena-kanza-v4';
+const CACHE_NAME = 'pena-kanza-v5';
 const DYNAMIC_CACHE = 'pena-kanza-dynamic-v1';
 
 // Daftar semua file HTML, CSS, JS, JSON dari repository + icon.png
