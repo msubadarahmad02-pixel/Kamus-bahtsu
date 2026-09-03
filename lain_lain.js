@@ -226,40 +226,40 @@ function initSliderNavigation() {
     });
 }
 
-function initCopyFeature() {
-    const quoteContainer = document.getElementById('quote-container');
-    const notification = document.getElementById('copyNotification');
+//function initCopyFeature() {
+//    const quoteContainer = document.getElementById('quote-container');
+  //  const notification = document.getElementById('copyNotification');
 
-    if (!quoteContainer) return;
+    //if (!quoteContainer) return;
 
-    quoteContainer.addEventListener('click', (e) => {
-        const box = e.target.closest('.memori-text-box');
-        if (!box || e.target.classList.contains('play-icon')) return;
+   // quoteContainer.addEventListener('click', (e) => {
+     //   const box = e.target.closest('.memori-text-box');
+   //     if (!box || e.target.classList.contains('play-icon')) return;
 
-        const quoteElem = box.querySelector('.memori-quote');
-        const authorElem = box.querySelector('.memori-author');
+    //    const quoteElem = box.querySelector('.memori-quote');
+     //   const authorElem = box.querySelector('.memori-author');
 
-        let textToCopy = quoteElem ? quoteElem.innerText.trim() : '';
-        if (authorElem) {
-            textToCopy += `\n\n${authorElem.innerText.trim()}`;
-        }
+     //   let textToCopy = quoteElem ? quoteElem.innerText.trim() : '';
+      //  if (authorElem) {
+      //      textToCopy += `\n\n${authorElem.innerText.trim()}`;
+     //   }
 
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(textToCopy).then(() => showNotification());
-        } else {
-            const textArea = document.createElement("textarea");
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                showNotification();
-            } catch (err) {
-                console.error('Gagal menyalin: ', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    });
+      //  if (navigator.clipboard && window.isSecureContext) {
+       //   navigator.clipboard.writeText(textToCopy).then(() => showNotification());
+      //  } else {
+         //   const textArea = document.createElement("textarea");
+         //   textArea.value = textToCopy;
+            //document.body.appendChild(textArea);
+        //    textArea.select();
+         //   try {
+         //       document.execCommand('copy');
+      //          showNotification();
+         //   } catch (err) {
+        //        console.error('Gagal menyalin: ', err);
+       //     }
+      //      document.body.removeChild(textArea);
+      //  }
+   // });
 
     function showNotification() {
         if (!notification) return;
