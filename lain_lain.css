@@ -160,28 +160,6 @@
     /* Ikon akan otomatis berubah menjadi Pause melalui JavaScript */
 }
 
-/* Gaya Notifikasi Copy (Disamakan dengan Detail Rumusan) */
-.copy-notification { 
-    visibility: hidden; 
-    min-width: 200px; 
-    background-color: #333; 
-    color: #fff; 
-    text-align: center; 
-    border-radius: 5px; 
-    padding: 10px; 
-    position: fixed; 
-    bottom: 30px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    opacity: 0; 
-    transition: 0.5s; 
-    z-index: 1000; 
-}
-
-.copy-notification.show { 
-    visibility: visible; 
-    opacity: 1; 
-}
 
 
 
