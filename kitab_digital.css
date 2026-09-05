@@ -523,6 +523,7 @@ mark {
     width: 100px; /* Lebar kotak foto yang kita tentukan */
     height: 100px; /* Tinggi kotak foto yang kita tentukan */
     object-fit: cover; /* INI KUNCINYA: Foto akan otomatis mengisi kotak 100x100 tanpa gepeng/distorsi */
+    background-color: #ffffff; 
     object-position: top center; /* Memastikan fokus potongan foto ada di bagian atas (wajah) */
     border-radius: 6px; 
     border: 2px solid #dfcca0; 
