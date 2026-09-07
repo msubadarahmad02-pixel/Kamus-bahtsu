@@ -129,25 +129,26 @@ function applyGlobalHighlight() {
 function formatTeksCampuran(teks) {
     if (!teks) return '';
     
-    // Pecah teks berdasarkan enter (\n)
     const baris = teks.split('\n');
     
     return baris.map(b => {
         const teksBersih = b.trim();
-        if (!teksBersih) return ''; // Abaikan baris kosong
         
-        // Cek apakah baris ini dominan karakter Arab
+        // JIKA BARIS KOSONG (bekas Enter), beri jarak/spasi kosong
+        if (!teksBersih) {
+            return `<div style="height: 10px;"></div>`;
+        }
+        
         const isArab = /[\u0600-\u06FF]/.test(teksBersih);
         
         if (isArab) {
-            // Jika baris Arab: RTL + Justify (Rata Kanan-Kiri)
-            return `<p class="content-text" dir="rtl" style="text-align: justify; text-justify: inter-word; font-size: 1.15em;">${teksBersih}</p>`;
+            return `<p class="content-text" dir="rtl" style="text-align: justify; text-justify: inter-word; font-size: 1.15em; margin-bottom: 8px;">${teksBersih}</p>`;
         } else {
-            // Jika baris Latin/Indonesia: LTR + Justify (Rata Kanan-Kiri)
-            return `<p class="content-text" dir="ltr" style="text-align: justify;">${teksBersih}</p>`;
+            return `<p class="content-text" dir="ltr" style="text-align: justify; margin-bottom: 8px;">${teksBersih}</p>`;
         }
     }).join('');
 }
+
 
 // Terapkan fungsi ke masing-masing bagian
 const deskripsiHtml = formatTeksCampuran(item.deskripsi);
