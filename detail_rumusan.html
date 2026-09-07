@@ -126,16 +126,34 @@ function applyGlobalHighlight() {
                         return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
 }).join('');
 
-// Cek teks Arab & biarkan karakter \n utuh agar dibaca CSS pre-line
-const isArDeskripsi = /[\u0600-\u06FF]/.test(item.deskripsi);
-const deskripsiHtml = `<p class="content-text" ${isArDeskripsi ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${item.deskripsi}</p>`;
+// Fungsi pintar untuk memisah baris Latin dan Arab
+function formatTeksCampuran(teks) {
+    if (!teks) return '';
+    
+    // Pecah teks berdasarkan enter (\n)
+    const baris = teks.split('\n');
+    
+    return baris.map(b => {
+        const teksBersih = b.trim();
+        if (!teksBersih) return ''; // Abaikan baris kosong
+        
+        // Cek apakah baris ini dominan karakter Arab
+        const isArab = /[\u0600-\u06FF]/.test(teksBersih);
+        
+        if (isArab) {
+            // Jika baris Arab: Buat rata kanan (RTL) & perbesar font sedikit
+            return `<p class="content-text" dir="rtl" style="text-align: right; font-size: 1.15em; font-family: 'Amiri', 'Traditional Arabic', serif;">${teksBersih}</p>`;
+        } else {
+            // Jika baris Indonesia: Buat rata kiri (LTR)
+            return `<p class="content-text" dir="ltr" style="text-align: left;">${teksBersih}</p>`;
+        }
+    }).join('');
+}
 
-const isArPertanyaan = /[\u0600-\u06FF]/.test(item.pertanyaan);
-const pertanyaanHtml = `<p class="content-text" ${isArPertanyaan ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${item.pertanyaan}</p>`;
-
-const isArJawaban = /[\u0600-\u06FF]/.test(item.jawaban);
-const jawabanHtml = `<p class="content-text" ${isArJawaban ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${item.jawaban}</p>`;
-
+// Terapkan fungsi ke masing-masing bagian
+const deskripsiHtml = formatTeksCampuran(item.deskripsi);
+const pertanyaanHtml = formatTeksCampuran(item.pertanyaan);
+const jawabanHtml = formatTeksCampuran(item.jawaban);
 
 // 4. Masukkan variabel yang sudah diproses ke dalam HTML
 document.getElementById('rumusanContent').innerHTML = `
