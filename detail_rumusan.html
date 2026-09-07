@@ -126,7 +126,6 @@ function applyGlobalHighlight() {
                         return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
 }).join('');
 
-// Fungsi pintar untuk memisah baris Latin dan Arab
 function formatTeksCampuran(teks) {
     if (!teks) return '';
     
@@ -141,11 +140,11 @@ function formatTeksCampuran(teks) {
         const isArab = /[\u0600-\u06FF]/.test(teksBersih);
         
         if (isArab) {
-            // Jika baris Arab: Buat rata kanan (RTL) & perbesar font sedikit
-            return `<p class="content-text" dir="rtl" style="text-align: right; font-size: 1.15em; font-family: 'Amiri', 'Traditional Arabic', serif;">${teksBersih}</p>`;
+            // Jika baris Arab: RTL + Justify (Rata Kanan-Kiri)
+            return `<p class="content-text" dir="rtl" style="text-align: justify; text-justify: inter-word; font-size: 1.15em;">${teksBersih}</p>`;
         } else {
-            // Jika baris Indonesia: Buat rata kiri (LTR)
-            return `<p class="content-text" dir="ltr" style="text-align: left;">${teksBersih}</p>`;
+            // Jika baris Latin/Indonesia: LTR + Justify (Rata Kanan-Kiri)
+            return `<p class="content-text" dir="ltr" style="text-align: justify;">${teksBersih}</p>`;
         }
     }).join('');
 }
