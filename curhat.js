@@ -213,44 +213,44 @@ function closeAdminModal() {
 
 async function confirmDelete() {
   const password = document.getElementById('adminPasswordInput').value;
-  
-  if (password === 'alhamdulillah') { 
+  let idsToDelete = [];
+
+  if (isSelectMode) {
+    const selectedNotes = document.querySelectorAll('.note.selected');
+    idsToDelete = Array.from(selectedNotes).map(el => el.getAttribute('data-id'));
+  } else if (targetNoteElement) {
+    idsToDelete = [targetNoteElement.getAttribute('data-id')];
+  }
+
+  if (idsToDelete.length === 0) {
+    closeAdminModal();
+    return;
+  }
+
+  // Panggil fungsi database Supabase (Password diverifikasi di server)
+  const { data: isSuccess, error } = await supabaseClient.rpc('hapus_note_admin', {
+    note_ids: idsToDelete,
+    pass_input: password
+  });
+
+  if (error) {
+    console.error('Error saat menghapus:', error);
+    showAlert('Terjadi kesalahan pada server!');
+  } else if (isSuccess) {
     if (isSelectMode) {
-      const selectedNotes = document.querySelectorAll('.note.selected');
-      const idsToDelete = Array.from(selectedNotes).map(el => el.getAttribute('data-id'));
-      
-      const { error } = await supabaseClient
-        .from('notes')
-        .delete()
-        .in('id', idsToDelete);
-
-      if (!error) {
-        selectedNotes.forEach(note => note.remove());
-        showAlert(`${idsToDelete.length} pesan berhasil dihapus!`);
-        toggleSelectMode();
-      } else {
-        showAlert('Gagal menghapus pesan dari server!');
-      }
+      document.querySelectorAll('.note.selected').forEach(note => note.remove());
+      toggleSelectMode();
     } else if (targetNoteElement) {
-      const idToDelete = targetNoteElement.getAttribute('data-id');
-      const { error } = await supabaseClient
-        .from('notes')
-        .delete()
-        .eq('id', idToDelete);
-
-      if (!error) {
-        targetNoteElement.remove();
-        showAlert('Pesan berhasil dihapus!');
-      } else {
-        showAlert('Gagal menghapus pesan!');
-      }
+      targetNoteElement.remove();
     }
-    closeAdminModal();
+    showAlert('Pesan berhasil dihapus!');
   } else {
-    closeAdminModal();
     showAlert('Kata sandi salah!');
   }
+
+  closeAdminModal();
 }
+
 
 // === 9. CUSTOM MODAL ALERT ===
 function showAlert(message) {
