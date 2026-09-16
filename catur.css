@@ -263,3 +263,8 @@ body {
 .btn-vs-comp:hover {
     background-color: #c2185b;
 }
+
+/* Highlight untuk petak asal dan petak tujuan dari langkah terakhir */
+.square.last-move {
+    background-color: #eed8698a !important; /* Warna kuning kekuningan/emas soft */
+}
