@@ -46,6 +46,7 @@ const ASSETS_TO_CACHE = [
   './sholawat.js',
   './tambah_data.js',
   './catur.js',
+  './ai-worker.js',
   './tambah_rumusan.js',
   './tambah_sholawat.js',
 
