@@ -686,28 +686,35 @@ position: relative;
     }
 }
 
-/* Tombol Catur Minimalis Kiri Atas */
+/* Tombol Catur Kiri Atas */
 .btn-catur {
     position: absolute;
     top: 15px;
     left: 15px;
     background-color: transparent;
     border: none;
-    color: #8b4513; /* Warna ikon menyesuaikan tema */
-    font-size: 1.2rem;
+    
+    /* 1. Memperkecil ukuran emoji */
+    font-size: 0.95rem; 
+    
+    /* 2. Mengatur transparansi & efek warna lembut */
+    opacity: 0.45; 
+    filter: brightness(0.85) contrast(1.1); /* Menggelapkan warna hijau emojinya sedikit */
+    
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    padding: 6px;
     border-radius: 50%;
-    transition: background-color 0.2s, color 0.2s;
+    transition: all 0.2s ease;
     text-decoration: none;
     z-index: 10;
 }
 
+/* Efek saat tombol disentuh / diarahkan cursor */
 .btn-catur:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: #8b4513;
+    opacity: 1; /* Menjadi jelas saat di-hover */
+    transform: scale(1.1); /* Membesar halus sedikit */
+    background-color: rgba(0, 0, 0, 0.04);
 }
-
