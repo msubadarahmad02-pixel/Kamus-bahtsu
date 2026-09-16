@@ -20,6 +20,7 @@ const ASSETS_TO_CACHE = [
   './pencarian.html',
   './sholawat.html',
   './tambah_data.html',
+  './catur.html',
   './tambah_rumusan.html',
   './tambah_sholawat.html',
 
@@ -31,6 +32,7 @@ const ASSETS_TO_CACHE = [
   './lain_lain.css',
   './sholawat.css',
   './tambah_data.css',
+  './catur.css',
   './tambah_rumusan.css',
   './tambah_sholawat.css',
 
@@ -43,6 +45,7 @@ const ASSETS_TO_CACHE = [
   './lain_lain.js',
   './sholawat.js',
   './tambah_data.js',
+  './catur.js',
   './tambah_rumusan.js',
   './tambah_sholawat.js',
 
