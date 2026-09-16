@@ -3,7 +3,7 @@ let isComputerMode = false; // Mode lawan komputer
 const vsComputerBtn = document.getElementById('vs-computer-btn');
 
 
-// === 1. KONFIGURASI SUPABASE (Sama dengan curhat.js) ===
+// SESUDAH (Tetap dipasang di sini):
 const SUPABASE_URL = 'https://jmvirawieydobodmzjmr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_WHi_gB94h-yd8WFHo0MnIg_0dYcOS-Y';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
