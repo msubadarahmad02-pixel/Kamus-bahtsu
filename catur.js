@@ -345,9 +345,9 @@ createRoomBtn.addEventListener('click', async () => {
         status: 'waiting'
     }]);
 
-    if (!error) {
-        showAlert(`Room "${roomId}" berhasil dibuat!\n\nBagikan kode "${roomId}" ke temanmu. Kamu bermain sebagai PUTIH.`);
-        listenToRoom(roomId);
+if (!error) {
+    showAlert(`Room "${roomId}" dibuat!`);
+    listenToRoom(roomId);
     } else {
         showAlert("Gagal membuat room!");
     }
