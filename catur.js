@@ -329,7 +329,7 @@ function generateRandomRoomId() {
 
 // Fitur Buat Room dengan Kode Acak Otomatis
 createRoomBtn.addEventListener('click', async () => {
-    // Generate room ID acak secara otomatis
+    isComputerMode = false; // <-- Pastikan AI mati saat buat room
     const roomId = generateRandomRoomId();
     
     // Tampilkan kode room yang baru dibuat ke dalam kotak input
@@ -367,7 +367,8 @@ joinRoomBtn.addEventListener('click', async () => {
 
     if (data) {
         currentRoomId = roomId;
-        playerColor = 'black'; // Pemain yang masuk jadi Hitam
+        playerColor = 'black'; 
+        isComputerMode = false; // <-- TAMBAHKAN BARIS INI UNTUK MATIKAN MODE AI
         
         showAlert(`Berhasil masuk ke Room "${roomId}"! Kamu bermain sebagai HITAM.`);
         listenToRoom(roomId);
@@ -375,6 +376,7 @@ joinRoomBtn.addEventListener('click', async () => {
         showAlert("Room tidak ditemukan! Cek kembali ID Room.");
     }
 });
+
 
 // Realtime Listener menggunakan Channel Supabase
 function listenToRoom(roomId) {
