@@ -90,17 +90,16 @@ self.addEventListener('fetch', (event) => {
 
   const requestUrl = event.request.url;
 
-  // STRATEGI KHUSUS GAMBAR QUR'AN (Cache First, lalu simpan otomatis)
+  // 1. STRATEGI GAMBAR QUR'AN (Cache First)
   if (requestUrl.includes('releases/download/v1.0/')) {
     event.respondWith(
       caches.open(QURAN_CACHE).then((cache) => {
         return cache.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse; // Gunakan dari cache jika sudah pernah diunduh
-          }
+          if (cachedResponse) return cachedResponse;
           return fetch(event.request).then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              cache.put(event.request, networkResponse.clone()); // Simpan ke cache
+            // Izinkan status 200 (normal) ATAU status 0 / opaque (untuk gambar beda domain)
+            if (networkResponse && (networkResponse.status === 200 || networkResponse.status === 0 || networkResponse.type === 'opaque')) {
+              cache.put(event.request, networkResponse.clone());
             }
             return networkResponse;
           });
@@ -109,6 +108,7 @@ self.addEventListener('fetch', (event) => {
     );
     return;
   }
+
 
   // STRATEGI STANDAR APLIKASI (Network First)
   event.respondWith(
