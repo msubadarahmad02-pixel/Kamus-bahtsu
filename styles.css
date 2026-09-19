@@ -698,7 +698,7 @@ position: relative;
     font-size: 0.95rem; 
     
     /* 2. Mengatur transparansi & efek warna lembut */
-    opacity: 0.45; 
+    opacity: 0.25; 
     filter: brightness(0.85) contrast(1.1); /* Menggelapkan warna hijau emojinya sedikit */
     
     cursor: pointer;
