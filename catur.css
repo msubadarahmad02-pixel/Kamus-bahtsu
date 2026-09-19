@@ -268,3 +268,42 @@ body {
 .square.last-move {
     background-color: #eed8698a !important; /* Warna kuning kekuningan/emas soft */
 }
+
+/* Wrapper sebaris untuk Input dan Tombol Copy */
+.room-id-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+.room-id-wrapper #room-id {
+    flex: 1; /* Input otomatis memenuhi sisa ruang di kiri */
+    margin-bottom: 0;
+}
+
+/* Style tombol copy ikon/teks */
+.copy-button {
+    background-color: #8b4513;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap; /* Agar teks tombol tidak terpotong ke bawah */
+}
+
+.copy-button:hover {
+    background-color: #c2185b;
+}
+
+.copy-button:active {
+    transform: scale(0.95);
+}
+
