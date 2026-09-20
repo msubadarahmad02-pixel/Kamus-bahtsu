@@ -187,10 +187,16 @@ if (currentRoomId) {
 }
 
         }
-    } else {
+     } else {
         if (clickedPiece && clickedPieceColor === currentTurn) {
             selectedSquare = { r, c };
             validMoves = getSafeMoves(r, c, boardState);
+            
+            // Jika bidak tidak bisa bergerak karena ter-pin atau Raja terancam
+            if (validMoves.length === 0) {
+                showWrongTurnWarning();
+            }
+            
             renderBoard();
         }
     }
@@ -496,23 +502,28 @@ function listenToRoom(roomId) {
         }, payload => {
             const data = payload.new;
             if (data && data.board_state) {
+                // 1. Ambil data papan dan giliran terlebih dahulu
                 boardState = typeof data.board_state === 'string' ? JSON.parse(data.board_state) : data.board_state;
                 currentTurn = data.current_turn;
 
-                // Update lastMove dari data Supabase agar penanda muncul di layar lawan
+                // 2. Set lastMove SEBELUM mereset pilihan dan update UI
                 if (data.last_move) {
                     lastMove = typeof data.last_move === 'string' ? JSON.parse(data.last_move) : data.last_move;
+                } else {
+                    lastMove = null;
                 }
 
-                // Reset pilihan jika giliran berganti dari lawan
+                // 3. Reset state pilihan pemain
                 selectedSquare = null;
                 validMoves = [];
 
+                // 4. Baru render ulang tampilan papan dan status giliran
                 updateTurnUI();
             }
         })
         .subscribe();
 }
+
 
 
 
