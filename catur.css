@@ -173,56 +173,41 @@ body {
 .square[draggable="true"]:active {
     cursor: grabbing;
 }
-
-/* Petak Terang */
+/* --- WARNA PAPAN CATUR ALA CHESS.COM --- */
 .square.light {
     background-color: #eeeed2 !important;
 }
 
-/* Petak Gelap */
 .square.dark {
     background-color: #769656 !important;
 }
 
-/* Petak Terpilih (Selected Square) */
 .square.selected {
     background-color: #baca44 !important;
 }
 
-/* Highlight Petak Asal dan Tujuan Langkah Terakhir (Last Move) */
 .square.last-move {
     background-color: #f7f769 !important;
 }
 
-/* Indicator Titik Langkah yang Boleh Dipilih (Possible Move) */
 .square.possible-move::after {
     content: '';
     width: 16px;
     height: 16px;
-    background-color: rgba(20, 85, 30, 0.4); /* Lingkaran hijau transparan */
+    background-color: rgba(20, 85, 30, 0.4);
     border-radius: 50%;
 }
 
-/* Bidak Putih: Diberi outline/bayangan gelap tebal agar garis bentuk bidak terlihat jelas */
-.piece-white {
-    color: #ffffff !important;
-    text-shadow: 
-        1px 1px 0 #312e2b,
-       -1px 1px 0 #312e2b,
-        1px -1px 0 #312e2b,
-       -1px -1px 0 #312e2b,
-        0px 2px 4px rgba(0, 0, 0, 0.5) !important;
+/* Style Gambar Bidak Vector */
+.piece-img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
-/* Bidak Hitam: Diberi sedikit lis putih tipis agar kontras di petak hijau gelap */
-.piece-black {
-    color: #312e2b !important;
-    text-shadow: 
-        0.5px 0.5px 0 #ffffff,
-       -0.5px 0.5px 0 #ffffff,
-        0.5px -0.5px 0 #ffffff,
-       -0.5px -0.5px 0 #ffffff !important;
-}
 
 /* Modal Pop-up */
 .modal-overlay {
