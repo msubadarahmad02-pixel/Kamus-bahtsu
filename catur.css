@@ -74,7 +74,7 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 15px;
-    background: #ffffff;
+    background: transparent;
     padding: 10px;
     border-radius: 12px;
     border: 1px solid #d88998;
@@ -90,7 +90,9 @@ body {
     text-align: center;
     font-weight: bold;
     color: #5d4037;
+    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparan agar teks di dalam kolom tetap terbaca jelas */
 }
+
 
 #room-id:focus {
     border-color: #c2185b;
