@@ -64,7 +64,7 @@ body {
 }
 
 #turn {
-    color: #c2185b;
+    color: #ffffff;
 }
 
 /* --- BARU: STYLE ROOM PANEL --- */
@@ -77,7 +77,7 @@ body {
     background: transparent;
     padding: 10px;
     border-radius: 12px;
-    border: 1px solid #d88998;
+    border: 1px solid #ffffff;
 }
 
 #room-id {
@@ -117,7 +117,7 @@ body {
 
 /* Tombol Biasa */
 .btn-small {
-    background-color: #8b4513;
+    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparan agar teks di dalam kolom tetap terbaca jelas */
     color: #ffffff;
     border: 1px solid #ffffff;
     padding: 8px 12px;
