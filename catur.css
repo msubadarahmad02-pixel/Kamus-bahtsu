@@ -209,6 +209,26 @@ body {
 }
 
 
+/* Bidak Putih: Diberi outline/bayangan gelap tebal agar garis bentuk bidak terlihat jelas */
+.piece-white {
+    color: #ffffff !important;
+    text-shadow: 
+        1px 1px 0 #312e2b,
+       -1px 1px 0 #312e2b,
+        1px -1px 0 #312e2b,
+       -1px -1px 0 #312e2b,
+        0px 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Bidak Hitam: Diberi sedikit lis putih tipis agar kontras di petak hijau gelap */
+.piece-black {
+    color: #312e2b !important;
+    text-shadow: 
+        0.5px 0.5px 0 #ffffff,
+       -0.5px 0.5px 0 #ffffff,
+        0.5px -0.5px 0 #ffffff,
+       -0.5px -0.5px 0 #ffffff !important;
+}
 
 /* Modal Pop-up */
 .modal-overlay {
