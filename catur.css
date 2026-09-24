@@ -52,7 +52,7 @@ body {
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.6); 
     padding: 10px 15px;
     border-radius: 12px;
     border: 1px solid #d88998;
@@ -74,7 +74,7 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 15px;
-    background: transparent;
+    background-color: rgba(255, 255, 255, 0.6); 
     padding: 10px;
     border-radius: 12px;
     border: 1px solid #ffffff;
