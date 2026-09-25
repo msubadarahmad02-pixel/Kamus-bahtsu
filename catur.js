@@ -962,3 +962,32 @@ if (lockButton) {
         }
     });
 }
+
+if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+        // 1. Cek Kunci Tombol (Fitur Gembok)
+        if (typeof isLocked !== 'undefined' && isLocked) {
+            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu untuk mulai ulang.");
+            return;
+        }
+
+        // 2. Blokir Total Reset Saat Bermain Online
+        if (currentRoomId) {
+            showAlert("masih main! jangan curang kak😝");
+            return;
+        }
+
+        // 3. Reset Hanya untuk Mode Offline / Komputer
+        const currentCompMode = isComputerMode;
+        initGame(false); // Reset papan ke posisi awal
+
+        // Jika sebelumnya mode komputer, aktifkan kembali mode komputernya
+        if (currentCompMode) {
+            isComputerMode = true;
+            playerColor = 'white';
+            showAlert("Permainan lawan komputer diulang!");
+        } else {
+            showAlert("Papan catur berhasil di-reset!");
+        }
+    });
+}
