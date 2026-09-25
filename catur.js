@@ -814,52 +814,6 @@ if (copyButton) {
     });
 }
 
-// Restore Room jika Browser Direfresh
-async function checkAndRestoreRoom() {
-    const savedRoomId = localStorage.getItem('active_room_id');
-    const savedColor = localStorage.getItem('active_player_color');
-
-    if (savedRoomId && savedColor) {
-        const { data } = await supabaseClient
-            .from('catur_rooms')
-            .select('*')
-            .eq('room_id', savedRoomId)
-            .single();
-
-        if (data) {
-            currentRoomId = savedRoomId;
-            playerColor = savedColor;
-            if (roomIdInput) roomIdInput.value = savedRoomId;
-
-            boardState = typeof data.board_state === 'string' ? JSON.parse(data.board_state) : data.board_state;
-            currentTurn = data.current_turn;
-            gameStatus = data.status || 'playing';
-            
-            if (data.last_move) {
-                lastMove = typeof data.last_move === 'string' ? JSON.parse(data.last_move) : data.last_move;
-            }
-
-            if (data.has_moved) {
-                hasMoved = typeof data.has_moved === 'string' ? JSON.parse(data.has_moved) : data.has_moved;
-            }
-
-            if (data.en_passant) {
-                try {
-                    const parsed = typeof data.en_passant === 'string' ? JSON.parse(data.en_passant) : data.en_passant;
-                    enPassantTarget = (parsed && typeof parsed === 'object') ? parsed : null;
-                } catch (e) {
-                    enPassantTarget = null;
-                }
-            } else {
-                enPassantTarget = null;
-            }
-
-            listenToRoom(savedRoomId);
-            updateTurnUI();
-            return;
-        }
-    }
-}
 
 // Restore Room jika Browser Direfresh (Versi Baru)
 async function checkAndRestoreRoom() {
