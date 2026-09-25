@@ -730,17 +730,46 @@ function listenToRoom(roomId) {
 
 if (vsComputerBtn) {
     vsComputerBtn.addEventListener('click', () => {
-        if (isLocked) return;
+        if (typeof isLocked !== 'undefined' && isLocked) {
+            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu untuk mengubah mode.");
+            return;
+        }
 
-        // Panggil initGame dengan parameter isVsComp = true
+        // 1. Jika Mode Komputer SEDANG AKTIF, matikan mode komputer (Kembali ke Lokal 2 Pemain)
+        if (isComputerMode) {
+            initGame(false, false); // Param ke-2 false: matikan isComputerMode
+            
+            // Ubah tampilan visual tombol (opsional, misalnya lepas kelas 'active')
+            vsComputerBtn.classList.remove('active');
+            
+            showAlert("Mode Lawan Komputer dimatikan. Kembali ke Mode Lokal 2 Pemain!");
+            return;
+        }
+
+        // 2. Jika Mode Komputer SEDANG MATI, aktifkan mode komputer
+        // Putuskan koneksi dari Room Supabase jika ada
+        if (activeChannel) {
+            supabaseClient.removeChannel(activeChannel);
+            activeChannel = null;
+        }
+        currentRoomId = null;
+        localStorage.removeItem('active_room_id');
+        localStorage.removeItem('active_player_color');
+        if (roomIdInput) roomIdInput.value = '';
+
+        // Reset game & aktifkan mode komputer (Param ke-2 true: aktifkan isComputerMode)
         initGame(false, true);
 
         playerColor = 'white';
-        updateTurnUI(); // Perbarui UI giliran secara presisi
-        
+        updateTurnUI();
+
+        // Ubah tampilan visual tombol (opsional, misalnya tambah kelas 'active')
+        vsComputerBtn.classList.add('active');
+
         showAlert("Mode Lawan Komputer Aktif! Kamu bermain sebagai PUTIH.");
     });
 }
+
 
 
 let aiWorker = null;
