@@ -186,12 +186,12 @@ body {
 
 /* Last Move di atas petak gelap (Hijau): Menggunakan percampuran Kuning-Hijau Transparan */
 .square.dark.last-move {
-    background-color: rgba(186, 202, 68, 0.85) !important;
+    background-color: rgba(186, 202, 68, 0.55) !important;
 }
 
 /* Last Move di atas petak terang (Krem): Menggunakan warna Krem-Kuning Transparan */
 .square.light.last-move {
-    background-color: rgba(247, 247, 105, 0.85) !important;
+    background-color: rgba(247, 247, 105, 0.55) !important;
 }
 
 /* --- PETAK TERPILIH (SELECTED) --- */
