@@ -933,11 +933,7 @@ async function startApp() {
 startApp();
 
 
-// Deklarasi Variabel Kunci
-let isLocked = false;
-const lockButton = document.getElementById('lockButton');
-
-// Fitur Tombol Kunci (Lock/Unlock)
+// Fitur Tombol Kunci (Tanpa Alert Pop-Up)
 if (lockButton) {
     lockButton.addEventListener('click', () => {
         isLocked = !isLocked;
@@ -953,15 +949,14 @@ if (lockButton) {
             lockButton.classList.add('locked');
             lockButton.innerHTML = '<i class="fas fa-lock"></i>';
             lockButton.title = "Buka Kunci Tombol";
-            showAlert("Tombol kontrol telah dikunci!");
         } else {
             lockButton.classList.remove('locked');
             lockButton.innerHTML = '<i class="fas fa-lock-open"></i>';
             lockButton.title = "Kunci Tombol";
-            showAlert("Kunci tombol dibuka.");
         }
     });
 }
+
 
 if (resetBtn) {
     resetBtn.addEventListener('click', () => {
