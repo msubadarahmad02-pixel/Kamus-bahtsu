@@ -892,13 +892,16 @@ if (lockButton) {
     lockButton.addEventListener('click', () => {
         isLocked = !isLocked;
 
-        // Daftar tombol yang akan dikunci/dinonaktifkan
+        // Daftar tombol yang di-nonaktifkan saat terkunci
         const buttonsToToggle = [resetBtn, createRoomBtn, vsComputerBtn, joinRoomBtn];
 
         buttonsToToggle.forEach(btn => {
-            if (btn) btn.disabled = isLocked;
+            if (btn) {
+                btn.disabled = isLocked;
+            }
         });
 
+        // Ubah tampilan visual tombol gembok
         if (isLocked) {
             lockButton.classList.add('locked');
             lockButton.innerHTML = '<i class="fas fa-lock"></i>';
