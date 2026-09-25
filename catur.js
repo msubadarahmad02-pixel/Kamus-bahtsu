@@ -1,4 +1,5 @@
 let isComputerMode = false;
+let isLocked = false;
 const vsComputerBtn = document.getElementById('vs-computer-btn');
 
 // KONEKSI SUPABASE
@@ -724,9 +725,11 @@ function listenToRoom(roomId) {
         .subscribe();
 }
 
-// Mode Komputer
+// Mode Komputer (Tambahkan pengecekan lock)
 if (vsComputerBtn) {
     vsComputerBtn.addEventListener('click', () => {
+        if (isLocked) return; // Mencegah klik jika terkunci
+
         if (activeChannel) {
             supabaseClient.removeChannel(activeChannel);
             activeChannel = null;
@@ -887,17 +890,19 @@ async function startApp() {
 startApp();
 
 
-// Fitur Tombol Kunci (Tanpa Alert Pop-Up)
+// Fitur Tombol Kunci (Lock Button)
 if (lockButton) {
     lockButton.addEventListener('click', () => {
         isLocked = !isLocked;
 
-        // Daftar tombol yang di-nonaktifkan saat terkunci
-        const buttonsToToggle = [resetBtn, createRoomBtn, vsComputerBtn, joinRoomBtn];
+        // Daftar elemen/tombol yang di-nonaktifkan saat terkunci
+        const buttonsToToggle = [resetBtn, createRoomBtn, vsComputerBtn, joinRoomBtn, roomIdInput];
 
         buttonsToToggle.forEach(btn => {
             if (btn) {
                 btn.disabled = isLocked;
+                // Opsional: Tambahkan efek visual pointer jika diperlukan
+                btn.style.cursor = isLocked ? 'not-allowed' : 'pointer';
             }
         });
 
