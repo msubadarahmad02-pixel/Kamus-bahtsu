@@ -189,7 +189,7 @@ body {
 
 /* Khusus jika petak last-move berada di atas petak gelap (hijau) */
 .square.dark.last-move {
-    background-color: rgba(255, 255, 255, 0.6);  /* Warna olive/kuning-hijau khas Chess.com */
+    background-color: rgba(247, 247, 105, 0.8);  /* Warna olive/kuning-hijau khas Chess.com */
 }
 
 /* Khusus jika petak last-move berada di atas petak terang (krem) */
