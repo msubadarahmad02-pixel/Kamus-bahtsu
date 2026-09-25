@@ -182,27 +182,25 @@ body {
     background-color: #769656 !important;
 }
 
-/* Highlight Petak Asal dan Tujuan Langkah Terakhir (Persis Chess.com) */
-.square.last-move {
-    background-color: rgba(247, 247, 105, 0.8) !important; /* Yellow soft transparan */
-}
+/* --- LAST MOVE (Dibuat Beda Antara Petak Gelap & Terang) --- */
 
-/* Khusus jika petak last-move berada di atas petak gelap (hijau) */
+/* Last Move di atas petak gelap (Hijau): Menggunakan percampuran Kuning-Hijau Transparan */
 .square.dark.last-move {
-    background-color: rgba(247, 247, 105, 0.8) !important;  /* Warna olive/kuning-hijau khas Chess.com */
+    background-color: rgba(186, 202, 68, 0.85) !important;
 }
 
-/* Khusus jika petak last-move berada di atas petak terang (krem) */
+/* Last Move di atas petak terang (Krem): Menggunakan warna Krem-Kuning Transparan */
 .square.light.last-move {
-    background-color: rgba(255, 255, 255, 0.6) !important;  /* Warna kuning terang Chess.com */
+    background-color: rgba(247, 247, 105, 0.85) !important;
 }
 
-/* Petak Terpilih (Saat Bidak Diklik) */
+/* --- PETAK TERPILIH (SELECTED) --- */
+/* Diberi efek Putih Transparan (Krim Soft) agar kontras dengan Last Move */
 .square.selected {
-    background-color: rgba(255, 255, 255, 0.6) !important;  
+    background-color: rgba(255, 255, 255, 0.55) !important;  
 }
 
-
+/* --- INDIKATOR Arah Langkah (POSSIBLE MOVE) --- */
 .square.possible-move::after {
     content: '';
     width: 16px;
