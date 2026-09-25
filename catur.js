@@ -84,8 +84,8 @@ window.closeAlert = function() {
     if (customAlert) customAlert.classList.remove('show');
 };
 
-// Inisialisasi Permainan
-function initGame(keepRoom = false) {
+// Tambahkan parameter isVsComp (default = false)
+function initGame(keepRoom = false, isVsComp = false) {
     boardState = cloneBoard(initialBoard);
     currentTurn = 'white';
     selectedSquare = null;
@@ -98,7 +98,9 @@ function initGame(keepRoom = false) {
         'K': false, 'R_k': false, 'R_q': false,
         'k': false, 'r_k': false, 'r_q': false
     };
-    isComputerMode = false;
+
+    // Set nilai isComputerMode sesuai parameter yang dikirim
+    isComputerMode = isVsComp;
 
     if (!keepRoom) {
         if (activeChannel) {
@@ -115,6 +117,7 @@ function initGame(keepRoom = false) {
     if (turnElement) turnElement.textContent = 'Putih';
     renderBoard();
 }
+
 
 function renderBoard() {
     if (!boardElement) return;
@@ -725,26 +728,20 @@ function listenToRoom(roomId) {
         .subscribe();
 }
 
-// Mode Komputer (Tambahkan pengecekan lock)
 if (vsComputerBtn) {
     vsComputerBtn.addEventListener('click', () => {
-        if (isLocked) return; // Mencegah klik jika terkunci
+        if (isLocked) return;
 
-        if (activeChannel) {
-            supabaseClient.removeChannel(activeChannel);
-            activeChannel = null;
-        }
-        currentRoomId = null;
-        localStorage.removeItem('active_room_id');
-        localStorage.removeItem('active_player_color');
-        if (roomIdInput) roomIdInput.value = '';
+        // Panggil initGame dengan parameter isVsComp = true
+        initGame(false, true);
 
-        initGame(false);
-        isComputerMode = true;
         playerColor = 'white';
+        updateTurnUI(); // Perbarui UI giliran secara presisi
+        
         showAlert("Mode Lawan Komputer Aktif! Kamu bermain sebagai PUTIH.");
     });
 }
+
 
 let aiWorker = null;
 if (window.Worker) {
