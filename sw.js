@@ -1,12 +1,11 @@
 const CACHE_NAME = 'pena-kanza-v1';
-const DYNAMIC_CACHE = 'pena-kanza-dynamic-v1';
+const DYNAMIC_CACHE = 'pena-kanza-dynamic-v3';
+const QURAN_CACHE = 'quran-images-v3'; // Cache khusus untuk gambar Qur'an
 
-// Daftar semua file HTML, CSS, JS, JSON dari repository + icon.png
 const ASSETS_TO_CACHE = [
   './',
   './icon.png',
   './img/img19.jpg',
-  // File HTML
   './index.html',
   './alquran.html',
   './baca_quran.html',
@@ -23,8 +22,6 @@ const ASSETS_TO_CACHE = [
   './catur.html',
   './tambah_rumusan.html',
   './tambah_sholawat.html',
-
-  // File CSS
   './styles.css',
   './alquran.css',
   './curhat.css',
@@ -35,8 +32,6 @@ const ASSETS_TO_CACHE = [
   './catur.css',
   './tambah_rumusan.css',
   './tambah_sholawat.css',
-
-  // File JS
   './script.js',
   './alquran.js',
   './baca_quran.js',
@@ -49,26 +44,19 @@ const ASSETS_TO_CACHE = [
   './ai-worker.js',
   './tambah_rumusan.js',
   './tambah_sholawat.js',
-
-  // File JSON
   './rumusan_data.json',
   './data_sholawat.json',
   './kitab_bajuri.json',
   './kitab_sharqawi.json',
   './lain_lain.json',
-
-    // Font & FontAwesome External (Menggunakan Request no-cors agar tidak terblokir)
   new Request('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css', { mode: 'no-cors' }),
   new Request('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap', { mode: 'no-cors' })
 ];
 
-
-// 1. Install Service Worker & Simpan Aset Utama (Versi Aman Offline)
+// Install Service Worker
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('[Service Worker] Menyimpan seluruh aset ke cache...');
-      // Menggunakan Promise.allSettled agar jika 1 file error/404, file lain tetap tersimpan
       await Promise.allSettled(
         ASSETS_TO_CACHE.map(url => 
           cache.add(url).catch(err => console.error(`Gagal menyimpan cache: ${url}`, err))
@@ -79,15 +67,13 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-
-// 2. Aktivasi & Hapus Cache Lama
+// Aktivasi & Hapus Cache Lama
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME && key !== DYNAMIC_CACHE) {
-            console.log('[Service Worker] Menghapus cache lama:', key);
+          if (key !== CACHE_NAME && key !== DYNAMIC_CACHE && key !== QURAN_CACHE) {
             return caches.delete(key);
           }
         })
@@ -97,20 +83,37 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-
-// 3. Fetch (Strategi Network First untuk File Aplikasi)
+// Fetch Handling
 self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
+  if (event.request.url.includes('supabase.co')) return;
 
-  // Jangan sentuh/cache permintaan ke Supabase sama sekali
-  if (event.request.url.includes('supabase.co')) {
+  const requestUrl = event.request.url;
+
+    // 1. STRATEGI GAMBAR QUR'AN (Cache First)
+  if (requestUrl.includes('releases/download/v1.0/')) {
+    event.respondWith(
+      caches.open(QURAN_CACHE).then((cache) => {
+        return cache.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) return cachedResponse;
+          return fetch(event.request).then((networkResponse) => {
+            // Izinkan status 200 (normal) ATAU status 0 / opaque (untuk gambar beda domain)
+            if (networkResponse && (networkResponse.status === 200 || networkResponse.status === 0 || networkResponse.type === 'opaque')) {
+              cache.put(event.request, networkResponse.clone());
+            }
+            return networkResponse;
+          });
+        });
+      })
+    );
     return;
   }
 
+
+  // 2. STRATEGI ASET KONTEN (Stale-While-Revalidate / Cache First dengan Update Background)
   event.respondWith(
-    // Utamakan mengambil dari Network (Internet) dulu agar selalu dapat versi terbaru
-    fetch(event.request)
-      .then((networkResponse) => {
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(DYNAMIC_CACHE).then((cache) => {
@@ -118,10 +121,10 @@ self.addEventListener('fetch', (event) => {
           });
         }
         return networkResponse;
-      })
-      .catch(() => {
-        // Jika sedang OFFLINE, baru ambil dari Cache HP
-        return caches.match(event.request, { ignoreSearch: true });
-      })
+      }).catch(() => {/* Ignore fetch error saat offline */});
+
+      // Utamakan Cache jika ada, jika tidak ada baru ambil dari Network
+      return cachedResponse || fetchPromise;
+    })
   );
 });
