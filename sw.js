@@ -1,5 +1,5 @@
 const CACHE_NAME = 'pena-kanza-v1';
-const DYNAMIC_CACHE = 'pena-kanza-dynamic-v3';
+const DYNAMIC_CACHE = 'pena-kanza-dynamic-v1';
 const QURAN_CACHE = 'quran-images-v3'; // Cache khusus untuk gambar Qur'an
 
 const ASSETS_TO_CACHE = [
@@ -90,14 +90,13 @@ self.addEventListener('fetch', (event) => {
 
   const requestUrl = event.request.url;
 
-    // 1. STRATEGI GAMBAR QUR'AN (Cache First)
+  // 1. STRATEGI GAMBAR QUR'AN GITHUB (Cache First: Hemat Kuota & Bisa Offline)
   if (requestUrl.includes('releases/download/v1.0/')) {
     event.respondWith(
       caches.open(QURAN_CACHE).then((cache) => {
         return cache.match(event.request).then((cachedResponse) => {
           if (cachedResponse) return cachedResponse;
           return fetch(event.request).then((networkResponse) => {
-            // Izinkan status 200 (normal) ATAU status 0 / opaque (untuk gambar beda domain)
             if (networkResponse && (networkResponse.status === 200 || networkResponse.status === 0 || networkResponse.type === 'opaque')) {
               cache.put(event.request, networkResponse.clone());
             }
@@ -109,11 +108,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-
-  // 2. STRATEGI ASET KONTEN (Stale-While-Revalidate / Cache First dengan Update Background)
+  // 2. STRATEGI KODE APLIKASI & JSON (Network First: Kodingan Baru Langsung Ter-update)
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
+    fetch(event.request)
+      .then((networkResponse) => {
+        // Jika online & sukses, simpan versi terbaru ke cache
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(DYNAMIC_CACHE).then((cache) => {
@@ -121,10 +120,10 @@ self.addEventListener('fetch', (event) => {
           });
         }
         return networkResponse;
-      }).catch(() => {/* Ignore fetch error saat offline */});
-
-      // Utamakan Cache jika ada, jika tidak ada baru ambil dari Network
-      return cachedResponse || fetchPromise;
-    })
+      })
+      .catch(() => {
+        // JIKA OFFLINE: Ambil dari cache lokal agar tidak error
+        return caches.match(event.request, { ignoreSearch: true });
+      })
   );
 });
