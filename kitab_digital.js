@@ -1,10 +1,11 @@
 // 1. DEKLARASI DAFTAR KITAB & FILE DATABASE
 const daftarKitab = {
-  bajuri: { nama: "باجوري١", file: "kitab_bajuri1.json", data: [] },
-    bajuri: { nama: "باجوري٢", file: "kitab_bajuri.json", data: [] },
-    sarqowi1: { nama: "شرقاوي١", file: "kitab_sarqowi1.json", data: [] },
-    sarqowi: { nama: "شرقاوي٢", file: "kitab_sarqowi.json", data: [] }
+  bajuri: { nama: "باجوري١", file: "kitab_bajuri1.json", data: [] }, // Key 'bajuri' 1
+  bajuri: { nama: "باجوري٢", file: "kitab_bajuri.json", data: [] },  // Key 'bajuri' bertumpuk
+  sarqowi1: { nama: "شرقاوي١", file: "kitab_sarqowi1.json", data: [] },
+  sarqowi: { nama: "شرقاوي٢", file: "kitab_sarqowi.json", data: [] }
 };
+
 
 // 2. MEMUAT SEMUA DATA JSON SAAT APLIKASI DI AWALI
 async function loadSemuaKitab() {
