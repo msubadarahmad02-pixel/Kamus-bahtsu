@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <div class="container">
+   <div class="container">
     <span class="back-button" onclick="history.back()">KANZA28</span>
     <h1 class="title" id="kategoriTitle"></h1>
 
@@ -19,82 +19,70 @@
 </div>
 
 
+<script src="daftar_rumusan.js"></script>
+
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const kategori = urlParams.get('kategori'); // Ambil kategori dari URL
+    const kategori = urlParams.get('kategori');
 
     const titleElement = document.getElementById('kategoriTitle');
     const rumusanListElement = document.getElementById('rumusanList');
     
     if (kategori) {
-        // Set judul halaman
         titleElement.textContent = kategori;
         document.getElementById('pageTitle').textContent = kategori + ' - Kamus Bahtsu Kanza';
 
-        // 1. Ambil data dari file JSON
-        fetch('rumusan_data.json')
-            .then(response => response.json())
-            .then(data => {
-               // 2. Filter rumusan berdasarkan kategori dan urutkan sesuai abjad judul_pendek
-const filteredRumusan = data
-    .filter(item => item.kategori === kategori)
-    .sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
+        muatSemuaDataRumusan().then(data => {
+            const filteredRumusan = data
+                .filter(item => item.kategori === kategori)
+                .sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
 
-                if (filteredRumusan.length === 0) {
-                    rumusanListElement.innerHTML = '<p style="text-align: center; color: #795548;">Belum ada rumusan dalam kategori ini.</p>';
-                    return;
-                }
+            if (filteredRumusan.length === 0) {
+                rumusanListElement.innerHTML = '<p style="text-align: center; color: #795548;">Belum ada rumusan dalam kategori ini.</p>';
+                return;
+            }
 
-                // 3. Buat elemen HTML untuk setiap rumusan
-                filteredRumusan.forEach(item => {
-                    const itemElement = document.createElement('div');
-                    itemElement.classList.add('menu-item'); // Menggunakan kelas yang mirip dengan menu sebelumnya
-                    
-                    itemElement.innerHTML = `
-                        <i class="fas fa-heart"></i>
-                        <span>${item.judul_pendek}</span>
-                    `;
-                    
-                    // Tambahkan fungsi klik untuk mengarahkan ke halaman detail
-                    itemElement.addEventListener('click', () => {
-                        // Mengirim ID rumusan via URL
-                        window.location.href = `detail_rumusan.html?id=${encodeURIComponent(item.id)}`;
-                    });
-
-                    rumusanListElement.appendChild(itemElement);
+            filteredRumusan.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('menu-item');
+                
+                itemElement.innerHTML = `
+                    <i class="fas fa-heart"></i>
+                    <span>${item.judul_pendek}</span>
+                `;
+                
+                itemElement.addEventListener('click', () => {
+                    window.location.href = `Detail_Rumusan.html?id=${encodeURIComponent(item.id)}`;
                 });
-            })
-            .catch(error => {
-                console.error('Error memuat data:', error);
-                rumusanListElement.innerHTML = '<p>Error: Gagal memuat daftar rumusan.</p>';
+
+                rumusanListElement.appendChild(itemElement);
             });
+        }).catch(error => {
+            console.error('Error memuat data:', error);
+            rumusanListElement.innerHTML = '<p>Error: Gagal memuat daftar rumusan.</p>';
+        });
     } else {
-        // Jika tidak ada kategori di URL
         titleElement.textContent = 'Kategori Tidak Ditemukan';
         rumusanListElement.innerHTML = '<p style="text-align: center; color: #795548;">Silakan kembali ke Daftar Rumusan Utama.</p>';
     }
-
-    // === KODE UNTUK FITUR PENCARIAN RUMUSAN BY KATEGORI ===
+    
     const filterRumusanInput = document.getElementById('filterRumusanInput');
 
     filterRumusanInput.addEventListener('input', function() {
-        const kataKunci = this.value.toLowerCase(); // Ambil input & ubah ke huruf kecil
-        const daftarRumusan = document.querySelectorAll('.menu-item'); // Ambil semua item rumusan
+        const kataKunci = this.value.toLowerCase();
+        const daftarRumusan = document.querySelectorAll('.menu-item');
 
         daftarRumusan.forEach(item => {
             const judulRumusan = item.textContent.toLowerCase();
-            
-            // Jika judul cocok dengan kata kunci, tampilkan. Jika tidak, sembunyikan.
             if (judulRumusan.includes(kataKunci)) {
-                item.style.display = 'flex'; // Tetap 'flex' agar ikon & teks sejajar
+                item.style.display = 'flex';
             } else {
                 item.style.display = 'none';
             }
         });
     });
-
-    
 </script>
+
 
 </body>
 </html>
