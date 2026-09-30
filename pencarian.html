@@ -36,28 +36,24 @@
         <div class="menu-list" id="searchResults"></div>
     </div>
 
+<<script src="daftar_rumusan.js"></script>
+
 <script>
     const searchInput = document.getElementById('globalSearch');
     const resultsContainer = document.getElementById('searchResults');
     const countContainer = document.getElementById('countResult');
     let allData = [];
 
-    // Fungsi hapus harakat dan normalisasi Alif
     function removeDiacritics(text) {
-        // 1. Menghapus harakat
         let bersih = text.replace(/[\u064B-\u0652]/g, "");
-        
-        // 2. Menyamakan semua variasi Alif (أ, إ, آ) menjadi Alif biasa (ا)
         bersih = bersih.replace(/[\u0622\u0623\u0625]/g, "ا");
-        
         return bersih;
     }
 
-
-    fetch('rumusan_data.json')
-        .then(res => res.json())
-        .then(data => { allData = data; })
-        .catch(err => console.error("Gagal memuat data", err));
+    // Memuat seluruh data dari semua JSON
+    muatSemuaDataRumusan().then(data => {
+        allData = data;
+    });
 
     searchInput.addEventListener('input', (e) => {
         const keyword = e.target.value.trim();
@@ -70,13 +66,12 @@
         }
 
         const filtered = allData.filter(item => {
-            const content = `${item.judul_pendek} ${item.deskripsi} ${item.pertanyaan} ${item.jawaban} ${item.referensi.join(' ')}`;
+            const refText = item.referensi ? item.referensi.join(' ') : '';
+            const content = `${item.judul_pendek} ${item.deskripsi} ${item.pertanyaan} ${item.jawaban} ${refText}`;
             return removeDiacritics(content.toLowerCase()).includes(cleanKey);
         });
 
-          // TAMBAHKAN BARIS DI BAWAH INI UNTUK MENGURUTKAN ABJAD
-filtered.sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
-
+        filtered.sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
         displayResults(filtered, keyword);
     });
 
@@ -88,8 +83,8 @@ filtered.sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
             const div = document.createElement('div');
             div.className = 'menu-item';
             
-            // Membuat cuplikan teks
-            const fullText = `${item.deskripsi} ${item.pertanyaan} ${item.jawaban} ${item.referensi.join(' ')}`;
+            const refText = item.referensi ? item.referensi.join(' ') : '';
+            const fullText = `${item.deskripsi} ${item.pertanyaan} ${item.jawaban} ${refText}`;
             const cleanFullText = removeDiacritics(fullText.toLowerCase());
             const cleanKey = removeDiacritics(key.toLowerCase());
             const index = cleanFullText.indexOf(cleanKey);
@@ -110,11 +105,12 @@ filtered.sort((a, b) => a.judul_pendek.localeCompare(b.judul_pendek));
             `;
             
             div.onclick = () => {
-                window.location.href = `detail_rumusan.html?id=${encodeURIComponent(item.id)}&highlight=${encodeURIComponent(key)}`;
+                window.location.href = `Detail_Rumusan.html?id=${encodeURIComponent(item.id)}&highlight=${encodeURIComponent(key)}`;
             };
             resultsContainer.appendChild(div);
         });
     }
 </script>
+
 </body>
 </html>
