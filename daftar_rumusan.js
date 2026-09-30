@@ -4,9 +4,10 @@
 // cukup tambahkan nama filenya di dalam array ini.
 // ==========================================
 const LIST_FILE_RUMUSAN = [
-    'rumusan_data.json',
-    'rumusan_data2.json',
-    'rumusan_data3.json'
+    'json/rumusan_data.json',
+    'json/rumusan_data2.json',
+    'json/rumusan_data3.json',
+    'json/rumusan_data4.json'
 ];
 
 // Fungsi otomatis untuk mengambil & menggabungkan semua data dari file JSON di atas
