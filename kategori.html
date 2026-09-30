@@ -21,73 +21,60 @@
 
     </div>
 
+<!-- Hubungkan file daftar_rumusan.js di atas tag script utama -->
+<script src="daftar_rumusan.js"></script>
+
 <script>
     const kategoriListElement = document.getElementById('kategoriList');
 
-    // 1. Ambil data dari file JSON
-    fetch('rumusan_data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Gagal memuat rumusan_data.json');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 2. Ekstrak daftar kategori unik dan urutkan sesuai abjad
-const kategoriUnik = [...new Set(data.map(item => item.kategori))].sort((a, b) => a.localeCompare(b));
+    // Ambil gabungan semua data JSON
+    muatSemuaDataRumusan().then(data => {
+        const kategoriUnik = [...new Set(data.map(item => item.kategori))].sort((a, b) => a.localeCompare(b));
 
-            // 3. Buat elemen HTML untuk setiap kategori
-            kategoriUnik.forEach(kategori => {
-                const itemElement = document.createElement('div');
-                itemElement.classList.add('rumusan-item');
-                
-                // Tambahkan ID ke elemen, agar mudah dikenali
-                itemElement.id = `kategori-${kategori.replace(/\s/g, '_')}`; 
-                
-                itemElement.innerHTML = `
-                    <i class="fas fa-heart"></i>
-                    <span>${kategori}</span>
-                `;
-                
-                // Tambahkan fungsi klik untuk mengarahkan ke daftar rumusan kategori
-                itemElement.addEventListener('click', () => {
-                    // Mengirim nama kategori via URL (Query Parameter)
-                    window.location.href = `daftar_rumusan_by_kategori.html?kategori=${encodeURIComponent(kategori)}`;
-                });
-
-                kategoriListElement.appendChild(itemElement);
-            });
-        })
-        .catch(error => {
-            console.error('Error memuat atau memproses data:', error);
-            kategoriListElement.innerHTML = '<p>Error: Gagal memuat daftar kategori.</p>';
-        });
-
-// === KODE UNTUK FITUR PENCARIAN/FILTER KATEGORI ===
-const filterInput = document.getElementById('filterInput');
-
-filterInput.addEventListener('input', function() {
-    // Ambil teks yang diketik user dan ubah ke huruf kecil
-    const kataKunci = this.value.toLowerCase(); 
-    
-    // Ambil semua elemen kategori yang sudah di-generate
-    const daftarKategori = document.querySelectorAll('.rumusan-item'); 
-
-    // Lakukan perulangan untuk mengecek setiap kategori
-    daftarKategori.forEach(item => {
-        const namaKategori = item.textContent.toLowerCase(); 
-        
-        // Jika nama kategori mengandung kata kunci yang diketik
-        if (namaKategori.includes(kataKunci)) {
-            item.style.display = 'flex'; // Tampilkan (menggunakan 'flex' agar ikon dan teks tetap sejajar sesuai CSS)
-        } else {
-            item.style.display = 'none'; // Sembunyikan jika tidak cocok
+        if (kategoriUnik.length === 0) {
+            kategoriListElement.innerHTML = '<p style="text-align: center; color: #795548;">Belum ada data kategori.</p>';
+            return;
         }
-    });
-});
 
-    
+        kategoriUnik.forEach(kategori => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('rumusan-item');
+            itemElement.id = `kategori-${kategori.replace(/\s/g, '_')}`; 
+            
+            itemElement.innerHTML = `
+                <i class="fas fa-heart"></i>
+                <span>${kategori}</span>
+            `;
+            
+            itemElement.addEventListener('click', () => {
+                window.location.href = `Daftar_Rumusan_by_Kategori.html?kategori=${encodeURIComponent(kategori)}`;
+            });
+
+            kategoriListElement.appendChild(itemElement);
+        });
+    }).catch(error => {
+        console.error('Error memuat data:', error);
+        kategoriListElement.innerHTML = '<p>Error: Gagal memuat daftar kategori.</p>';
+    });
+        
+    // === FITUR PENCARIAN/FILTER KATEGORI ===
+    const filterInput = document.getElementById('filterInput');
+
+    filterInput.addEventListener('input', function() {
+        const kataKunci = this.value.toLowerCase(); 
+        const daftarKategori = document.querySelectorAll('.rumusan-item'); 
+
+        daftarKategori.forEach(item => {
+            const namaKategori = item.textContent.toLowerCase(); 
+            if (namaKategori.includes(kataKunci)) {
+                item.style.display = 'flex'; 
+            } else {
+                item.style.display = 'none'; 
+            }
+        });
+    });
 </script>
+
 
 </body>
 </html>
