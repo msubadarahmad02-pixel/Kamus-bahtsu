@@ -1001,3 +1001,48 @@ if (resetBtn) {
         }
     });
 }
+
+// ===================================================
+// FITUR KUSTOMISASI WARNA PAPAN
+// ===================================================
+const pickerLight = document.getElementById('picker-light');
+const pickerDark = document.getElementById('picker-dark');
+
+function setBoardColors(lightColor, darkColor) {
+    document.documentElement.style.setProperty('--square-light-color', lightColor);
+    document.documentElement.style.setProperty('--square-dark-color', darkColor);
+    
+    if (pickerLight) pickerLight.value = lightColor;
+    if (pickerDark) pickerDark.value = darkColor;
+
+    localStorage.setItem('chess_custom_light', lightColor);
+    localStorage.setItem('chess_custom_dark', darkColor);
+}
+
+// Muat warna dari LocalStorage jika ada
+const savedLight = localStorage.getItem('chess_custom_light') || '#eeeed2';
+const savedDark = localStorage.getItem('chess_custom_dark') || '#fdb178';
+setBoardColors(savedLight, savedDark);
+
+if (pickerLight) {
+    pickerLight.addEventListener('input', (e) => {
+        if (typeof isLocked !== 'undefined' && isLocked) {
+            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu.");
+            pickerLight.value = localStorage.getItem('chess_custom_light') || '#eeeed2';
+            return;
+        }
+        setBoardColors(e.target.value, pickerDark ? pickerDark.value : '#fdb178');
+    });
+}
+
+if (pickerDark) {
+    pickerDark.addEventListener('input', (e) => {
+        if (typeof isLocked !== 'undefined' && isLocked) {
+            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu.");
+            pickerDark.value = localStorage.getItem('chess_custom_dark') || '#fdb178';
+            return;
+        }
+        setBoardColors(pickerLight ? pickerLight.value : '#eeeed2', e.target.value);
+    });
+}
+
