@@ -173,14 +173,20 @@ body {
 .square[draggable="true"]:active {
     cursor: grabbing;
 }
-/* --- WARNA PAPAN CATUR ALA CHESS.COM --- */
+
+:root {
+    --square-light-color: #eeeed2;
+    --square-dark-color: #fdb178;
+}
+
 .square.light {
-    background-color: #eeeed2 !important;
+    background-color: var(--square-light-color) !important;
 }
 
 .square.dark {
-    background-color: #fdb178ff !important;
+    background-color: var(--square-dark-color) !important;
 }
+
 
 /* --- LAST MOVE (Dibuat Beda Antara Petak Gelap & Terang) --- */
 
@@ -398,3 +404,46 @@ button:disabled {
     cursor: not-allowed !important;
     pointer-events: none;
 }
+
+/* Styling Pemilih Warna di Bawah ID Room */
+.color-picker-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 4px;
+}
+
+.color-picker-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+.color-picker-group input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background: none;
+    outline: none;
+}
+
+.color-picker-group input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker-group input[type="color"]::-webkit-color-swatch {
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
