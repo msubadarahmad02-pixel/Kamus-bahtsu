@@ -52,7 +52,7 @@ body {
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.6); 
+    background-color: rgba(255, 255, 255, 0.3); 
     padding: 10px 15px;
     border-radius: 12px;
     border: 1px solid #ffffff;
@@ -74,7 +74,7 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 15px;
-    background-color: rgba(255, 255, 255, 0.6); 
+    background-color: rgba(255, 255, 255, 0.3); 
     padding: 10px;
     border-radius: 12px;
     border: 1px solid #ffffff;
@@ -90,7 +90,7 @@ body {
     text-align: center;
     font-weight: bold;
     color: #5d4037;
-    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparan agar teks di dalam kolom tetap terbaca jelas */
+    background-color: rgba(255, 255, 255, 0.3); /* Semi-transparan agar teks di dalam kolom tetap terbaca jelas */
 }
 
 
@@ -108,7 +108,7 @@ body {
 }
 
 .btn-join {
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .btn-join:hover {
@@ -117,7 +117,7 @@ body {
 
 /* Tombol Biasa */
 .btn-small {
-    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparan agar teks di dalam kolom tetap terbaca jelas */
+    background-color: rgba(255, 255, 255, 0.3); /* Semi-transparan agar teks di dalam kolom tetap terbaca jelas */
     color: #000000;
     border: 1px solid #ffffff;
     padding: 8px 12px;
@@ -192,18 +192,18 @@ body {
 
 /* Last Move di atas petak gelap (Hijau): Menggunakan percampuran Kuning-Hijau Transparan */
 .square.dark.last-move {
-    background-color: rgba(186, 202, 68, 0.55) !important;
+    background-color: rgba(255, 252, 255, 0.3) !important;
 }
 
 /* Last Move di atas petak terang (Krem): Menggunakan warna Krem-Kuning Transparan */
 .square.light.last-move {
-    background-color: rgba(247, 247, 105, 0.55) !important;
+    background-color: rgba(247, 247, 105, 0.3) !important;
 }
 
 /* --- PETAK TERPILIH (SELECTED) --- */
 /* Diberi efek Putih Transparan (Krim Soft) agar kontras dengan Last Move */
 .square.selected {
-    background-color: rgba(255, 255, 255, 0.55) !important;  
+    background-color: rgba(255, 255, 255, 0.3) !important;  
 }
 
 /* --- INDIKATOR Arah Langkah (POSSIBLE MOVE) --- */
