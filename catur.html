@@ -23,6 +23,13 @@
                 <button id="join-room-btn" class="btn-small btn-join">Masuk Room</button>
             </div>
 
+                    <div class="room-panel">
+            <div class="room-buttons">
+                <button id="create-room-btn" class="btn-small">Buat Room</button>
+                <button id="vs-computer-btn" class="btn-small btn-vs-comp">vs COM</button>
+                <button id="join-room-btn" class="btn-small btn-join">Masuk Room</button>
+            </div>
+
             <!-- Input dan Tombol berdampingan dalam satu baris -->
             <div class="room-id-wrapper">
                 <button id="lockButton" class="lock-button" title="Kunci Tombol">
@@ -32,21 +39,20 @@
                 <button id="copyButton" class="copy-button" title="Salin ID Room">
                     <i class="fas fa-copy"></i>
                 </button>
+            </div>
 
-                <!-- Pemilih Warna Papan -->
-                <div class="color-picker-group">
-                    <label title="Warna Petak Terang"><input type="color" id="picker-light" value="#eeeed2"></label>
-                    <label title="Warna Petak Gelap"><input type="color" id="picker-dark" value="#fdb178"></label>
-                </div>
-
+            <!-- Pemilih Warna Papan tepat di bawah ID Room -->
+            <div class="color-picker-group">
+                <label title="Warna Petak Terang"><input type="color" id="picker-light" value="#eeeed2"></label>
+                <label title="Warna Petak Gelap"><input type="color" id="picker-dark" value="#fdb178"></label>
+                
                 <!-- Tombol Buka/Tutup Chat -->
                 <button id="chat-toggle-btn" class="chat-toggle-button" title="Obrolan Online">
                     <i class="fas fa-comments"></i>
                     <span id="chat-badge" class="chat-badge hidden"></span>
                 </button>
             </div>
-        </div>
-
+                    </div>
         <!-- Papan Catur -->
         <div id="board" class="board"></div>
     </div> <!-- Tag penutup container -->
