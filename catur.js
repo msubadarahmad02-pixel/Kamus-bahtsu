@@ -681,7 +681,6 @@ if (joinRoomBtn) {
 }
 
 function listenToRoom(roomId) {
-function listenToRoom(roomId) {
     if (activeChannel) {
         supabaseClient.removeChannel(activeChannel);
     }
