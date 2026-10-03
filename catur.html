@@ -19,14 +19,7 @@
         <div class="room-panel">
             <div class="room-buttons">
                 <button id="create-room-btn" class="btn-small">Buat Room</button>
-                <button id="vs-computer-btn" class="btn-small btn-vs-comp">vs COM</button>
-                <button id="join-room-btn" class="btn-small btn-join">Masuk Room</button>
-            </div>
-
-                    <div class="room-panel">
-            <div class="room-buttons">
-                <button id="create-room-btn" class="btn-small">Buat Room</button>
-                <button id="vs-computer-btn" class="btn-small btn-vs-comp">vs COM</button>
+                <button id="vs-computer-btn" class="btn-small btn-vs-comp">Komputer</button>
                 <button id="join-room-btn" class="btn-small btn-join">Masuk Room</button>
             </div>
 
@@ -35,46 +28,46 @@
                 <button id="lockButton" class="lock-button" title="Kunci Tombol">
                     <i class="fas fa-lock-open"></i>
                 </button>
-                <input type="text" id="room-id" placeholder="Tulis id Room" />
+                <input type="text" id="room-id" placeholder="Tulis ID Room" />
                 <button id="copyButton" class="copy-button" title="Salin ID Room">
                     <i class="fas fa-copy"></i>
                 </button>
-            </div>
 
-            <!-- Pemilih Warna Papan tepat di bawah ID Room -->
-            <div class="color-picker-group">
-                <label title="Warna Petak Terang"><input type="color" id="picker-light" value="#eeeed2"></label>
-                <label title="Warna Petak Gelap"><input type="color" id="picker-dark" value="#fdb178"></label>
-                
+                <div class="color-picker-group">
+                    <label title="Petak Terang"><input type="color" id="picker-light" value="#eeeed2"></label>
+                    <label title="Petak Gelap"><input type="color" id="picker-dark" value="#b58863"></label>
+                </div>
+
                 <!-- Tombol Buka/Tutup Chat -->
                 <button id="chat-toggle-btn" class="chat-toggle-button" title="Obrolan Online">
                     <i class="fas fa-comments"></i>
                     <span id="chat-badge" class="chat-badge hidden"></span>
                 </button>
             </div>
-                    </div>
+        </div>
+
+        <!-- Pop-up Box Chat Melayang (Default: Sembunyi) -->
+        <div id="chat-box" class="chat-box hidden">
+            <div class="chat-header">
+                <span>💬 Obrolan Room</span>
+                <button id="close-chat-btn" class="chat-close-btn">&times;</button>
+            </div>
+            
+            <!-- Area Riwayat Pesan -->
+            <div id="chat-messages" class="chat-messages">
+                <div class="chat-system-msg">Masuk room online untuk mulai percakapan.</div>
+            </div>
+
+            <!-- Form Input Pesan Teks -->
+            <form id="chat-form" class="chat-input-row">
+                <input type="text" id="chat-input" placeholder="Tulis pesan..." maxlength="80" autocomplete="off">
+                <button type="submit" class="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+
         <!-- Papan Catur -->
         <div id="board" class="board"></div>
     </div> <!-- Tag penutup container -->
-
-    <!-- Pop-up Box Chat Melayang (Default: Sembunyi) -->
-    <div id="chat-box" class="chat-box hidden">
-        <div class="chat-header">
-            <span>💬 Obrolan Room</span>
-            <button id="close-chat-btn" class="chat-close-btn">&times;</button>
-        </div>
-        
-        <!-- Area Riwayat Pesan -->
-        <div id="chat-messages" class="chat-messages">
-            <div class="chat-system-msg">Masuk room online untuk mulai percakapan.</div>
-        </div>
-
-        <!-- Form Input Pesan Teks -->
-        <form id="chat-form" class="chat-input-row">
-            <input type="text" id="chat-input" placeholder="Tulis pesan..." maxlength="80" autocomplete="off">
-            <button type="submit" class="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
-        </form>
-    </div>
 
     <!-- Modal Pop-Up Notifikasi Kustom -->
     <div id="customAlert" class="modal-overlay">
