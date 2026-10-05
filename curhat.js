@@ -29,12 +29,24 @@ function getRandomAnimClass() {
   return animClasses[Math.floor(Math.random() * animClasses.length)];
 }
 
-// === 2. PEMANTAU ANIMASI SCROLL (OBSERVER OTOMATIS) ===
+// Kumpulan 12 Efek Animasi Memantul (Sama Seperti Sholawat)
+const animClasses = [
+  'anim-top', 'anim-bottom', 'anim-left', 'anim-right',
+  'anim-top-left', 'anim-top-right', 'anim-bottom-left', 'anim-bottom-right',
+  'anim-zoom-rotate', 'anim-flip-x', 'anim-flip-y', 'anim-super-bounce'
+];
+
+function getRandomAnimClass() {
+  return animClasses[Math.floor(Math.random() * animClasses.length)];
+}
+
+// === 2. PEMANTAU ANIMASI SCROLL (INTERSECTION OBSERVER) ===
 const noteObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     const noteEl = entry.target;
+    
     if (entry.isIntersecting) {
-      // Bersihkan kelas lama, ganti animasi acak baru
+      // Hapus kelas animasi lama dan pilih animasi acak baru
       animClasses.forEach(cls => noteEl.classList.remove(cls));
       noteEl.classList.add(getRandomAnimClass());
 
