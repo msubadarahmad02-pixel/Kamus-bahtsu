@@ -18,7 +18,7 @@ const colors = [
 let isSelectMode = false;
 let targetNoteElement = null;
 
-// Kumpulan 12 Efek Animasi (Sama dengan Sholawat)
+// === 1. KUMPULAN ANIMASI (CUKUP TULIS 1 KALI) ===
 const animClasses = [
   'anim-top', 'anim-bottom', 'anim-left', 'anim-right',
   'anim-top-left', 'anim-top-right', 'anim-bottom-left', 'anim-bottom-right',
@@ -29,35 +29,25 @@ function getRandomAnimClass() {
   return animClasses[Math.floor(Math.random() * animClasses.length)];
 }
 
-// Kumpulan 12 Efek Animasi Memantul (Sama Seperti Sholawat)
-const animClasses = [
-  'anim-top', 'anim-bottom', 'anim-left', 'anim-right',
-  'anim-top-left', 'anim-top-right', 'anim-bottom-left', 'anim-bottom-right',
-  'anim-zoom-rotate', 'anim-flip-x', 'anim-flip-y', 'anim-super-bounce'
-];
-
-function getRandomAnimClass() {
-  return animClasses[Math.floor(Math.random() * animClasses.length)];
-}
-
-// === 2. PEMANTAU ANIMASI SCROLL (INTERSECTION OBSERVER) ===
+// === 2. PEMANTAU ANIMASI SCROLL (PAKAI DELAY AGAR TIDAK BLANK) ===
 const noteObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     const noteEl = entry.target;
     
     if (entry.isIntersecting) {
-      // Hapus kelas animasi lama dan pilih animasi acak baru
-      animClasses.forEach(cls => noteEl.classList.remove(cls));
-      noteEl.classList.add(getRandomAnimClass());
+      if (!noteEl.classList.contains('visible')) {
+        animClasses.forEach(cls => noteEl.classList.remove(cls));
+        noteEl.classList.add(getRandomAnimClass());
 
-      requestAnimationFrame(() => {
-        noteEl.classList.add('visible');
-      });
+        setTimeout(() => {
+          noteEl.classList.add('visible');
+        }, 50);
+      }
     } else {
       noteEl.classList.remove('visible');
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.1 });
 
 
 // === 3. TOGGLE MODE PILIH & CENTANG BANYAK ===
