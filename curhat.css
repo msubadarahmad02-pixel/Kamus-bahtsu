@@ -94,7 +94,7 @@ h1 {
   max-width: 1000px;
 }
 
-/* Styling Dasar Kertas */
+/* Styling Utama Kertas (Sudah Disesuaikan Agar Tidak Bentrok) */
 .note {
   width: 140px;
   height: 160px;
@@ -105,14 +105,41 @@ h1 {
   line-height: 1.2;
   color: #2c2c2c;
   filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.22));
-  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  transition: transform 0.25s ease, filter 0.25s ease;
   overflow-y: auto;
   text-align: center;
   direction: ltr;
-  unicode-bidi: plaintext; /* Otomatis mengatur arah tulisan Arab/Latin secara alami */
+  unicode-bidi: plaintext;
   white-space: pre-wrap;
+
+  /* STATUS DASAR ANIMASI (SEMBUNYI) */
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* VARIASI ANIMASI MUNCUL */
+.note.anim-top { transform: translateY(-150px) scale(0.7); }
+.note.anim-bottom { transform: translateY(150px) scale(0.7); }
+.note.anim-left { transform: translateX(-150px) rotate(-12deg) scale(0.7); }
+.note.anim-right { transform: translateX(150px) rotate(12deg) scale(0.7); }
+
+.note.anim-top-left { transform: translate(-120px, -120px) rotate(-15deg) scale(0.6); }
+.note.anim-top-right { transform: translate(120px, -120px) rotate(15deg) scale(0.6); }
+.note.anim-bottom-left { transform: translate(-120px, 120px) rotate(15deg) scale(0.6); }
+.note.anim-bottom-right { transform: translate(120px, 120px) rotate(-15deg) scale(0.6); }
+
+.note.anim-zoom-rotate { transform: scale(0.2) rotate(-25deg); }
+.note.anim-flip-x { transform: perspective(500px) rotateX(90deg) scale(0.6); }
+.note.anim-flip-y { transform: perspective(500px) rotateY(90deg) scale(0.6); }
+.note.anim-super-bounce { transform: translateY(-200px) scale(1.4); }
+
+/* STATUS AKTIF / MUNCUL DI LAYAR */
+.note.visible {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) rotate(var(--note-rotate, 0deg)) !important;
+}
+
 
 /* Pola Sobekan 1 (Sobekan Gelombang 4 Sisi) */
 .rip-pattern-1 {
