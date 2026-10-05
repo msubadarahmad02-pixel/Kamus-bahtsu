@@ -327,53 +327,36 @@ h1 {
   color: white;
 }
 
-/* Styling Animasi Muncul / Scroll */
+/* === EFEK ANIMASI DINAMIS ELASTIS (SAMA SEPERTI SHOLAWAT) === */
+
 .note {
   opacity: 0;
-  transform: translateY(30px) scale(0.9);
-  transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-              transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform, opacity;
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Saat Kertas Terlihat di Layar */
+/* VARIASI EFEK MUNCUL */
+.note.anim-top { transform: translateY(-150px) scale(0.7); }
+.note.anim-bottom { transform: translateY(150px) scale(0.7); }
+.note.anim-left { transform: translateX(-150px) rotate(-12deg) scale(0.7); }
+.note.anim-right { transform: translateX(150px) rotate(12deg) scale(0.7); }
+
+.note.anim-top-left { transform: translate(-120px, -120px) rotate(-15deg) scale(0.6); }
+.note.anim-top-right { transform: translate(120px, -120px) rotate(15deg) scale(0.6); }
+.note.anim-bottom-left { transform: translate(-120px, 120px) rotate(15deg) scale(0.6); }
+.note.anim-bottom-right { transform: translate(120px, 120px) rotate(-15deg) scale(0.6); }
+
+.note.anim-zoom-rotate { transform: scale(0.2) rotate(-25deg); }
+.note.anim-flip-x { transform: perspective(500px) rotateX(90deg) scale(0.6); }
+.note.anim-flip-y { transform: perspective(500px) rotateY(90deg) scale(0.6); }
+.note.anim-super-bounce { transform: translateY(-200px) scale(1.4); }
+
+/* STATE AKTIF (SAMPING & ATAS-BAWAH TEPAT PRESISI SESUAI ROTASI KERTAS) */
 .note.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1) rotate(var(--note-rotate, 0deg));
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) rotate(var(--note-rotate, 0deg)) !important;
 }
-
-
-/* Status Dasar Kertas (Sembunyi Sebelum Terlihat) */
-.note {
-  opacity: 0;
-  transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* Status Saat Kertas Masuk Layar */
-.note.visible {
-  opacity: 1;
-  transform: translate(0, 0) scale(1) rotate(var(--note-rotate, 0deg)) rotateY(0deg) !important;
-}
-
-/* === 6 VARIASI ANIMASI ACAK === */
-
-/* 1. Meluncur dari Bawah (Slide Up) */
-.anim-slide-up { transform: translateY(50px) scale(0.85); }
-
-/* 2. Meluncur dari Atas (Slide Down) */
-.anim-slide-down { transform: translateY(-50px) scale(0.85); }
-
-/* 3. Datang dari Kiri (Slide Left) */
-.anim-slide-left { transform: translateX(-60px) rotate(-10deg); }
-
-/* 4. Datang dari Kanan (Slide Right) */
-.anim-slide-right { transform: translateX(60px) rotate(10deg); }
-
-/* 5. Efek Memutar / Spin */
-.anim-spin { transform: scale(0.5) rotate(-180deg); }
-
-/* 6. Efek Membalik Kertas / Flip 3D */
-.anim-flip { transform: perspective(400deg) rotateY(90deg) scale(0.8); }
-
 
 
 
