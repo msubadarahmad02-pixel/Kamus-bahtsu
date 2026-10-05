@@ -18,19 +18,35 @@ const colors = [
 let isSelectMode = false;
 let targetNoteElement = null;
 
-// === 2. PEMANTAU ANIMASI SCROLL (INTERSECTION OBSERVER) ===
+// Kumpulan 12 Efek Animasi (Sama dengan Sholawat)
+const animClasses = [
+  'anim-top', 'anim-bottom', 'anim-left', 'anim-right',
+  'anim-top-left', 'anim-top-right', 'anim-bottom-left', 'anim-bottom-right',
+  'anim-zoom-rotate', 'anim-flip-x', 'anim-flip-y', 'anim-super-bounce'
+];
+
+function getRandomAnimClass() {
+  return animClasses[Math.floor(Math.random() * animClasses.length)];
+}
+
+// === 2. PEMANTAU ANIMASI SCROLL (OBSERVER OTOMATIS) ===
 const noteObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
+    const noteEl = entry.target;
     if (entry.isIntersecting) {
-      const randomDelay = Math.floor(Math.random() * 150);
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, randomDelay);
+      // Bersihkan kelas lama, ganti animasi acak baru
+      animClasses.forEach(cls => noteEl.classList.remove(cls));
+      noteEl.classList.add(getRandomAnimClass());
+
+      requestAnimationFrame(() => {
+        noteEl.classList.add('visible');
+      });
     } else {
-      entry.target.classList.remove('visible');
+      noteEl.classList.remove('visible');
     }
   });
 }, { threshold: 0.15 });
+
 
 // === 3. TOGGLE MODE PILIH & CENTANG BANYAK ===
 function toggleSelectMode() {
@@ -97,10 +113,9 @@ function renderNote(noteData) {
   const noteEl = document.createElement('div');
   
   const randomRipPattern = 'rip-pattern-' + (Math.floor(Math.random() * 4) + 1);
-  const animList = ['anim-slide-up', 'anim-slide-down', 'anim-slide-left', 'anim-slide-right', 'anim-spin', 'anim-flip'];
-  const randomAnim = animList[Math.floor(Math.random() * animList.length)];
   
-  noteEl.className = `note ${randomRipPattern} ${randomAnim}`;
+  // BERUBAH DI SINI: Memasang pola sobekan & animasi acak baru
+  noteEl.className = `note ${randomRipPattern} ${getRandomAnimClass()}`;
   noteEl.setAttribute('data-id', noteData.id);
   noteEl.style.backgroundColor = noteData.color;
   
