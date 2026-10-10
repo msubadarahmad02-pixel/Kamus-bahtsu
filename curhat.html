@@ -21,22 +21,10 @@
     <span>Coretan Kanza</span>
   </h1>
 
-    <!-- Form Input Pesan -->
+<!-- Form Input Pesan -->
   <div class="form-container">
     <textarea id="noteInput" placeholder="Tulis curhatan atau pesanmu di sini..."></textarea>
-    
-    <!-- TAMBAHKAN KODE INI: Tombol & Input File Foto -->
-    <div class="form-actions-row">
-      <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
-      <button type="button" class="btn-photo" onclick="document.getElementById('imageInput').click()">📷 Pilih Foto</button>
-      <button onclick="addNote()">Tempel di Mading</button>
-    </div>
-
-    <!-- TAMBAHKAN KODE INI: Pratinjau Foto Sebelum Ditempel -->
-    <div id="imagePreviewContainer" class="preview-container" style="display: none;">
-      <img id="imagePreview" src="" alt="Preview Foto">
-      <button type="button" class="btn-remove-preview" onclick="removePreview()">×</button>
-    </div>
+    <button onclick="addNote()">Tempel di Mading</button>
 
     
     <!-- Tombol Hapus Kertas Terpilih -->
