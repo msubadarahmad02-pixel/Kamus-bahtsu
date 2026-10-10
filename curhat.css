@@ -516,7 +516,7 @@ h1 {
   border-radius: 4px;
   margin-bottom: 4px;
   background: none;
-  border: 1px dashed rgba(0, 0, 0, 0.15);
+  border: none;
 }
 
 
