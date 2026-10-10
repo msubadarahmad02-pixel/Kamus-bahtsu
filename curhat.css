@@ -510,13 +510,15 @@ h1 {
 
 /* Ukuran Foto di Lembaran Kertas Mading */
 .note-img {
-  display: block;
-  margin: 0 auto 8px auto; /* Membuat posisi gambar otomatis ke tengah (center) */
   width: 100%;
-  max-height: 110px;
-  object-fit: cover;
-  border-radius: 12px; /* Membuat sudut lengkungan gambar menyesuaikan bentuk kertas */
+  max-height: 90px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px dashed rgba(0, 0, 0, 0.15);
 }
+
 
 
 /* Styling Khusus Ikon Bunga 🌼 (Dibuat Kecil & Menyatu dengan Background) */
