@@ -474,29 +474,8 @@ h1 {
   transform: scale(1.2);
 }
 
-/* Sembunyikan tombol copy saat mode centang/select aktif agar tidak bentrok */
-.is-select-mode .copy-btn {
-  display: none;
-}
-/* Styling Tombol Aksi Form & Foto */
-.form-actions-row {
-  display: flex;
-  gap: 10px;
-}
 
-.form-actions-row button {
-  flex: 1;
-}
-
-.btn-photo {
-  background-color: #f0ad4e !important;
-  color: white;
-}
-
-.btn-photo:hover {
-  background-color: #ec971f !important;
-}
-
+/* Pratinjau Foto di Form */
 .preview-container {
   position: relative;
   display: inline-block;
@@ -529,37 +508,34 @@ h1 {
   justify-content: center;
 }
 
+/* Ukuran Foto di Lembaran Kertas Mading */
 .note-img {
   width: 100%;
-  max-height: 80px;
-  object-fit: cover;
-  border-radius: 3px;
+  max-height: 90px;
+  object-fit: contain;
+  border-radius: 4px;
   margin-bottom: 6px;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px dashed rgba(0, 0, 0, 0.15);
 }
 
-.delete-note-btn {
-  position: absolute;
-  top: 6px;
-  right: 28px;
-  background: transparent;
-  border: none;
-  font-size: 13px;
-  cursor: pointer;
-  z-index: 20;
-  opacity: 0.6;
-  transition: opacity 0.2s, transform 0.2s;
-  padding: 2px;
-  line-height: 1;
+
+
+
+/* Styling Khusus Ikon Bunga 🌼 (Dibuat Kecil & Menyatu dengan Background) */
+.flower-icon-btn {
+  font-size: 0.9rem !important; /* Ukuran dibuat kecil dan pas */
+  opacity: 0.35;                 /* Transparan agar menyatu dengan motif background */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: sepia(0.2) contrast(0.9); /* Menyesuaikan nuansa vintage background */
 }
 
-.delete-note-btn:hover {
-  opacity: 1;
-  transform: scale(1.2);
+/* Efek saat dikursorkan / disentuh */
+.flower-icon-btn:hover {
+  opacity: 0.8 !important;       /* Sedikit lebih jelas saat ditunjuk */
+  transform: scale(1.15) rotate(15deg) !important;
 }
 
-.is-select-mode .delete-note-btn {
-  display: none;
+.flower-icon-btn:active {
+  transform: scale(0.95) !important;
 }
-
