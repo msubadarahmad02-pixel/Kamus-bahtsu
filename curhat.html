@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mading Curhat Digital</title>
 
-  <!-- 1. Pemanggilan Google Fonts (Caveat, Dancing Script, & Pacifico) -->
+  <!-- 1. Pemanggilan Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
@@ -15,20 +15,34 @@
 </head>
 <body>
 
-  <!-- Judul dengan Tombol Emoji Paku -->
+   <!-- Judul dengan Tombol Paku & Tombol Bunga Transparan untuk Upload Foto -->
   <h1 class="mading-header">
+    <!-- Tombol Bunga Dikecilkan & Diberi Class Khusus -->
+    <button type="button" class="pin-icon-btn flower-icon-btn" onclick="document.getElementById('imageInput').click()" title="Sisipkan Foto">✨</button>
+    
     <button id="selectModeBtn" onclick="toggleSelectMode()" class="pin-icon-btn" title="Klik untuk Pilih & Hapus">📌</button>
+    
+    <!-- Input File Tersembunyi -->
+    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+    
     <span>Coretan Kanza</span>
   </h1>
 
-<!-- Form Input Pesan -->
+
+  <!-- Form Input Pesan -->
   <div class="form-container">
     <textarea id="noteInput" placeholder="Tulis curhatan atau pesanmu di sini..."></textarea>
-    <button onclick="addNote()">Tempel di Mading</button>
+    
+    <!-- Pratinjau Foto Sebelum Ditempel (Muncul di sini jika foto dipilih) -->
+    <div id="imagePreviewContainer" class="preview-container" style="display: none;">
+      <img id="imagePreview" src="" alt="Preview Foto">
+      <button type="button" class="btn-remove-preview" onclick="removePreview()">×</button>
+    </div>
 
+    <button onclick="addNote()">Tempel di Mading</button>
     
     <!-- Tombol Hapus Kertas Terpilih -->
-    <button id="deleteSelectedBtn" onclick="openDeleteSelectedModal()" style="display: none; background-color: #d9534f;">Hapus(<span id="selectedCount">0</span>)</button>
+    <button id="deleteSelectedBtn" onclick="openDeleteSelectedModal()" style="display: none; background-color: #d9534f;">🗑️ Hapus(<span id="selectedCount">0</span>)</button>
   </div>
 
   <!-- Area Papan Mading -->
