@@ -294,24 +294,33 @@ function closeAdminModal() {
 
 async function confirmDelete() {
   const password = document.getElementById('adminPasswordInput').value;
-  let idsToDelete = [];
+  let notesToDelete = []; // Menyimpan objek { id, image_url }
 
   if (isSelectMode) {
     const selectedNotes = document.querySelectorAll('.note.selected');
-    idsToDelete = Array.from(selectedNotes).map(el => el.getAttribute('data-id'));
+    // Ambil id dan cari image_url dari elemen catatan di layar
+    notesToDelete = Array.from(selectedNotes).map(el => {
+      const id = el.getAttribute('data-id');
+      const imgEl = el.querySelector('.note-img');
+      return { id: id, image_url: imgEl ? imgEl.src : null };
+    });
   } else if (targetNoteElement) {
-    idsToDelete = [targetNoteElement.getAttribute('data-id')];
+    const id = targetNoteElement.getAttribute('data-id');
+    const imgEl = targetNoteElement.querySelector('.note-img');
+    notesToDelete = [{ id: id, image_url: imgEl ? imgEl.src : null }];
   }
 
   // JIKA TIDAK ADA YANG DIPILIH
-  if (idsToDelete.length === 0) {
+  if (notesToDelete.length === 0) {
     showAlert('Pilih kertas yang ingin dihapus terlebih dahulu!');
     closeAdminModal();
     return;
   }
 
+  const idsToDelete = notesToDelete.map(n => n.id);
+
   try {
-    // Panggil fungsi SQL Supabase
+    // 1. Validasi password & hapus data dari database via RPC
     const { data: isSuccess, error } = await supabaseClient.rpc('hapus_note_admin', {
       note_ids: idsToDelete,
       pass_input: password
@@ -325,6 +334,21 @@ async function confirmDelete() {
     }
 
     if (isSuccess) {
+      // 2. Jika sandi benar dan database terhapus, bersihkan file gambarnya di Storage
+      for (const note of notesToDelete) {
+        if (note.image_url) {
+          try {
+            const filePath = note.image_url.split('/').pop();
+            await supabaseClient.storage
+              .from('mading-images')
+              .remove([filePath]);
+          } catch (storageErr) {
+            console.error('Gagal menghapus file gambar dari storage:', storageErr);
+          }
+        }
+      }
+
+      // 3. Hapus elemen dari tampilan layar
       if (isSelectMode) {
         document.querySelectorAll('.note.selected').forEach(note => note.remove());
         toggleSelectMode();
