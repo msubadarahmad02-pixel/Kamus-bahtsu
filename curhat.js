@@ -335,18 +335,25 @@ async function confirmDelete() {
 
     if (isSuccess) {
       // 2. Jika sandi benar dan database terhapus, bersihkan file gambarnya di Storage
-      for (const note of notesToDelete) {
-        if (note.image_url) {
-          try {
-            const filePath = note.image_url.split('/').pop();
-            await supabaseClient.storage
-              .from('mading-images')
-              .remove([filePath]);
-          } catch (storageErr) {
-            console.error('Gagal menghapus file gambar dari storage:', storageErr);
-          }
-        }
+for (const note of notesToDelete) {
+  if (note.image_url) {
+    try {
+      // Mengambil bagian path setelah nama bucket 'mading-images/'
+      const urlObj = new URL(note.image_url);
+      const pathParts = urlObj.pathname.split('/mading-images/');
+      if (pathParts.length > 1) {
+        const filePath = decodeURIComponent(pathParts[1]);
+        
+        await supabaseClient.storage
+          .from('mading-images')
+          .remove([filePath]);
       }
+    } catch (storageErr) {
+      console.error('Gagal menghapus file gambar dari storage:', storageErr);
+    }
+  }
+}
+
 
       // 3. Hapus elemen dari tampilan layar
       if (isSelectMode) {
