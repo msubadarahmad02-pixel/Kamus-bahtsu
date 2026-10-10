@@ -478,4 +478,88 @@ h1 {
 .is-select-mode .copy-btn {
   display: none;
 }
+/* Styling Tombol Aksi Form & Foto */
+.form-actions-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions-row button {
+  flex: 1;
+}
+
+.btn-photo {
+  background-color: #f0ad4e !important;
+  color: white;
+}
+
+.btn-photo:hover {
+  background-color: #ec971f !important;
+}
+
+.preview-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 5px;
+  max-width: 100px;
+}
+
+.preview-container img {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.btn-remove-preview {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-img {
+  width: 100%;
+  max-height: 80px;
+  object-fit: cover;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.delete-note-btn {
+  position: absolute;
+  top: 6px;
+  right: 28px;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 20;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+  padding: 2px;
+  line-height: 1;
+}
+
+.delete-note-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.is-select-mode .delete-note-btn {
+  display: none;
+}
 
