@@ -542,15 +542,21 @@ h1 {
 }
 
 
+/* Pengaturan Utama untuk Gambar di Kertas Mading */
 .note-img {
-  /* Mencegah interaksi sentuh lama (long-press download) di HP */
   -webkit-touch-callout: none;
-  
-  /* Mencegah gambar bisa diseret (drag) */
   -webkit-user-drag: none;
   user-select: none;
 }
-/* Video di kertas mading */
+
+/* Wadah Pembungkus Video & Tombol Play */
+.video-container {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+}
+
+/* Pengaturan Video di Kertas Mading (Digabung Jadi Satu) */
 .note-video {
   display: block;
   width: 100%;
@@ -566,4 +572,26 @@ h1 {
   user-select: none;
 }
 
+/* Tombol Play Minimalis Melayang */
+.custom-play-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 2;
+}
 
+.custom-play-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
