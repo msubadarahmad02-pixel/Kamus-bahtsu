@@ -17,27 +17,33 @@
 
    <!-- Judul dengan Tombol Paku & Tombol Bunga Transparan untuk Upload Foto -->
   <h1 class="mading-header">
-    <!-- Tombol Bunga Dikecilkan & Diberi Class Khusus -->
+    <!-- Tombol Bunga untuk Foto -->
     <button type="button" class="pin-icon-btn flower-icon-btn" onclick="document.getElementById('imageInput').click()" title="Sisipkan Foto">✨</button>
+    
+    <!-- Tombol Bunga untuk Video -->
+    <button type="button" class="pin-icon-btn flower-icon-btn" onclick="document.getElementById('videoInput').click()" title="Sisipkan Video">✨</button>
     
     <button id="selectModeBtn" onclick="toggleSelectMode()" class="pin-icon-btn" title="Klik untuk Pilih & Hapus">📌</button>
     
     <!-- Input File Tersembunyi -->
-    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewMedia(event, 'image')">
+    <input type="file" id="videoInput" accept="video/*" style="display: none;" onchange="previewMedia(event, 'video')">
     
     <span>Coretan Kanza</span>
   </h1>
+
 
 
   <!-- Form Input Pesan -->
   <div class="form-container">
     <textarea id="noteInput" placeholder="Tulis curhatan atau pesanmu di sini..."></textarea>
     
-    <!-- Pratinjau Foto Sebelum Ditempel (Muncul di sini jika foto dipilih) -->
+        <!-- Pratinjau Media Sebelum Ditempel -->
     <div id="imagePreviewContainer" class="preview-container" style="display: none;">
-      <img id="imagePreview" src="" alt="Preview Foto">
+      <div id="previewWrapper"></div>
       <button type="button" class="btn-remove-preview" onclick="removePreview()">×</button>
     </div>
+
 
     <button onclick="addNote()">Tempel di Mading</button>
     
