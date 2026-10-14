@@ -15,22 +15,25 @@
 </head>
 <body>
 
-   <!-- Judul dengan Tombol Paku & Tombol Bunga Transparan untuk Upload Foto -->
+   <!-- Judul dengan Tombol Paku & Tombol Bunga Transparan untuk Upload Foto & Video -->
   <h1 class="mading-header">
-    <!-- Tombol Bunga untuk Foto -->
+    <!-- 1. Tombol Bunga untuk Foto (di kiri) -->
     <button type="button" class="pin-icon-btn flower-icon-btn" onclick="document.getElementById('imageInput').click()" title="Sisipkan Foto">✨</button>
     
-    <!-- Tombol Bunga untuk Video -->
-    <button type="button" class="pin-icon-btn flower-icon-btn" onclick="document.getElementById('videoInput').click()" title="Sisipkan Video">✨</button>
-    
+    <!-- 2. Tombol Pilih & Hapus (📌) -->
     <button id="selectModeBtn" onclick="toggleSelectMode()" class="pin-icon-btn" title="Klik untuk Pilih & Hapus">📌</button>
     
-    <!-- Input File Tersembunyi -->
+    <!-- 3. Teks Judul Mading -->
+    <span>Coretan Kanza</span>
+
+    <!-- 4. Tombol Bunga untuk Video (DI KANAN SEBELAH TEKS) -->
+    <button type="button" class="pin-icon-btn flower-icon-btn" onclick="document.getElementById('videoInput').click()" title="Sisipkan Video">✨</button>
+    
+    <!-- Input File Tersembunyi (Foto & Video) -->
     <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewMedia(event, 'image')">
     <input type="file" id="videoInput" accept="video/*" style="display: none;" onchange="previewMedia(event, 'video')">
-    
-    <span>Coretan Kanza</span>
   </h1>
+
 
 
 
