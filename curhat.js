@@ -204,7 +204,6 @@ function renderNote(noteData) {
   // Menampilkan Gambar atau Video jika ada
   if (noteData.image_url) {
     const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
-
     if (isVideo) {
       // Buat wadah pembungkus agar tombol bisa diposisikan di atas video
       const wrapper = document.createElement('div');
@@ -247,9 +246,6 @@ function renderNote(noteData) {
       wrapper.appendChild(playBtn);
       noteEl.appendChild(wrapper);
     }
-
-
-
 
   // Teks Curhatan
   const textContent = document.createElement('p');
