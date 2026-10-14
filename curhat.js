@@ -210,7 +210,6 @@ function renderNote(noteData) {
       videoEl.src = noteData.image_url;
       videoEl.className = 'note-video';
       videoEl.playsInline = true;
-      // Perhatikan: Kita TIDAK memakai controls = true agar tombol besar Chrome tidak muncul
       
       videoEl.oncontextmenu = (e) => {
         e.preventDefault();
@@ -227,9 +226,19 @@ function renderNote(noteData) {
       };
 
       noteEl.appendChild(videoEl);
+    } else {
+      const imgEl = document.createElement('img');
+      imgEl.src = noteData.image_url;
+      imgEl.className = 'note-img';
+      
+      imgEl.oncontextmenu = (e) => {
+        e.preventDefault();
+        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+      };
+      
+      noteEl.appendChild(imgEl);
     }
-
-
+  } // <-- Penutup kurung kurawal untuk "if (noteData.image_url)" yang tadinya kurang
 
   // Teks Curhatan
   const textContent = document.createElement('p');
@@ -263,6 +272,7 @@ function copyNoteText(text, btnElement) {
     console.error('Gagal menyalin teks: ', err);
   });
 }
+
 
 // === 6. AMBIL SEMUA DATA SAAT AWAL DIMUAT ===
 async function loadNotes() {
