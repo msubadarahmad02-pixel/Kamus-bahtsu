@@ -190,11 +190,18 @@ function renderNote(noteData) {
   };
   noteEl.appendChild(copyBtn);
 
-    // Menampilkan Gambar/Foto jika ada di catatan
+  // Menampilkan Gambar/Foto jika ada di catatan
   if (noteData.image_url) {
     const imgEl = document.createElement('img');
     imgEl.src = noteData.image_url;
     imgEl.className = 'note-img';
+    
+    // === KODE BARU: Blokir klik kanan / long-press pada gambar ===
+    imgEl.oncontextmenu = (e) => {
+      e.preventDefault();
+      showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+    };
+    
     noteEl.appendChild(imgEl);
   }
 
