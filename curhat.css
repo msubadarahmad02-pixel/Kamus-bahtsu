@@ -550,3 +550,20 @@ h1 {
   -webkit-user-drag: none;
   user-select: none;
 }
+/* Video di kertas mading */
+.note-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  background: #000;
+  
+  /* Mencegah interaksi unduh & sentuh lama */
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+
