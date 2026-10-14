@@ -205,33 +205,30 @@ function renderNote(noteData) {
   if (noteData.image_url) {
     const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
     
-        if (isVideo) {
+    if (isVideo) {
       const videoEl = document.createElement('video');
       videoEl.src = noteData.image_url;
       videoEl.className = 'note-video';
-      videoEl.controls = true;
-      videoEl.controlsList = 'nodownload';
-      videoEl.disablePictureInPicture = true;
+      videoEl.playsInline = true;
+      // Perhatikan: Kita TIDAK memakai controls = true agar tombol besar Chrome tidak muncul
       
       videoEl.oncontextmenu = (e) => {
         e.preventDefault();
         showAlert('Penyimpanan video langsung tidak diizinkan.');
       };
 
-      noteEl.appendChild(videoEl);
-    } else {
-      const imgEl = document.createElement('img');
-      imgEl.src = noteData.image_url;
-      imgEl.className = 'note-img';
-      
-      imgEl.oncontextmenu = (e) => {
-        e.preventDefault();
-        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+      // Fungsi klik manual: Tekan untuk Play, Tekan lagi untuk Pause
+      videoEl.onclick = () => {
+        if (videoEl.paused) {
+          videoEl.play();
+        } else {
+          videoEl.pause();
+        }
       };
-      
-      noteEl.appendChild(imgEl);
+
+      noteEl.appendChild(videoEl);
     }
-  }
+
 
 
   // Teks Curhatan
