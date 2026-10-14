@@ -205,33 +205,49 @@ function renderNote(noteData) {
   if (noteData.image_url) {
     const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
 
-    if (isVideo) {
+        if (isVideo) {
+      // Buat wadah pembungkus agar tombol bisa diposisikan di atas video
+      const wrapper = document.createElement('div');
+      wrapper.className = 'video-container';
+
       const videoEl = document.createElement('video');
       videoEl.src = noteData.image_url;
       videoEl.className = 'note-video';
-      videoEl.controls = true;
-      videoEl.controlsList = 'nodownload';
-      videoEl.disablePictureInPicture = true;
-      
+      videoEl.playsInline = true;
+      videoEl.loop = true;
+      // Tanpa controls bawaan, tanpa autoplay paksa agar user bisa kontrol manual
+
+      // Blokir klik kanan / long-press pada video
       videoEl.oncontextmenu = (e) => {
         e.preventDefault();
         showAlert('Penyimpanan video langsung tidak diizinkan.');
       };
 
-      noteEl.appendChild(videoEl);
-    } else {
-      const imgEl = document.createElement('img');
-      imgEl.src = noteData.image_url;
-      imgEl.className = 'note-img';
+      // Tombol Play/Pause minimalis
+      const playBtn = document.createElement('button');
+      playBtn.className = 'custom-play-btn';
+      playBtn.innerHTML = '▶'; // Ikon Play awal
       
-      imgEl.oncontextmenu = (e) => {
-        e.preventDefault();
-        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+      // Logika saat tombol atau video disentuh/diklik
+      const togglePlay = (e) => {
+        e.stopPropagation();
+        if (videoEl.paused) {
+          videoEl.play();
+          playBtn.innerHTML = '⏸'; // Berubah jadi ikon Pause
+        } else {
+          videoEl.pause();
+          playBtn.innerHTML = '▶'; // Berubah jadi ikon Play
+        }
       };
-      
-      noteEl.appendChild(imgEl);
+
+      playBtn.onclick = togglePlay;
+      videoEl.onclick = togglePlay; // Bisa juga disentuh langsung videonya untuk play/pause
+
+      wrapper.appendChild(videoEl);
+      wrapper.appendChild(playBtn);
+      noteEl.appendChild(wrapper);
     }
-  }
+
 
   // Teks Curhatan
   const textContent = document.createElement('p');
