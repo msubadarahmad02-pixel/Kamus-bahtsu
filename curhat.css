@@ -540,3 +540,13 @@ h1 {
 .flower-icon-btn:active {
   transform: scale(0.95) !important;
 }
+
+
+.note-img {
+  /* Mencegah interaksi sentuh lama (long-press download) di HP */
+  -webkit-touch-callout: none;
+  
+  /* Mencegah gambar bisa diseret (drag) */
+  -webkit-user-drag: none;
+  user-select: none;
+}
