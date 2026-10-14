@@ -595,3 +595,18 @@ h1 {
 .custom-play-btn:hover {
   background: rgba(0, 0, 0, 0.8);
 }
+
+/* Menyembunyikan ikon play besar bawaan browser di tengah video */
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+
+
+
+
+
+
+
+
