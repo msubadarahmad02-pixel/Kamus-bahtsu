@@ -50,39 +50,6 @@ const noteObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-// === KODE BARU (PENGGANTINYA) ===
-  // Menampilkan Gambar atau Video jika ada
-  if (noteData.image_url) {
-    const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
-
-    if (isVideo) {
-      const videoEl = document.createElement('video');
-      videoEl.src = noteData.image_url;
-      videoEl.className = 'note-video';
-      videoEl.controls = true;
-      videoEl.controlsList = 'nodownload';
-      videoEl.disablePictureInPicture = true;
-      
-      videoEl.oncontextmenu = (e) => {
-        e.preventDefault();
-        showAlert('Penyimpanan video langsung tidak diizinkan.');
-      };
-
-      noteEl.appendChild(videoEl);
-    } else {
-      const imgEl = document.createElement('img');
-      imgEl.src = noteData.image_url;
-      imgEl.className = 'note-img';
-      
-      imgEl.oncontextmenu = (e) => {
-        e.preventDefault();
-        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
-      };
-      
-      noteEl.appendChild(imgEl);
-    }
-  }
-
 
 
 // === 3. TOGGLE MODE PILIH & CENTANG BANYAK ===
