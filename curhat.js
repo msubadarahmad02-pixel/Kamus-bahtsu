@@ -209,7 +209,7 @@ function renderNote(noteData) {
       const videoEl = document.createElement('video');
       videoEl.src = noteData.image_url;
       videoEl.className = 'note-video';
-      videoEl.controls = none;
+      videoEl.controls = true;
       videoEl.controlsList = 'nodownload';
       videoEl.disablePictureInPicture = true;
       
