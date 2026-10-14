@@ -17,7 +17,8 @@ const colors = [
 
 let isSelectMode = false;
 let targetNoteElement = null;
-let selectedFile = null;
+let selectedMedia = null;
+let mediaType = null; // 'image' atau 'video'
 
 // === 1. KUMPULAN ANIMASI (CUKUP TULIS 1 KALI) ===
 const animClasses = [
@@ -50,7 +51,46 @@ const noteObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
+// === FUNGSI PRATINJAU MEDIA (FOTO / VIDEO) ===
+function previewMedia(event, type) {
+  const file = event.target.files[0];
+  if (!file) return;
 
+  selectedMedia = file;
+  mediaType = type;
+
+  const previewWrapper = document.getElementById('previewWrapper');
+  if (!previewWrapper) return;
+  previewWrapper.innerHTML = '';
+
+  if (type === 'image') {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewWrapper.innerHTML = `<img src="${e.target.result}" alt="Preview Foto" style="width:100%; height:60px; object-fit:cover; border-radius:4px;">`;
+      document.getElementById('imagePreviewContainer').style.display = 'inline-block';
+    };
+    reader.readAsDataURL(file);
+  } else if (type === 'video') {
+    const videoUrl = URL.createObjectURL(file);
+    previewWrapper.innerHTML = `<video src="${videoUrl}" style="width:100%; height:60px; object-fit:cover; border-radius:4px;" muted></video>`;
+    document.getElementById('imagePreviewContainer').style.display = 'inline-block';
+  }
+}
+
+function removePreview() {
+  selectedMedia = null;
+  mediaType = null;
+  const imgInput = document.getElementById('imageInput');
+  const vidInput = document.getElementById('videoInput');
+  if (imgInput) imgInput.value = '';
+  if (vidInput) vidInput.value = '';
+  
+  const container = document.getElementById('imagePreviewContainer');
+  if (container) container.style.display = 'none';
+  
+  const previewWrapper = document.getElementById('previewWrapper');
+  if (previewWrapper) previewWrapper.innerHTML = '';
+}
 
 // === 3. TOGGLE MODE PILIH & CENTANG BANYAK ===
 function toggleSelectMode() {
@@ -98,7 +138,6 @@ async function addNote() {
     const fileExt = selectedMedia.name.split('.').pop();
     const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
     
-    // Simpan ke bucket yang sama (atau beda bucket, misal 'mading-images' / buat bucket 'mading-videos')
     const { data: uploadData, error: uploadError } = await supabaseClient.storage
       .from('mading-images')
       .upload(fileName, selectedMedia);
@@ -118,7 +157,7 @@ async function addNote() {
 
   const newNote = {
     text: text,
-    image_url: mediaUrl, // Kolom database tetap bisa menggunakan image_url untuk menampung link media (foto/video)
+    image_url: mediaUrl,
     color: colors[Math.floor(Math.random() * colors.length)],
     rotation: (Math.random() * 12 - 6).toFixed(1)
   };
@@ -134,8 +173,6 @@ async function addNote() {
   }
 }
 
-
-
 // === 5. RENDER KERTAS DENGAN ANIMASI & EFEK SOBEKAN ===
 function renderNote(noteData) {
   const board = document.getElementById('madingBoard');
@@ -146,7 +183,6 @@ function renderNote(noteData) {
   
   const randomRipPattern = 'rip-pattern-' + (Math.floor(Math.random() * 4) + 1);
   
-  // BERUBAH DI SINI: Memasang pola sobekan & animasi acak baru
   noteEl.className = `note ${randomRipPattern} ${getRandomAnimClass()}`;
   noteEl.setAttribute('data-id', noteData.id);
   noteEl.style.backgroundColor = noteData.color;
@@ -158,16 +194,15 @@ function renderNote(noteData) {
   const copyBtn = document.createElement('button');
   copyBtn.className = 'copy-btn';
   copyBtn.title = 'Salin Teks';
-  copyBtn.innerHTML = 'x'; // Ikon Copy
+  copyBtn.innerHTML = 'x';
   copyBtn.onclick = (e) => {
     e.stopPropagation();
     copyNoteText(noteData.text, copyBtn);
   };
   noteEl.appendChild(copyBtn);
 
-    // Menampilkan Gambar atau Video jika ada
+  // Menampilkan Gambar atau Video jika ada
   if (noteData.image_url) {
-    // Deteksi sederhana berdasarkan ekstensi atau format URL
     const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
 
     if (isVideo) {
@@ -175,10 +210,9 @@ function renderNote(noteData) {
       videoEl.src = noteData.image_url;
       videoEl.className = 'note-video';
       videoEl.controls = true;
-      videoEl.controlsList = 'nodownload'; // Menyembunyikan tombol download bawaan di beberapa browser
-      videoEl.disablePictureInPicture = true; // Mencegah fitur PiP
+      videoEl.controlsList = 'nodownload';
+      videoEl.disablePictureInPicture = true;
       
-      // Blokir klik kanan / long-press pada video
       videoEl.oncontextmenu = (e) => {
         e.preventDefault();
         showAlert('Penyimpanan video langsung tidak diizinkan.');
@@ -199,8 +233,7 @@ function renderNote(noteData) {
     }
   }
 
-
-  // Teks Curhatan (Format Enter Tetap Ke Bawah)
+  // Teks Curhatan
   const textContent = document.createElement('p');
   textContent.innerHTML = noteData.text.replace(/\n/g, '<br>');
   noteEl.appendChild(textContent);
@@ -216,7 +249,6 @@ function renderNote(noteData) {
   };
   noteEl.appendChild(chk);
 
-  // Tempel ke Papan Mading & Daftarkan ke Observer
   board.prepend(noteEl);
   noteObserver.observe(noteEl);
 }
@@ -225,7 +257,7 @@ function renderNote(noteData) {
 function copyNoteText(text, btnElement) {
   navigator.clipboard.writeText(text).then(() => {
     const originalIcon = btnElement.innerHTML;
-    btnElement.innerHTML = 'x'; // Berubah jadi centang saat berhasil disalin
+    btnElement.innerHTML = 'x';
     setTimeout(() => {
       btnElement.innerHTML = originalIcon;
     }, 1500);
@@ -250,7 +282,7 @@ async function loadNotes() {
   data.forEach(note => renderNote(note));
 }
 
-// === 7. KONEKSI REALTIME (OTOMATIS MUNCUL/HILANG UNTUK SEMUA USER) ===
+// === 7. KONEKSI REALTIME ===
 function listenToRealtime() {
   supabaseClient
     .channel('public:notes')
@@ -295,23 +327,21 @@ function closeAdminModal() {
 
 async function confirmDelete() {
   const password = document.getElementById('adminPasswordInput').value;
-  let notesToDelete = []; // Menyimpan objek { id, image_url }
+  let notesToDelete = [];
 
   if (isSelectMode) {
     const selectedNotes = document.querySelectorAll('.note.selected');
-    // Ambil id dan cari image_url dari elemen catatan di layar
     notesToDelete = Array.from(selectedNotes).map(el => {
       const id = el.getAttribute('data-id');
-      const imgEl = el.querySelector('.note-img');
-      return { id: id, image_url: imgEl ? imgEl.src : null };
+      const mediaEl = el.querySelector('.note-img, .note-video');
+      return { id: id, image_url: mediaEl ? mediaEl.src : null };
     });
   } else if (targetNoteElement) {
     const id = targetNoteElement.getAttribute('data-id');
-    const imgEl = targetNoteElement.querySelector('.note-img');
-    notesToDelete = [{ id: id, image_url: imgEl ? imgEl.src : null }];
+    const mediaEl = targetNoteElement.querySelector('.note-img, .note-video');
+    notesToDelete = [{ id: id, image_url: mediaEl ? mediaEl.src : null }];
   }
 
-  // JIKA TIDAK ADA YANG DIPILIH
   if (notesToDelete.length === 0) {
     showAlert('Pilih kertas yang ingin dihapus terlebih dahulu!');
     closeAdminModal();
@@ -321,7 +351,6 @@ async function confirmDelete() {
   const idsToDelete = notesToDelete.map(n => n.id);
 
   try {
-    // 1. Validasi password & hapus data dari database via RPC
     const { data: isSuccess, error } = await supabaseClient.rpc('hapus_note_admin', {
       note_ids: idsToDelete,
       pass_input: password
@@ -335,28 +364,23 @@ async function confirmDelete() {
     }
 
     if (isSuccess) {
-      // 2. Jika sandi benar dan database terhapus, bersihkan file gambarnya di Storage
-for (const note of notesToDelete) {
-  if (note.image_url) {
-    try {
-      // Mengambil bagian path setelah nama bucket 'mading-images/'
-      const urlObj = new URL(note.image_url);
-      const pathParts = urlObj.pathname.split('/mading-images/');
-      if (pathParts.length > 1) {
-        const filePath = decodeURIComponent(pathParts[1]);
-        
-        await supabaseClient.storage
-          .from('mading-images')
-          .remove([filePath]);
+      for (const note of notesToDelete) {
+        if (note.image_url) {
+          try {
+            const urlObj = new URL(note.image_url);
+            const pathParts = urlObj.pathname.split('/mading-images/');
+            if (pathParts.length > 1) {
+              const filePath = decodeURIComponent(pathParts[1]);
+              await supabaseClient.storage
+                .from('mading-images')
+                .remove([filePath]);
+            }
+          } catch (storageErr) {
+            console.error('Gagal menghapus file dari storage:', storageErr);
+          }
+        }
       }
-    } catch (storageErr) {
-      console.error('Gagal menghapus file gambar dari storage:', storageErr);
-    }
-  }
-}
 
-
-      // 3. Hapus elemen dari tampilan layar
       if (isSelectMode) {
         document.querySelectorAll('.note.selected').forEach(note => note.remove());
         toggleSelectMode();
@@ -374,8 +398,6 @@ for (const note of notesToDelete) {
 
   closeAdminModal();
 }
-
-
 
 // === 9. CUSTOM MODAL ALERT ===
 function showAlert(message) {
