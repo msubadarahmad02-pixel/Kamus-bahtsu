@@ -50,27 +50,39 @@ const noteObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-// Fungsi untuk memuat pratinjau foto dan menyimpan file aslinya
-function previewImage(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+// === KODE BARU (PENGGANTINYA) ===
+  // Menampilkan Gambar atau Video jika ada
+  if (noteData.image_url) {
+    const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
 
-  selectedFile = file; // Simpan file asli untuk di-upload ke Storage
+    if (isVideo) {
+      const videoEl = document.createElement('video');
+      videoEl.src = noteData.image_url;
+      videoEl.className = 'note-video';
+      videoEl.controls = true;
+      videoEl.controlsList = 'nodownload';
+      videoEl.disablePictureInPicture = true;
+      
+      videoEl.oncontextmenu = (e) => {
+        e.preventDefault();
+        showAlert('Penyimpanan video langsung tidak diizinkan.');
+      };
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    document.getElementById('imagePreview').src = e.target.result;
-    document.getElementById('imagePreviewContainer').style.display = 'inline-block';
-  };
-  reader.readAsDataURL(file);
-}
+      noteEl.appendChild(videoEl);
+    } else {
+      const imgEl = document.createElement('img');
+      imgEl.src = noteData.image_url;
+      imgEl.className = 'note-img';
+      
+      imgEl.oncontextmenu = (e) => {
+        e.preventDefault();
+        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+      };
+      
+      noteEl.appendChild(imgEl);
+    }
+  }
 
-// Fungsi untuk membatalkan/menghapus pratinjau foto
-function removePreview() {
-  selectedFile = null;
-  document.getElementById('imageInput').value = '';
-  document.getElementById('imagePreviewContainer').style.display = 'none';
-}
 
 
 // === 3. TOGGLE MODE PILIH & CENTANG BANYAK ===
@@ -108,43 +120,38 @@ async function addNote() {
   const input = document.getElementById('noteInput');
   const text = input.value.trim();
 
-  // Validasi: Harus isi teks atau pilih foto
-  if (text === '' && !selectedFile) {
-    showAlert('Tulis sesuatu atau pilih foto terlebih dahulu!');
+  if (text === '' && !selectedMedia) {
+    showAlert('Tulis sesuatu atau pilih foto/video terlebih dahulu!');
     return;
   }
 
-  let imageUrl = null;
+  let mediaUrl = null;
 
-  // Jika ada file yang dipilih, upload dulu ke Supabase Storage
-  if (selectedFile) {
-    // Buat nama file unik berdasarkan waktu agar tidak bentrok
-    const fileExt = selectedFile.name.split('.').pop();
+  if (selectedMedia) {
+    const fileExt = selectedMedia.name.split('.').pop();
     const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-    const filePath = `${fileName}`;
-
+    
+    // Simpan ke bucket yang sama (atau beda bucket, misal 'mading-images' / buat bucket 'mading-videos')
     const { data: uploadData, error: uploadError } = await supabaseClient.storage
       .from('mading-images')
-      .upload(filePath, selectedFile);
+      .upload(fileName, selectedMedia);
 
     if (uploadError) {
-      console.error('Gagal mengunggah gambar:', uploadError);
-      showAlert('Gagal mengunggah foto ke penyimpanan!');
+      console.error('Gagal mengunggah media:', uploadError);
+      showAlert('Gagal mengunggah file ke penyimpanan!');
       return;
     }
 
-    // Ambil Public URL dari file yang baru diunggah
     const { data: publicURLData } = supabaseClient.storage
       .from('mading-images')
-      .getPublicUrl(filePath);
+      .getPublicUrl(fileName);
 
-    imageUrl = publicURLData.publicUrl;
+    mediaUrl = publicURLData.publicUrl;
   }
 
-  // Simpan data catatan beserta URL gambar ke tabel database
   const newNote = {
     text: text,
-    image_url: imageUrl,
+    image_url: mediaUrl, // Kolom database tetap bisa menggunakan image_url untuk menampung link media (foto/video)
     color: colors[Math.floor(Math.random() * colors.length)],
     rotation: (Math.random() * 12 - 6).toFixed(1)
   };
@@ -156,9 +163,10 @@ async function addNote() {
     showAlert('Terjadi kesalahan saat menempel pesan!');
   } else {
     input.value = '';
-    removePreview(); // Bersihkan preview dan reset file
+    removePreview();
   }
 }
+
 
 
 // === 5. RENDER KERTAS DENGAN ANIMASI & EFEK SOBEKAN ===
@@ -190,19 +198,38 @@ function renderNote(noteData) {
   };
   noteEl.appendChild(copyBtn);
 
-  // Menampilkan Gambar/Foto jika ada di catatan
+    // Menampilkan Gambar atau Video jika ada
   if (noteData.image_url) {
-    const imgEl = document.createElement('img');
-    imgEl.src = noteData.image_url;
-    imgEl.className = 'note-img';
-    
-    // === KODE BARU: Blokir klik kanan / long-press pada gambar ===
-    imgEl.oncontextmenu = (e) => {
-      e.preventDefault();
-      showAlert('Penyimpanan gambar langsung tidak diizinkan.');
-    };
-    
-    noteEl.appendChild(imgEl);
+    // Deteksi sederhana berdasarkan ekstensi atau format URL
+    const isVideo = noteData.image_url.match(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i);
+
+    if (isVideo) {
+      const videoEl = document.createElement('video');
+      videoEl.src = noteData.image_url;
+      videoEl.className = 'note-video';
+      videoEl.controls = true;
+      videoEl.controlsList = 'nodownload'; // Menyembunyikan tombol download bawaan di beberapa browser
+      videoEl.disablePictureInPicture = true; // Mencegah fitur PiP
+      
+      // Blokir klik kanan / long-press pada video
+      videoEl.oncontextmenu = (e) => {
+        e.preventDefault();
+        showAlert('Penyimpanan video langsung tidak diizinkan.');
+      };
+
+      noteEl.appendChild(videoEl);
+    } else {
+      const imgEl = document.createElement('img');
+      imgEl.src = noteData.image_url;
+      imgEl.className = 'note-img';
+      
+      imgEl.oncontextmenu = (e) => {
+        e.preventDefault();
+        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+      };
+      
+      noteEl.appendChild(imgEl);
+    }
   }
 
 
