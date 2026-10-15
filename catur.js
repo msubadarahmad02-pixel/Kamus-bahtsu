@@ -614,6 +614,9 @@ if (createRoomBtn) {
         localStorage.setItem('active_room_id', roomId);
         localStorage.setItem('active_player_color', 'white');
 
+        // --- TAMBAHAN: Ubah teks tombol jadi Menyerah ---
+        if (vsComputerBtn) vsComputerBtn.textContent = 'Menyerah';
+
         const { error } = await supabaseClient.from('catur_rooms').upsert([{
             room_id: roomId,
             player_white_id: playerId,
@@ -630,6 +633,7 @@ if (createRoomBtn) {
         }
     });
 }
+
 
 // Masuk Room
 if (joinRoomBtn) {
@@ -666,6 +670,9 @@ if (joinRoomBtn) {
             localStorage.setItem('active_room_id', roomId);
             localStorage.setItem('active_player_color', playerColor);
             
+            // --- TAMBAHAN: Ubah teks tombol jadi Menyerah ---
+            if (vsComputerBtn) vsComputerBtn.textContent = 'Menyerah';
+            
             showAlert(`Berhasil masuk ke Room "${roomId}"! Kamu bermain sebagai ${playerColor === 'white' ? 'PUTIH' : 'HITAM'}.`);
             
             boardState = typeof data.board_state === 'string' ? JSON.parse(data.board_state) : data.board_state;
@@ -679,6 +686,7 @@ if (joinRoomBtn) {
         }
     });
 }
+
 
 function listenToRoom(roomId) {
     if (activeChannel) {
@@ -698,6 +706,12 @@ function listenToRoom(roomId) {
                 boardState = typeof data.board_state === 'string' ? JSON.parse(data.board_state) : data.board_state;
                 currentTurn = data.current_turn;
                 gameStatus = data.status || 'playing';
+                
+                // Pengecekan Status Selesai / Menyerah
+                if (gameStatus === 'resigned' || gameStatus === 'checkmate') {
+                    const winner = data.current_turn === 'white' ? 'Putih' : 'Hitam';
+                    if (turnElement) turnElement.textContent = `SELESAI! (${winner} Menang)`;
+                }
 
                 if (data.last_move) {
                     lastMove = typeof data.last_move === 'string' ? JSON.parse(data.last_move) : data.last_move;
@@ -736,26 +750,51 @@ function listenToRoom(roomId) {
 }
 
 
+
 if (vsComputerBtn) {
-    vsComputerBtn.addEventListener('click', () => {
+    vsComputerBtn.addEventListener('click', async () => {
         if (typeof isLocked !== 'undefined' && isLocked) {
-            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu untuk mengubah mode.");
+            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu.");
             return;
         }
 
-        // 1. Jika Mode Komputer SEDANG AKTIF, matikan mode komputer (Kembali ke Lokal 2 Pemain)
+        // --- KODE BARU: JIKA BERADA DI ROOM ONLINE (BERFUNGSI SEBAGAI MENYERAH) ---
+        if (currentRoomId) {
+            const confirmSurrender = confirm("Apakah Anda yakin ingin menyerah?");
+            if (!confirmSurrender) return;
+
+            const winnerColor = playerColor === 'white' ? 'Hitam' : 'Putih';
+
+            try {
+                // Update status di Supabase bahwa pemain ini menyerah
+                // Langkah terakhir (last_move) dan papan dibiarkan tetap bertahan
+                const { error } = await supabaseClient.from('catur_rooms').update({
+                    status: 'resigned',
+                    current_turn: winnerColor.toLowerCase()
+                }).eq('room_id', currentRoomId);
+
+                if (error) {
+                    showAlert("Gagal mengirim status menyerah!");
+                } else {
+                    showAlert(`Anda menyerah. Pemain ${winnerColor} memenangkan permainan!`);
+                    gameStatus = 'checkmate'; // Mengubah status agar tombol reset bisa diaktifkan
+                    if (turnElement) turnElement.textContent = `MENYERAH! (${winnerColor} Menang)`;
+                }
+            } catch (err) {
+                console.error("Gagal update room saat menyerah:", err);
+                showAlert("Terjadi kesalahan jaringan!");
+            }
+            return;
+        }
+
+        // --- KODE LAMA: JIKA DALAM MODE LOKAL / KOMPUTER ---
         if (isComputerMode) {
-            initGame(false, false); // Param ke-2 false: matikan isComputerMode
-            
-            // Ubah tampilan visual tombol (opsional, misalnya lepas kelas 'active')
+            initGame(false, false);
             vsComputerBtn.classList.remove('active');
-            
             showAlert("Mode Lawan Komputer dimatikan. Kembali ke Mode Lokal 2 Pemain!");
             return;
         }
 
-        // 2. Jika Mode Komputer SEDANG MATI, aktifkan mode komputer
-        // Putuskan koneksi dari Room Supabase jika ada
         if (activeChannel) {
             supabaseClient.removeChannel(activeChannel);
             activeChannel = null;
@@ -765,15 +804,10 @@ if (vsComputerBtn) {
         localStorage.removeItem('active_player_color');
         if (roomIdInput) roomIdInput.value = '';
 
-        // Reset game & aktifkan mode komputer (Param ke-2 true: aktifkan isComputerMode)
         initGame(false, true);
-
         playerColor = 'white';
         updateTurnUI();
-
-        // Ubah tampilan visual tombol (opsional, misalnya tambah kelas 'active')
         vsComputerBtn.classList.add('active');
-
         showAlert("Mode Lawan Komputer Aktif! Kamu bermain sebagai PUTIH.");
     });
 }
@@ -869,6 +903,10 @@ async function checkAndRestoreRoom() {
                 currentRoomId = savedRoomId;
                 playerColor = savedColor;
                 isComputerMode = false;
+
+                 // --- TARUH DI SINI ---
+                if (vsComputerBtn) vsComputerBtn.textContent = 'Menyerah';
+
 
                 if (roomIdInput) roomIdInput.value = savedRoomId;
 
