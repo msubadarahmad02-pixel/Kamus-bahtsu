@@ -758,36 +758,36 @@ if (vsComputerBtn) {
             return;
         }
 
-        // --- KODE BARU: JIKA BERADA DI ROOM ONLINE (BERFUNGSI SEBAGAI MENYERAH) ---
+        // --- JIKA BERADA DI ROOM ONLINE (BERFUNGSI SEBAGAI MENYERAH) ---
         if (currentRoomId) {
-            const confirmSurrender = confirm("Apakah Anda yakin ingin menyerah?");
-            if (!confirmSurrender) return;
+            // Menggunakan pop-up kustom showConfirm yang senada dengan tema
+            showConfirm("Apakah Anda yakin ingin menyerah?", async () => {
+                const winnerColor = playerColor === 'white' ? 'Hitam' : 'Putih';
 
-            const winnerColor = playerColor === 'white' ? 'Hitam' : 'Putih';
+                try {
+                    // Update status di Supabase bahwa pemain ini menyerah
+                    // Langkah terakhir (last_move) dan papan dibiarkan tetap bertahan
+                    const { error } = await supabaseClient.from('catur_rooms').update({
+                        status: 'resigned',
+                        current_turn: winnerColor.toLowerCase()
+                    }).eq('room_id', currentRoomId);
 
-            try {
-                // Update status di Supabase bahwa pemain ini menyerah
-                // Langkah terakhir (last_move) dan papan dibiarkan tetap bertahan
-                const { error } = await supabaseClient.from('catur_rooms').update({
-                    status: 'resigned',
-                    current_turn: winnerColor.toLowerCase()
-                }).eq('room_id', currentRoomId);
-
-                if (error) {
-                    showAlert("Gagal mengirim status menyerah!");
-                } else {
-                    showAlert(`Anda menyerah. Pemain ${winnerColor} memenangkan permainan!`);
-                    gameStatus = 'checkmate'; // Mengubah status agar tombol reset bisa diaktifkan
-                    if (turnElement) turnElement.textContent = `MENYERAH! (${winnerColor} Menang)`;
+                    if (error) {
+                        showAlert("Gagal mengirim status menyerah!");
+                    } else {
+                        showAlert(`Anda menyerah. Pemain ${winnerColor} memenangkan permainan!`);
+                        gameStatus = 'checkmate'; // Mengubah status agar tombol reset bisa diaktifkan
+                        if (turnElement) turnElement.textContent = `MENYERAH! (${winnerColor} Menang)`;
+                    }
+                } catch (err) {
+                    console.error("Gagal update room saat menyerah:", err);
+                    showAlert("Terjadi kesalahan jaringan!");
                 }
-            } catch (err) {
-                console.error("Gagal update room saat menyerah:", err);
-                showAlert("Terjadi kesalahan jaringan!");
-            }
+            });
             return;
         }
 
-        // --- KODE LAMA: JIKA DALAM MODE LOKAL / KOMPUTER ---
+        // --- JIKA DALAM MODE LOKAL / KOMPUTER ---
         if (isComputerMode) {
             initGame(false, false);
             vsComputerBtn.classList.remove('active');
@@ -1193,6 +1193,47 @@ function appendChatMessage(sender, message, isMe) {
         chatBadge.classList.remove('hidden');
     }
 }
+
+function showConfirm(pesan, onYes) {
+    const modalMsg = document.getElementById('modalMessage');
+    const customAlert = document.getElementById('customAlert');
+    if (modalMsg) modalMsg.innerText = pesan; // <--- Perhatikan tanda kurung buka di sini
+    
+    // Cari atau buat tombol konfirmasi di dalam modal
+    let modalBox = document.querySelector('.modal-box');
+    let btnContainer = document.getElementById('modal-btn-container');
+
+    // Jika container tombol belum ada, kita buat dinamis agar rapi
+    if (!btnContainer) {
+        // Hapus tombol "Oke" lama yang onclick
+        const oldBtn = modalBox.querySelector('.modal-btn');
+        if (oldBtn) oldBtn.remove();
+
+        btnContainer = document.createElement('div');
+        btnContainer.id = 'modal-btn-container';
+        btnContainer.style.display = 'flex';
+        btnContainer.style.gap = '10px';
+        btnContainer.style.marginTop = '18px';
+        modalBox.appendChild(btnContainer);
+    }
+
+    btnContainer.innerHTML = `
+        <button id="modal-cancel-btn" style="flex:1; background-color: #e0e0e0; color: #333; padding: 8px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Batal</button>
+        <button id="modal-yes-btn" style="flex:1; background-color: #8b4513; color: #fff; padding: 8px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Oke</button>
+    `;
+
+    if (customAlert) customAlert.classList.add('show');
+
+    document.getElementById('modal-cancel-btn').onclick = () => {
+        customAlert.classList.remove('show');
+    };
+
+    document.getElementById('modal-yes-btn').onclick = () => {
+        customAlert.classList.remove('show');
+        if (onYes) onYes();
+    };
+}
+
 
 // 4. Dengarkan Pesan Masuk dari Supabase
 // Cari fungsi `listenToRoom(roomId)` yang sudah ada di catur.js, lalu sesuaikan bagian `.channel(...)` nya menjadi:
