@@ -994,21 +994,20 @@ if (lockButton) {
 
 if (resetBtn) {
     resetBtn.addEventListener('click', async () => {
-        // 1. Cek Kunci Tombol (Fitur Gembok)
         if (typeof isLocked !== 'undefined' && isLocked) {
             showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu untuk mulai ulang.");
             return;
         }
 
-        // 2. Cek Logika Permainan Online
         if (currentRoomId) {
-            // Jika permainan masih berlangsung, cegah reset
+            // --- PERBAIKAN DI SINI ---
+            // Jika status masih 'playing' (belum skakmat, belum remis, belum menyerah), cegah reset
             if (gameStatus === 'playing') {
                 showAlert("masih main! jangan curang kak😝");
                 return;
             }
 
-            // Jika permainan SUDAH SELESAI (checkmate / stalemate), reset papan di Supabase
+            // Jika sudah selesai / menyerah, reset papan di Supabase
             try {
                 const { error } = await supabaseClient.from('catur_rooms').update({
                     board_state: JSON.stringify(initialBoard),
@@ -1019,7 +1018,7 @@ if (resetBtn) {
                         'k': false, 'r_k': false, 'r_q': false
                     }),
                     en_passant: null,
-                    status: 'playing'
+                    status: 'playing' // Kembalikan status jadi playing untuk game baru
                 }).eq('room_id', currentRoomId);
 
                 if (error) {
@@ -1027,6 +1026,7 @@ if (resetBtn) {
                 } else {
                     showAlert("Permainan di-reset! Selamat bermain kembali.");
                     if (vsComputerBtn) vsComputerBtn.textContent = 'Komputer';
+                    gameStatus = 'playing'; // <--- Pastikan variabel lokal ikut direset jadi 'playing'
                 }
             } catch (err) {
                 console.error("Gagal reset room:", err);
@@ -1034,6 +1034,7 @@ if (resetBtn) {
             }
             return;
         }
+
 
         // 3. Reset untuk Mode Offline / Komputer
         const currentCompMode = isComputerMode;
