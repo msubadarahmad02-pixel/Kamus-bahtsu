@@ -1026,6 +1026,7 @@ if (resetBtn) {
                     showAlert("Gagal mereset permainan di room!");
                 } else {
                     showAlert("Permainan di-reset! Selamat bermain kembali.");
+                    if (vsComputerBtn) vsComputerBtn.textContent = 'Komputer';
                 }
             } catch (err) {
                 console.error("Gagal reset room:", err);
