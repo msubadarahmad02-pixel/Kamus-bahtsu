@@ -76,14 +76,6 @@ function showAlert(pesan) {
     const modalMsg = document.getElementById('modalMessage');
     const customAlert = document.getElementById('customAlert');
     if (modalMsg) modalMsg.innerText = pesan;
-
-    let btnContainer = document.getElementById('modal-btn-container');
-    if (btnContainer) {
-        btnContainer.innerHTML = `
-            <button onclick="closeAlert()" style="width: 100%; background-color: #8b4513; color: #fff; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Oke</button>
-        `;
-    }
-
     if (customAlert) customAlert.classList.add('show');
 }
 
@@ -92,6 +84,7 @@ window.closeAlert = function() {
     if (customAlert) customAlert.classList.remove('show');
 };
 
+// Tambahkan parameter isVsComp (default = false)
 function initGame(keepRoom = false, isVsComp = false) {
     boardState = cloneBoard(initialBoard);
     currentTurn = 'white';
@@ -106,15 +99,8 @@ function initGame(keepRoom = false, isVsComp = false) {
         'k': false, 'r_k': false, 'r_q': false
     };
 
+    // Set nilai isComputerMode sesuai parameter yang dikirim
     isComputerMode = isVsComp;
-
-    // KOREKSI 1: Bersihkan Web Worker jika keluar dari mode komputer
-    if (!isVsComp && aiWorker) {
-        aiWorker.terminate();
-        aiWorker = null;
-    } else if (isVsComp && !aiWorker) {
-        initAiWorker();
-    }
 
     if (!keepRoom) {
         if (activeChannel) {
@@ -137,11 +123,13 @@ function renderBoard() {
     if (!boardElement) return;
     boardElement.innerHTML = '';
     
+    // Pengecekan Aman: Gunakan initialBoard sebagai fallback jika boardState belum siap
     const currentBoard = (boardState && boardState.length === 8) ? boardState : initialBoard;
     const isBlackPlayer = playerColor === 'black';
 
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
+            // Jika pemain mendapat warna Hitam, balik papan agar perspektif dari bawah
             const r = isBlackPlayer ? 7 - i : i;
             const c = isBlackPlayer ? 7 - j : j;
 
@@ -152,8 +140,9 @@ function renderBoard() {
             square.dataset.row = r;
             square.dataset.col = c;
 
+            // --- EVENT DRAG & DROP: PETAK TUJUAN (DROP) ---
             square.addEventListener('dragover', (e) => {
-                e.preventDefault();
+                e.preventDefault(); // Wajib agar petak bisa menjadi area drop
             });
 
             square.addEventListener('drop', (e) => {
@@ -182,28 +171,32 @@ function renderBoard() {
                 }
             });
 
-            const pieceCode = currentBoard[r] ? currentBoard[r][c] : '';
-            if (pieceCode) {
-                const pieceImg = document.createElement('img');
-                pieceImg.src = PIECES[pieceCode];
-                pieceImg.classList.add('piece-img');
-                square.appendChild(pieceImg);
+            // --- ISI BIDAK & EVENT DRAG (DRAGSTART) ---
+const pieceCode = currentBoard[r] ? currentBoard[r][c] : '';
+if (pieceCode) {
+    const pieceImg = document.createElement('img');
+    pieceImg.src = PIECES[pieceCode];
+    pieceImg.classList.add('piece-img');
+    square.appendChild(pieceImg);
 
-                const pieceColor = getPieceColor(pieceCode);
+    const pieceColor = getPieceColor(pieceCode);
 
-                if (pieceColor === currentTurn && (!playerColor || pieceColor === playerColor)) {
-                    square.setAttribute('draggable', 'true');
+    // Buat bidak bisa di-drag jika sesuai giliran & warna pemain
+    if (pieceColor === currentTurn && (!playerColor || pieceColor === playerColor)) {
+        square.setAttribute('draggable', 'true');
 
-                    square.addEventListener('dragstart', (e) => {
-                        selectedSquare = { r, c };
-                        validMoves = getSafeMoves(r, c, currentBoard);
-                        renderBoard();
+        square.addEventListener('dragstart', (e) => {
+            selectedSquare = { r, c };
+            validMoves = getSafeMoves(r, c, currentBoard);
+            renderBoard();
 
-                        e.dataTransfer.setData('text/plain', JSON.stringify({ fromR: r, fromC: c }));
-                    });
-                }
-            }
+            e.dataTransfer.setData('text/plain', JSON.stringify({ fromR: r, fromC: c }));
+        });
+    }
+}
 
+
+            // Highlighting / Penanda Visual Petak
             if (selectedSquare && selectedSquare.r === r && selectedSquare.c === c) {
                 square.classList.add('selected');
             }
@@ -218,6 +211,7 @@ function renderBoard() {
                 square.classList.add('possible-move');
             }
 
+            // Event Klik biasa untuk melangkah
             square.addEventListener('click', () => handleSquareClick(r, c));
             boardElement.appendChild(square);
         }
@@ -341,18 +335,14 @@ function updateTurnUI() {
     let turnName = currentTurn === 'white' ? 'Putih' : 'Hitam';
 
     if (isCheckmate(currentTurn, boardState)) {
-        if (gameStatus !== 'checkmate') {
-            gameStatus = 'checkmate';
-            const winner = currentTurn === 'white' ? 'Hitam' : 'Putih';
-            showAlert(`Skakmat! Pemain ${winner} memenangkan permainan.`);
-        }
+        gameStatus = 'checkmate';
+        const winner = currentTurn === 'white' ? 'Hitam' : 'Putih';
         turnElement.textContent = `SKAKMAT!`;
+        showAlert(`Skakmat! Pemain ${winner} memenangkan permainan.`);
     } else if (isStalemate(currentTurn, boardState)) {
-        if (gameStatus !== 'stalemate') {
-            gameStatus = 'stalemate';
-            showAlert(`Remis (Stalemate)! Permainan berakhir seri.`);
-        }
+        gameStatus = 'stalemate';
         turnElement.textContent = `REMIS!`;
+        showAlert(`Remis (Stalemate)! Permainan berakhir seri.`);
     } else if (isInCheck(currentTurn, boardState)) {
         const checkText = (isComputerMode && currentTurn === 'black') ? 'Komputer (SKAK!)' : `${turnName} (SKAK!)`;
         turnElement.textContent = checkText;
@@ -385,6 +375,7 @@ function showWrongTurnWarning() {
 function makeMove(fromR, fromC, toR, toC, board) {
     const piece = board[fromR][fromC];
 
+    // Makan En Passant
     if (piece.toLowerCase() === 'p' && enPassantTarget && toR === enPassantTarget.r && toC === enPassantTarget.c) {
         const enemyPawnRow = (piece === 'P') ? toR + 1 : toR - 1;
         board[enemyPawnRow][toC] = '';
@@ -408,11 +399,13 @@ function makeMove(fromR, fromC, toR, toC, board) {
         lastMove = { fromR, fromC, toR, toC };
     }
 
+    // Rokade
     if (piece.toLowerCase() === 'k' && Math.abs(fromC - toC) === 2) {
         if (toC === 6) { board[toR][5] = board[toR][7]; board[toR][7] = ''; }
         else if (toC === 2) { board[toR][3] = board[toR][0]; board[toR][0] = ''; }
     }
     
+    // Promosi Otomatis ke Ratu
     if (board[toR][toC] === 'P' && toR === 0) board[toR][toC] = 'Q';
     if (board[toR][toC] === 'p' && toR === 7) board[toR][toC] = 'q';
 }
@@ -607,6 +600,7 @@ function generateRandomRoomId() {
     return randomStr;
 }
 
+// Buat Room
 if (createRoomBtn) {
     createRoomBtn.addEventListener('click', async () => {
         initGame(false);
@@ -619,8 +613,6 @@ if (createRoomBtn) {
 
         localStorage.setItem('active_room_id', roomId);
         localStorage.setItem('active_player_color', 'white');
-
-        if (vsComputerBtn) vsComputerBtn.textContent = 'Menyerah';
 
         const { error } = await supabaseClient.from('catur_rooms').upsert([{
             room_id: roomId,
@@ -639,10 +631,10 @@ if (createRoomBtn) {
     });
 }
 
+// Masuk Room
 if (joinRoomBtn) {
     joinRoomBtn.addEventListener('click', async () => {
-        // KOREKSI 2: Validasi & pembersihan input ID Room menjadi huruf kapital
-        const roomId = roomIdInput ? roomIdInput.value.trim().toUpperCase() : '';
+        const roomId = roomIdInput.value.trim().toUpperCase();
         if (!roomId) {
             showAlert("Masukkan ID Room terlebih dahulu!");
             return;
@@ -673,8 +665,6 @@ if (joinRoomBtn) {
 
             localStorage.setItem('active_room_id', roomId);
             localStorage.setItem('active_player_color', playerColor);
-            
-            if (vsComputerBtn) vsComputerBtn.textContent = 'Menyerah';
             
             showAlert(`Berhasil masuk ke Room "${roomId}"! Kamu bermain sebagai ${playerColor === 'white' ? 'PUTIH' : 'HITAM'}.`);
             
@@ -708,11 +698,6 @@ function listenToRoom(roomId) {
                 boardState = typeof data.board_state === 'string' ? JSON.parse(data.board_state) : data.board_state;
                 currentTurn = data.current_turn;
                 gameStatus = data.status || 'playing';
-                
-                if (gameStatus === 'resigned' || gameStatus === 'checkmate') {
-                    const winner = data.current_turn === 'white' ? 'Putih' : 'Hitam';
-                    if (turnElement) turnElement.textContent = `SELESAI! (${winner} Menang)`;
-                }
 
                 if (data.last_move) {
                     lastMove = typeof data.last_move === 'string' ? JSON.parse(data.last_move) : data.last_move;
@@ -740,6 +725,7 @@ function listenToRoom(roomId) {
                 updateTurnUI();
             }
         })
+        /* SISTEM CHAT REAL-TIME (BROADCAST) */
         .on('broadcast', { event: 'chat_message' }, payload => {
             const data = payload.payload;
             if (data && data.senderId !== playerId) {
@@ -749,45 +735,27 @@ function listenToRoom(roomId) {
         .subscribe();
 }
 
+
 if (vsComputerBtn) {
-    vsComputerBtn.addEventListener('click', async () => {
+    vsComputerBtn.addEventListener('click', () => {
         if (typeof isLocked !== 'undefined' && isLocked) {
-            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu.");
+            showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu untuk mengubah mode.");
             return;
         }
 
-        if (currentRoomId) {
-            showConfirm("Apakah Anda yakin ingin menyerah?", async () => {
-                const winnerColor = playerColor === 'white' ? 'Hitam' : 'Putih';
-
-                try {
-                    const { error } = await supabaseClient.from('catur_rooms').update({
-                        status: 'resigned',
-                        current_turn: winnerColor.toLowerCase()
-                    }).eq('room_id', currentRoomId);
-
-                    if (error) {
-                        showAlert("Gagal mengirim status menyerah!");
-                    } else {
-                        showAlert(`Anda menyerah. Pemain ${winnerColor} memenangkan permainan!`);
-                        gameStatus = 'resigned';
-                        if (turnElement) turnElement.textContent = `MENYERAH! (${winnerColor} Menang)`;
-                    }
-                } catch (err) {
-                    console.error("Gagal update room saat menyerah:", err);
-                    showAlert("Terjadi kesalahan jaringan!");
-                }
-            });
-            return;
-        }
-
+        // 1. Jika Mode Komputer SEDANG AKTIF, matikan mode komputer (Kembali ke Lokal 2 Pemain)
         if (isComputerMode) {
-            initGame(false, false);
+            initGame(false, false); // Param ke-2 false: matikan isComputerMode
+            
+            // Ubah tampilan visual tombol (opsional, misalnya lepas kelas 'active')
             vsComputerBtn.classList.remove('active');
+            
             showAlert("Mode Lawan Komputer dimatikan. Kembali ke Mode Lokal 2 Pemain!");
             return;
         }
 
+        // 2. Jika Mode Komputer SEDANG MATI, aktifkan mode komputer
+        // Putuskan koneksi dari Room Supabase jika ada
         if (activeChannel) {
             supabaseClient.removeChannel(activeChannel);
             activeChannel = null;
@@ -797,42 +765,46 @@ if (vsComputerBtn) {
         localStorage.removeItem('active_player_color');
         if (roomIdInput) roomIdInput.value = '';
 
+        // Reset game & aktifkan mode komputer (Param ke-2 true: aktifkan isComputerMode)
         initGame(false, true);
+
         playerColor = 'white';
         updateTurnUI();
+
+        // Ubah tampilan visual tombol (opsional, misalnya tambah kelas 'active')
         vsComputerBtn.classList.add('active');
+
         showAlert("Mode Lawan Komputer Aktif! Kamu bermain sebagai PUTIH.");
     });
 }
 
-let aiWorker = null;
 
-function initAiWorker() {
-    if (window.Worker && !aiWorker) {
-        try {
-            aiWorker = new Worker('ai-worker.js');
-            aiWorker.onmessage = function(e) {
-                const bestMove = e.data;
-                if (bestMove) {
-                    makeMove(bestMove.fromR, bestMove.fromC, bestMove.toR, bestMove.toC, boardState);
-                    lastMove = { 
-                        fromR: bestMove.fromR, 
-                        fromC: bestMove.fromC, 
-                        toR: bestMove.toR, 
-                        toC: bestMove.toC 
-                    };
-                    currentTurn = 'white';
-                    updateTurnUI();
-                } else {
-                    updateTurnUI();
-                }
-            };
-            aiWorker.onerror = function(err) {
-                console.warn("Gagal menjalankan Web Worker AI:", err.message);
-            };
-        } catch (e) {
-            console.warn("Web Worker tidak dapat diinisialisasi:", e);
-        }
+
+let aiWorker = null;
+if (window.Worker) {
+    try {
+        aiWorker = new Worker('ai-worker.js');
+        aiWorker.onmessage = function(e) {
+            const bestMove = e.data;
+            if (bestMove) {
+                makeMove(bestMove.fromR, bestMove.fromC, bestMove.toR, bestMove.toC, boardState);
+                lastMove = { 
+                    fromR: bestMove.fromR, 
+                    fromC: bestMove.fromC, 
+                    toR: bestMove.toR, 
+                    toC: bestMove.toC 
+                };
+                currentTurn = 'white';
+                updateTurnUI();
+            } else {
+                updateTurnUI();
+            }
+        };
+        aiWorker.onerror = function(err) {
+            console.warn("Gagal menjalankan Web Worker AI:", err.message);
+        };
+    } catch (e) {
+        console.warn("Web Worker tidak dapat diinisialisasi:", e);
     }
 }
 
@@ -843,6 +815,7 @@ function makeComputerMove() {
     }
 }
 
+// Copy ID Room
 if (copyButton) {
     copyButton.addEventListener('click', () => {
         const roomId = roomIdInput ? roomIdInput.value.trim() : '';
@@ -878,6 +851,8 @@ if (copyButton) {
     });
 }
 
+
+// Restore Room jika Browser Direfresh (Versi Baru)
 async function checkAndRestoreRoom() {
     const savedRoomId = localStorage.getItem('active_room_id');
     const savedColor = localStorage.getItem('active_player_color');
@@ -895,7 +870,6 @@ async function checkAndRestoreRoom() {
                 playerColor = savedColor;
                 isComputerMode = false;
 
-                if (vsComputerBtn) vsComputerBtn.textContent = 'Menyerah';
                 if (roomIdInput) roomIdInput.value = savedRoomId;
 
                 boardState = typeof data.board_state === 'string' ? JSON.parse(data.board_state) : data.board_state;
@@ -923,15 +897,16 @@ async function checkAndRestoreRoom() {
 
                 listenToRoom(savedRoomId);
                 updateTurnUI();
-                return true;
+                return true; // Berhasil restore
             }
         } catch (err) {
             console.error("Gagal memulihkan room:", err);
         }
     }
-    return false;
+    return false; // Gagal restore / tidak ada sesi
 }
 
+// ALUR STARTUP APLIKASI (Pengganti initGame(false); checkAndRestoreRoom();)
 async function startApp() {
     const savedRoomId = localStorage.getItem('active_room_id');
     const savedColor = localStorage.getItem('active_player_color');
@@ -948,19 +923,24 @@ async function startApp() {
 
 startApp();
 
-if (typeof lockButton !== 'undefined' && lockButton) {
+
+// Fitur Tombol Kunci (Lock Button)
+if (lockButton) {
     lockButton.addEventListener('click', () => {
         isLocked = !isLocked;
 
+        // Daftar elemen/tombol yang di-nonaktifkan saat terkunci
         const buttonsToToggle = [resetBtn, createRoomBtn, vsComputerBtn, joinRoomBtn, roomIdInput];
 
         buttonsToToggle.forEach(btn => {
             if (btn) {
                 btn.disabled = isLocked;
+                // Opsional: Tambahkan efek visual pointer jika diperlukan
                 btn.style.cursor = isLocked ? 'not-allowed' : 'pointer';
             }
         });
 
+        // Ubah tampilan visual tombol gembok
         if (isLocked) {
             lockButton.classList.add('locked');
             lockButton.innerHTML = '<i class="fas fa-lock"></i>';
@@ -973,19 +953,24 @@ if (typeof lockButton !== 'undefined' && lockButton) {
     });
 }
 
+
 if (resetBtn) {
     resetBtn.addEventListener('click', async () => {
+        // 1. Cek Kunci Tombol (Fitur Gembok)
         if (typeof isLocked !== 'undefined' && isLocked) {
             showAlert("Tombol sedang dikunci! Buka kunci terlebih dahulu untuk mulai ulang.");
             return;
         }
 
+        // 2. Cek Logika Permainan Online
         if (currentRoomId) {
+            // Jika permainan masih berlangsung, cegah reset
             if (gameStatus === 'playing') {
                 showAlert("masih main! jangan curang kak😝");
                 return;
             }
 
+            // Jika permainan SUDAH SELESAI (checkmate / stalemate), reset papan di Supabase
             try {
                 const { error } = await supabaseClient.from('catur_rooms').update({
                     board_state: JSON.stringify(initialBoard),
@@ -1003,8 +988,6 @@ if (resetBtn) {
                     showAlert("Gagal mereset permainan di room!");
                 } else {
                     showAlert("Permainan di-reset! Selamat bermain kembali.");
-                    if (vsComputerBtn) vsComputerBtn.textContent = 'Komputer';
-                    gameStatus = 'playing';
                 }
             } catch (err) {
                 console.error("Gagal reset room:", err);
@@ -1013,8 +996,9 @@ if (resetBtn) {
             return;
         }
 
+        // 3. Reset untuk Mode Offline / Komputer
         const currentCompMode = isComputerMode;
-        initGame(false);
+        initGame(false); // Reset papan ke posisi awal
 
         if (currentCompMode) {
             isComputerMode = true;
@@ -1026,6 +1010,9 @@ if (resetBtn) {
     });
 }
 
+// ===================================================
+// FITUR KUSTOMISASI WARNA PAPAN
+// ===================================================
 const pickerLight = document.getElementById('picker-light');
 const pickerDark = document.getElementById('picker-dark');
 
@@ -1040,6 +1027,7 @@ function setBoardColors(lightColor, darkColor) {
     localStorage.setItem('chess_custom_dark', darkColor);
 }
 
+// Muat warna dari LocalStorage jika ada
 const savedLight = localStorage.getItem('chess_custom_light') || '#eeeed2';
 const savedDark = localStorage.getItem('chess_custom_dark') || '#fdb178';
 setBoardColors(savedLight, savedDark);
@@ -1066,6 +1054,9 @@ if (pickerDark) {
     });
 }
 
+// ===================================================
+// FITUR CHAT ONLINE REAL-TIME (SUPABASE BROADCAST)
+// ===================================================
 const chatToggleBtn = document.getElementById('chat-toggle-btn');
 const closeChatBtn = document.getElementById('close-chat-btn');
 const chatBox = document.getElementById('chat-box');
@@ -1076,12 +1067,13 @@ const chatBadge = document.getElementById('chat-badge');
 
 let isChatOpen = false;
 
+// 1. Toggle Buka/Tutup Jendela Chat
 if (chatToggleBtn && chatBox) {
     chatToggleBtn.addEventListener('click', () => {
         isChatOpen = !isChatOpen;
         if (isChatOpen) {
             chatBox.classList.remove('hidden');
-            if (chatBadge) chatBadge.classList.add('hidden');
+            if (chatBadge) chatBadge.classList.add('hidden'); // Sembunyikan notifikasi merah
             if (chatInput) chatInput.focus();
         } else {
             chatBox.classList.add('hidden');
@@ -1096,6 +1088,7 @@ if (closeChatBtn && chatBox) {
     });
 }
 
+// 2. Kirim Pesan Chat
 if (chatForm) {
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -1110,8 +1103,10 @@ if (chatForm) {
 
         const myColorText = playerColor === 'white' ? 'Putih' : 'Hitam';
 
+        // Tampilkan pesan sendiri di layar lokal
         appendChatMessage(myColorText, text, true);
 
+        // Kirim pesan ke lawan via Supabase Broadcast
         if (activeChannel) {
             activeChannel.send({
                 type: 'broadcast',
@@ -1128,14 +1123,13 @@ if (chatForm) {
     });
 }
 
+// 3. Menampilkan Pesan ke Area Riwayat Chat
 function appendChatMessage(sender, message, isMe) {
     if (!chatMessages) return;
 
-    // KOREKSI 3: Pengecekan aman elemen `.chat-system-msg`
+    // Hapus pesan default "Masuk room..." jika ada
     const systemMsg = chatMessages.querySelector('.chat-system-msg');
-    if (systemMsg) {
-        systemMsg.remove();
-    }
+    if (systemMsg) systemMsg.remove();
 
     const bubble = document.createElement('div');
     bubble.classList.add('chat-bubble', isMe ? 'my-msg' : 'peer-msg');
@@ -1151,46 +1145,29 @@ function appendChatMessage(sender, message, isMe) {
     bubble.appendChild(messageText);
 
     chatMessages.appendChild(bubble);
+
+    // Scroll otomatis ke paling bawah
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
+    // Tampilkan notifikasi titik merah jika chat sedang ditutup dan pesan dari lawan
     if (!isMe && !isChatOpen && chatBadge) {
         chatBadge.classList.remove('hidden');
     }
 }
 
-function showConfirm(pesan, onYes) {
-    const modalMsg = document.getElementById('modalMessage');
-    const customAlert = document.getElementById('customAlert');
-    if (modalMsg) modalMsg.innerText = pesan;
-    
-    let modalBox = document.querySelector('.modal-box');
-    let btnContainer = document.getElementById('modal-btn-container');
+// 4. Dengarkan Pesan Masuk dari Supabase
+// Cari fungsi `listenToRoom(roomId)` yang sudah ada di catur.js, lalu sesuaikan bagian `.channel(...)` nya menjadi:
+/* 
+CATATAN: Di dalam fungsi `listenToRoom(roomId)` yang sudah ada, tambahkan baris `.on('broadcast', ...)` ini tepat sebelum `.subscribe()`:
 
-    if (!btnContainer) {
-        const oldBtn = modalBox.querySelector('.modal-btn');
-        if (oldBtn) oldBtn.remove();
-
-        btnContainer = document.createElement('div');
-        btnContainer.id = 'modal-btn-container';
-        btnContainer.style.display = 'flex';
-        btnContainer.style.gap = '10px';
-        btnContainer.style.marginTop = '18px';
-        modalBox.appendChild(btnContainer);
-    }
-
-    btnContainer.innerHTML = `
-        <button id="modal-cancel-btn" style="flex:1; background-color: #e0e0e0; color: #333; padding: 8px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Batal</button>
-        <button id="modal-yes-btn" style="flex:1; background-color: #8b4513; color: #fff; padding: 8px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Oke</button>
-    `;
-
-    if (customAlert) customAlert.classList.add('show');
-
-    document.getElementById('modal-cancel-btn').onclick = () => {
-        customAlert.classList.remove('show');
-    };
-
-    document.getElementById('modal-yes-btn').onclick = () => {
-        customAlert.classList.remove('show');
-        if (onYes) onYes();
-    };
-}
+activeChannel = supabaseClient
+    .channel(`room:${roomId}`)
+    .on('postgres_changes', { ... })
+    .on('broadcast', { event: 'chat_message' }, payload => {
+        const data = payload.payload;
+        if (data && data.senderId !== playerId) {
+            appendChatMessage(data.senderColor, data.message, false);
+        }
+    })
+    .subscribe();
+*/
