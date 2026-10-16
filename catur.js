@@ -93,11 +93,6 @@ window.closeAlert = function() {
     if (customAlert) customAlert.classList.remove('show');
 };
 
-window.closeAlert = function() {
-    const customAlert = document.getElementById('customAlert');
-    if (customAlert) customAlert.classList.remove('show');
-};
-
 // Tambahkan parameter isVsComp (default = false)
 function initGame(keepRoom = false, isVsComp = false) {
     boardState = cloneBoard(initialBoard);
@@ -727,10 +722,12 @@ function listenToRoom(roomId) {
                 gameStatus = data.status || 'playing';
                 
                 // Pengecekan Status Selesai / Menyerah
-                if (gameStatus === 'resigned' || gameStatus === 'checkmate') {
-                    const winner = data.current_turn === 'white' ? 'Putih' : 'Hitam';
-                    if (turnElement) turnElement.textContent = `SELESAI! (${winner} Menang)`;
-                }
+if (gameStatus === 'resigned' || gameStatus === 'checkmate') {
+    const winner = data.current_turn === 'white' ? 'Putih' : 'Hitam';
+    if (turnElement) turnElement.textContent = `SELESAI! (${winner} Menang)`;
+    // Jangan panggil showAlert di sini agar tidak looping, biarkan pesan terakhir pemain yang tampil
+}
+
 
                 if (data.last_move) {
                     lastMove = typeof data.last_move === 'string' ? JSON.parse(data.last_move) : data.last_move;
