@@ -76,8 +76,22 @@ function showAlert(pesan) {
     const modalMsg = document.getElementById('modalMessage');
     const customAlert = document.getElementById('customAlert');
     if (modalMsg) modalMsg.innerText = pesan;
+
+    // Reset tombol di modal agar kembali menjadi satu tombol "Oke" untuk notifikasi biasa
+    let btnContainer = document.getElementById('modal-btn-container');
+    if (btnContainer) {
+        btnContainer.innerHTML = `
+            <button onclick="closeAlert()" style="width: 100%; background-color: #8b4513; color: #fff; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Oke</button>
+        `;
+    }
+
     if (customAlert) customAlert.classList.add('show');
 }
+
+window.closeAlert = function() {
+    const customAlert = document.getElementById('customAlert');
+    if (customAlert) customAlert.classList.remove('show');
+};
 
 window.closeAlert = function() {
     const customAlert = document.getElementById('customAlert');
@@ -335,14 +349,19 @@ function updateTurnUI() {
     let turnName = currentTurn === 'white' ? 'Putih' : 'Hitam';
 
     if (isCheckmate(currentTurn, boardState)) {
-        gameStatus = 'checkmate';
-        const winner = currentTurn === 'white' ? 'Hitam' : 'Putih';
+        // Hanya tampilkan alert jika status sebelumnya belum checkmate
+        if (gameStatus !== 'checkmate') {
+            gameStatus = 'checkmate';
+            const winner = currentTurn === 'white' ? 'Hitam' : 'Putih';
+            showAlert(`Skakmat! Pemain ${winner} memenangkan permainan.`);
+        }
         turnElement.textContent = `SKAKMAT!`;
-        showAlert(`Skakmat! Pemain ${winner} memenangkan permainan.`);
     } else if (isStalemate(currentTurn, boardState)) {
-        gameStatus = 'stalemate';
+        if (gameStatus !== 'stalemate') {
+            gameStatus = 'stalemate';
+            showAlert(`Remis (Stalemate)! Permainan berakhir seri.`);
+        }
         turnElement.textContent = `REMIS!`;
-        showAlert(`Remis (Stalemate)! Permainan berakhir seri.`);
     } else if (isInCheck(currentTurn, boardState)) {
         const checkText = (isComputerMode && currentTurn === 'black') ? 'Komputer (SKAK!)' : `${turnName} (SKAK!)`;
         turnElement.textContent = checkText;
