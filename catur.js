@@ -750,7 +750,6 @@ function listenToRoom(roomId) {
 }
 
 
-
 if (vsComputerBtn) {
     vsComputerBtn.addEventListener('click', async () => {
         if (typeof isLocked !== 'undefined' && isLocked) {
@@ -776,7 +775,10 @@ if (vsComputerBtn) {
                         showAlert("Gagal mengirim status menyerah!");
                     } else {
                         showAlert(`Anda menyerah. Pemain ${winnerColor} memenangkan permainan!`);
-                        gameStatus = 'checkmate'; // Mengubah status agar tombol reset bisa diaktifkan
+                        
+                        // --- UBAH DARI 'checkmate' MENJADI 'resigned' ---
+                        gameStatus = 'resigned'; // Mengubah status lokal agar tombol reset tahu game sudah usai
+                        
                         if (turnElement) turnElement.textContent = `MENYERAH! (${winnerColor} Menang)`;
                     }
                 } catch (err) {
@@ -811,6 +813,7 @@ if (vsComputerBtn) {
         showAlert("Mode Lawan Komputer Aktif! Kamu bermain sebagai PUTIH.");
     });
 }
+
 
 
 
