@@ -213,7 +213,7 @@ function renderNote(noteData) {
       
       videoEl.oncontextmenu = (e) => {
         e.preventDefault();
-        showAlert('Penyimpanan video langsung tidak diizinkan.');
+        showAlert('Penyimpanan video tidak diizinkan.');
       };
 
       // Fungsi klik manual: Tekan untuk Play, Tekan lagi untuk Pause
@@ -233,7 +233,7 @@ function renderNote(noteData) {
       
       imgEl.oncontextmenu = (e) => {
         e.preventDefault();
-        showAlert('Penyimpanan gambar langsung tidak diizinkan.');
+        showAlert('Penyimpanan gambar tidak diizinkan.');
       };
       
       noteEl.appendChild(imgEl);
