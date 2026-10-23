@@ -160,15 +160,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnBookmarkPage) {
         btnBookmarkPage.addEventListener('click', () => {
             let bookmarks = getBookmarks();
+            let pageNotes = JSON.parse(localStorage.getItem('quran_page_notes') || '{}');
+
             if (bookmarks.includes(currentPage)) {
+                // Unbookmark (lepaskan tanda)
                 bookmarks = bookmarks.filter(p => p !== currentPage);
+                
+                // TAMBAHAN: Hapus catatannya dari localStorage agar bersih
+                delete pageNotes[currentPage];
             } else {
+                // Tandai baru
                 bookmarks.push(currentPage);
             }
+
             localStorage.setItem('quran_page_bookmarks', JSON.stringify(bookmarks));
+            localStorage.setItem('quran_page_notes', JSON.stringify(pageNotes)); // Simpan perubahan catatan
             checkBookmarkState(currentPage);
         });
     }
+
 
     // --- LOGIKA GEMBOK HALAMAN ---
     if (btnLockPage) {
