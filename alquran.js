@@ -188,7 +188,7 @@ function renderSurah(list) {
     `).join("");
 }
 
-// Render List Juz
+// Render List Juz (Menampilkan Nomor Halaman)
 function renderJuz(list) {
     const container = document.getElementById("juzList");
     if (!container) return;
@@ -201,7 +201,8 @@ function renderJuz(list) {
                 </div>
                 <div>
                     <div class="item-title">${j.nama}</div>
-                    <div class="item-sub">${j.sub}</div>
+                    <!-- Mengubah sub-judul latin menjadi nomor halaman -->
+                    <div class="item-sub">Hal. ${j.hal}</div>
                 </div>
             </div>
             <div class="arabic-title">${j.arab}</div>
