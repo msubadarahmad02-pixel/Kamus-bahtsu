@@ -227,12 +227,13 @@ function renderTandai() {
         return;
     }
 
-    // Urutkan nomor halaman dari kecil ke besar
-   // pageBookmarks.sort((a, b) => a - b);
-
     container.innerHTML = pageBookmarks.map((halNum, index) => {
-        // Otomatis cari nama Surah berdasarkan nomor halaman
+        // 1. Otomatis cari nama Surah berdasarkan nomor halaman
         const surahTerkait = DATA_SURAH.slice().reverse().find(s => s.hal <= halNum) || DATA_SURAH[0];
+        
+        // 2. Otomatis cari nomor Juz berdasarkan nomor halaman
+        const juzTerkait = DATA_JUZ.slice().reverse().find(j => j.hal <= halNum) || DATA_JUZ[0];
+
         const catatanSaatIni = pageNotes[halNum] || '';
 
         return `
@@ -243,7 +244,8 @@ function renderTandai() {
                 </div>
                 <div>
                     <div class="item-title">Surah ${surahTerkait.nama}</div>
-                    <div class="item-sub">Halaman -${halNum}</div>
+                    <!-- Keterangan Halaman dan Juz yang Ringkas -->
+                    <div class="item-sub">Hal. ${halNum} (Juz ${juzTerkait.no})</div>
                 </div>
             </div>
             
@@ -264,6 +266,7 @@ function renderTandai() {
         `;
     }).join("");
 }
+
 
 // Fungsi Simpan Catatan Otomatis ke LocalStorage
 function simpanCatatanBookmark(halNum, teksCatatan) {
