@@ -147,7 +147,7 @@ const DATA_JUZ = [
     { no: 23, nama: "Juz 23", sub: "Wa Maliya", arab: "وَمَا لِيَ", hal: 442 },
     { no: 24, nama: "Juz 24", sub: "Faman Azlamu", arab: "فَمَنْ أَظْلَمُ", hal: 462 },
     { no: 25, nama: "Juz 25", sub: "Ilaihi Yuraddu", arab: "إِلَيْهِ يُرَدُّ", hal: 482 },
-    { no: 26, nama: "Juz 26", sub: "Ha'a Meem", arab: "حم", hal: 502 },
+    { no: 26, nama: "Juz 26", sub: "Ha'a Meem", arab: "وَبَدَا لَهُمْ", hal: 502 },
     { no: 27, nama: "Juz 27", sub: "Qala Fama Khatbukum", arab: "قَالَ فَمَا خَطْبُكُمْ", hal: 522 },
     { no: 28, nama: "Juz 28", sub: "Qad Sami'allah", arab: "قَدْ سَمِعَ اللَّهُ", hal: 542 },
     { no: 29, nama: "Juz 29", sub: "Tabarakallazi", arab: "تَبَارَكَ الَّذِي", hal: 562 },
