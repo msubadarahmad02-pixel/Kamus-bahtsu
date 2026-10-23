@@ -122,7 +122,7 @@ const DATA_SURAH = [
 // DATA 30 JUZ AL-QUR'AN
 // ==========================================
 const DATA_JUZ = [
-    { no: 1, nama: "Juz 1", sub: "Alif Lam Meem", arab: "الم", hal: 1 },
+    { no: 1, nama: "Juz 1", sub: "Alif Lam Meem", arab: "الحمد لله", hal: 1 },
     { no: 2, nama: "Juz 2", sub: "Sayaqool", arab: "سَيَقُولُ", hal: 22 },
     { no: 3, nama: "Juz 3", sub: "Tilkar Rusul", arab: "تِلْكَ الرُّسُلُ", hal: 42 },
     { no: 4, nama: "Juz 4", sub: "Lan Tanaloo", arab: "لَنْ تَنَالُوا", hal: 62 },
