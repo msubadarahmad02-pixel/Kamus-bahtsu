@@ -210,10 +210,9 @@ function renderJuz(list) {
 }
 
 // ==========================================
-// RENDER TAB TANDAI DENGAN CATATAN TEKS
+// RENDER TAB TANDAI DENGAN CATATAN TEKS & TOMBOL HAPUS
 // ==========================================
 
-// Render Daftar Halaman yang Ditandai + Kotak Catatan
 function renderTandai() {
     const container = document.getElementById("tandaiList");
     if (!container) return;
@@ -248,7 +247,7 @@ function renderTandai() {
                 </div>
             </div>
             
-            <!-- Kotak Teks Catatan Kustom -->
+            <!-- Kotak Teks Catatan & Tombol Hapus -->
             <div class="note-input-wrapper" onclick="event.stopPropagation()">
                 <input 
                     type="text" 
@@ -257,6 +256,9 @@ function renderTandai() {
                     value="${catatanSaatIni}"
                     oninput="simpanCatatanBookmark(${halNum}, this.value)"
                 />
+                <button class="btn-delete-bookmark" onclick="hapusBookmark(${halNum})" title="Hapus Tandai & Catatan">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
             </div>
         </div>
         `;
@@ -269,6 +271,23 @@ function simpanCatatanBookmark(halNum, teksCatatan) {
     pageNotes[halNum] = teksCatatan;
     localStorage.setItem('quran_page_notes', JSON.stringify(pageNotes));
 }
+
+// Fungsi Hapus Bookmark dan Catatan Sekaligus
+function hapusBookmark(halNum) {
+    // 1. Hapus dari daftar halaman yang ditandai (quran_page_bookmarks)
+    let pageBookmarks = JSON.parse(localStorage.getItem('quran_page_bookmarks') || '[]');
+    pageBookmarks = pageBookmarks.filter(h => h !== halNum);
+    localStorage.setItem('quran_page_bookmarks', JSON.stringify(pageBookmarks));
+
+    // 2. Hapus juga catatan teksnya dari (quran_page_notes) agar tidak bersisa saat ditandai lagi
+    let pageNotes = JSON.parse(localStorage.getItem('quran_page_notes') || '{}');
+    delete pageNotes[halNum];
+    localStorage.setItem('quran_page_notes', JSON.stringify(pageNotes));
+
+    // 3. Render ulang tampilan tab tandai
+    renderTandai();
+}
+
 
 // Perpindahan Tab (Surah / Juz / Tandai)
 function switchTab(type) {
