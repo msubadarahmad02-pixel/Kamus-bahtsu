@@ -135,7 +135,7 @@ const DATA_JUZ = [
     { no: 11, nama: "Juz 11", sub: "Yatazerona", arab: "يَعْتَذِرُونَ", hal: 202 },
     { no: 12, nama: "Juz 12", sub: "Wa Mamin Da'abbat", arab: "وَمَا مِنْ دَابَّةٍ", hal: 222 },
     { no: 13, nama: "Juz 13", sub: "Wa Ma Ubarri'u", arab: "وَمَا أُبَرِّئُ", hal: 242 },
-    { no: 14, nama: "Juz 14", sub: "Rubama", arab: "رُبَمَا", hal: 262 },
+    { no: 14, nama: "Juz 14", sub: "Rubama", arab: "الر", hal: 262 },
     { no: 15, nama: "Juz 15", sub: "Subhanallazi", arab: "سُبْحَانَ الَّذِي", hal: 282 },
     { no: 16, nama: "Juz 16", sub: "Qala Alam", arab: "قَالَ أَلَمْ", hal: 302 },
     { no: 17, nama: "Juz 17", sub: "Iqtaraba Linnas", arab: "اقْتَرَبَ لِلنَّاسِ", hal: 322 },
