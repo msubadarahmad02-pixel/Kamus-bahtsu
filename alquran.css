@@ -385,15 +385,13 @@ html, body {
 }
 
 
-
-/* Styling Kotak Catatan Teks di Tab Tandai */
-.item-card-note {
-    gap: 10px;
-}
-
+/* Styling Tombol Hapus Catatan / Bookmark di Tab Tandai */
 .note-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     flex: 1;
-    max-width: 140px; /* Lebar kotak input */
+    max-width: 170px;
 }
 
 .bookmark-note-input {
@@ -417,6 +415,26 @@ html, body {
     color: #d1d5db;
     font-style: italic;
 }
+
+.btn-delete-bookmark {
+    background: none;
+    border: none;
+    color: #ef4444; /* Warna merah */
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+}
+
+.btn-delete-bookmark:active {
+    background-color: #fee2e2;
+}
+
 
 /* Fix Chrome Mobile Touch Event untuk Tombol Header */
 .btn-lock, .btn-bookmark {
