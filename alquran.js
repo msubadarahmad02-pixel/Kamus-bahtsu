@@ -228,7 +228,7 @@ function renderTandai() {
     }
 
     // Urutkan nomor halaman dari kecil ke besar
-    pageBookmarks.sort((a, b) => a - b);
+   // pageBookmarks.sort((a, b) => a - b);
 
     container.innerHTML = pageBookmarks.map((halNum, index) => {
         // Otomatis cari nama Surah berdasarkan nomor halaman
