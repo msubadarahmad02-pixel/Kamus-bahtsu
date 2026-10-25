@@ -5,7 +5,7 @@ const QURAN_CACHE = 'quran-images-v3'; // Cache khusus untuk gambar Qur'an
 const ASSETS_TO_CACHE = [
   './',
   './icon.png',
-  './img/img19.jpg',
+  './img/gus muh.jpg',
   './index.html',
   './alquran.html',
   './baca_quran.html',
