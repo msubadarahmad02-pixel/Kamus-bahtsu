@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pena-kanza-v1';
+const CACHE_NAME = 'pena-kanza-v2';
 const DYNAMIC_CACHE = 'pena-kanza-dynamic-v1';
 const QURAN_CACHE = 'quran-images-v3'; // Cache khusus untuk gambar Qur'an
 
