@@ -206,7 +206,7 @@ function renderJuz(list) {
                     <div>
                         <div class="item-title">${j.nama}</div>
                         <!-- Menampilkan Nama Surah dan Nomor Halaman -->
-                        <div class="item-sub">Surah ${surahTerkait.nama} (Hal. ${j.hal})</div>
+                        <div class="item-sub"> ${surahTerkait.nama} (Hal. ${j.hal})</div>
                     </div>
                 </div>
                 <div class="arabic-title">${j.arab}</div>
