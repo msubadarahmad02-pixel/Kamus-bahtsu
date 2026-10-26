@@ -188,7 +188,7 @@ function renderSurah(list) {
     `).join("");
 }
 
-// Render List Juz (Menampilkan Nomor Halaman)
+// Render List Juz (Menampilkan Sub Nama Surah & Nomor Halaman)
 function renderJuz(list) {
     const container = document.getElementById("juzList");
     if (!container) return;
@@ -201,14 +201,15 @@ function renderJuz(list) {
                 </div>
                 <div>
                     <div class="item-title">${j.nama}</div>
-                    <!-- Mengubah sub-judul latin menjadi nomor halaman -->
-                    <div class="item-sub">Hal. ${j.hal}</div>
+                    <!-- Menampilkan sub-nama surah/keterangan asli DAN nomor halaman -->
+                    <div class="item-sub">${j.sub} • Hal. ${j.hal}</div>
                 </div>
             </div>
             <div class="arabic-title">${j.arab}</div>
         </div>
     `).join("");
 }
+
 
 // ==========================================
 // RENDER TAB TANDAI DENGAN CATATAN TEKS & TOMBOL HAPUS
