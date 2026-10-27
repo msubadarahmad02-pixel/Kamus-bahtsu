@@ -20,36 +20,54 @@ body {
     flex-direction: column;
     height: 100vh;
 }
-
-/* Pastikan header memenuhi lebar layar */
+/* Header */
 .quran-header {
     background-color: #ffffff;
     color: var(--text-dark);
-    padding: 14px 16px;
+    padding: 10px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e5e7eb;
-    position: relative; 
-    width: 100%; /* Pastikan lebarnya penuh */
-    box-sizing: border-box; /* Agar padding tidak merusak lebar */
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Memaksa teks Basmalah tepat di tengah */
-.quran-title { 
-    font-size: 1.5rem; /* Perbesar sedikit karena ini kaligrafi Basmalah */
-    font-weight: bold; 
-    margin: 0;
-    position: absolute; 
+/* Tombol Kembali di Siri Kiri */
+.quran-header > .btn-icon {
+    flex-shrink: 0;
+    z-index: 2; /* Agar bisa diklik dan di atas elemen lain */
+}
+
+/* Wadah Tombol-tombol di Tengah (Judul, Kunci, Zoom, Bookmark) */
+.title-lock-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    max-width: 75%; /* Batasi agar tidak menabrak sisi kiri/kanan */
+    overflow-x: auto; /* Bisa digeser jika layar terlalu kecil */
+    white-space: nowrap;
+    padding: 4px;
+}
+
+/* Teks Judul Halaman */
+.quran-title { 
+    font-size: 0.95rem; 
+    font-weight: bold; 
+    margin: 0;
     text-align: center;
 }
 
-/* Kosongkan placeholder atau beri ukuran yang sama dengan sisi seimbang */
+/* Placeholder di Sisi Kanan untuk Keseimbangan */
 .header-placeholder {
-    width: 24px; 
+    width: 32px; 
     height: 24px;
+    flex-shrink: 0;
 }
 
 
@@ -354,12 +372,6 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Styling Tombol Kunci Halaman */
-.title-lock-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
 
 .btn-lock {
     background: none;
