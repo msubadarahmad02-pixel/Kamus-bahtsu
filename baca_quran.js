@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentImg.src = `${BASE_URL_GAMBAR}${pageNumber}.jpg`;
         }
         if (viewerTitle) {
-            viewerTitle.textContent = `Halaman ${pageNumber}`;
+            viewerTitle.textContent = `Hal. ${pageNumber}`;
         }
         checkBookmarkState(pageNumber);
 
