@@ -33,13 +33,18 @@ body {
 }
 
 .quran-title { 
-  font-size: 1.1rem; 
-  font-weight: bold; 
-  margin: 0;                 /* Menghapus margin bawaan h2 */
-  position: absolute;        /* Memaksa judul benar-benar di tengah */
-  left: 50%;
-  transform: translateX(-50%);
+    font-size: 1.1rem; 
+    font-weight: bold; 
+    margin: 0;
+    flex: 1;            /* Membuat judul mengambil ruang yang tersedia */
+    text-align: center; /* Memastikan teks ada di tengah-tengah ruang tersebut */
 }
+
+.header-placeholder {
+    /* Sesuaikan ukurannya jika ada elemen penyeimbang di sisi lain */
+    width: 24px; 
+}
+
 
 .btn-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dark); }
 
