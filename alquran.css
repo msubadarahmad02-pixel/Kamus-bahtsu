@@ -30,19 +30,21 @@ body {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e5e7eb;
+    position: relative; /* Wajib ada agar absolute-nya mengikut header */
 }
 
 .quran-title { 
     font-size: 1.1rem; 
     font-weight: bold; 
     margin: 0;
-    flex: 1;            /* Membuat judul mengambil ruang yang tersedia */
-    text-align: center; /* Memastikan teks ada di tengah-tengah ruang tersebut */
+    position: absolute; /* Memaksa judul berada di tengah mutlak */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .header-placeholder {
-    /* Sesuaikan ukurannya jika ada elemen penyeimbang di sisi lain */
-    width: 24px; 
+    width: 24px; /* Berikan ukuran agar seimbang jika ada tombol lain nantinya */
+    height: 24px;
 }
 
 
