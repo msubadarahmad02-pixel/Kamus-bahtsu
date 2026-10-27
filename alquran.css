@@ -32,7 +32,15 @@ body {
     border-bottom: 1px solid #e5e7eb;
 }
 
-.quran-title { font-size: 1.1rem; font-weight: bold; }
+.quran-title { 
+  font-size: 1.1rem; 
+  font-weight: bold; 
+  margin: 0;                 /* Menghapus margin bawaan h2 */
+  position: absolute;        /* Memaksa judul benar-benar di tengah */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .btn-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dark); }
 
 /* Tabs */
