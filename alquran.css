@@ -21,7 +21,7 @@ body {
     height: 100vh;
 }
 
-/* Header */
+/* Pastikan header memenuhi lebar layar */
 .quran-header {
     background-color: #ffffff;
     color: var(--text-dark);
@@ -30,20 +30,25 @@ body {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e5e7eb;
-    position: relative; /* Wajib ada agar absolute-nya mengikut header */
+    position: relative; 
+    width: 100%; /* Pastikan lebarnya penuh */
+    box-sizing: border-box; /* Agar padding tidak merusak lebar */
 }
 
+/* Memaksa teks Basmalah tepat di tengah */
 .quran-title { 
-    font-size: 1.1rem; 
+    font-size: 1.5rem; /* Perbesar sedikit karena ini kaligrafi Basmalah */
     font-weight: bold; 
     margin: 0;
-    position: absolute; /* Memaksa judul berada di tengah mutlak */
+    position: absolute; 
     left: 50%;
     transform: translateX(-50%);
+    text-align: center;
 }
 
+/* Kosongkan placeholder atau beri ukuran yang sama dengan sisi seimbang */
 .header-placeholder {
-    width: 24px; /* Berikan ukuran agar seimbang jika ada tombol lain nantinya */
+    width: 24px; 
     height: 24px;
 }
 
