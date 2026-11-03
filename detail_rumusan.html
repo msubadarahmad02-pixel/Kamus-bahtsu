@@ -99,10 +99,26 @@
             if (item) {
                 document.getElementById('detailTitle').innerHTML = item.judul_pendek;
 
-                const refHtml = (item.referensi || []).map(ref => {
-    const isAr = /[\u0600-\u06FF]/.test(ref);
-    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; margin-bottom: 15px;"' : 'style="margin-bottom: 15px;"'} >${ref}</p>`;
-}).join('');
+                const referensiArr = item.referensi || [];
+let refHtml = '';
+
+for (let i = 0; i < referensiArr.length; i++) {
+    const teks = referensiArr[i];
+    const isAr = /[\u0600-\u06FF]/.test(teks);
+    
+    // Cek apakah baris ini adalah Nama Kitab (berdasarkan adanya huruf 'ج:' atau 'ص:')
+    const isKitabTitle = teks.includes('ج:') || teks.includes('ص:');
+    
+    if (isKitabTitle) {
+        // Gaya untuk Nama Kitab (dibuat tebal dan diberi jarak atas jika bukan kitab pertama)
+        const marginTopStyle = i > 0 ? 'margin-top: 25px; margin-bottom: 5px;' : 'margin-bottom: 5px;';
+        refHtml += `<p class="content-text" ${isAr ? `style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; font-weight:bold; ${marginTopStyle}"` : `style="${marginTopStyle}"`}>${teks}</p>`;
+    } else {
+        // Gaya untuk Isi Kitab (menempel rapat dengan judulnya tanpa jarak berlebih)
+        refHtml += `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; margin-top: 0; margin-bottom: 0;"' : 'style="margin-top: 0; margin-bottom: 0;"'}>${teks}</p>`;
+    }
+}
+
 
                 function formatTeksCampuran(teks) {
                     if (!teks) return '';
