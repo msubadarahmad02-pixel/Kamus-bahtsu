@@ -100,9 +100,9 @@
                 document.getElementById('detailTitle').innerHTML = item.judul_pendek;
 
                 const refHtml = (item.referensi || []).map(ref => {
-                    const isAr = /[\u0600-\u06FF]/.test(ref);
-                    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em;"' : ''}>${ref}</p>`;
-                }).join('');
+    const isAr = /[\u0600-\u06FF]/.test(ref);
+    return `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; margin-bottom: 15px;"' : 'style="margin-bottom: 15px;"'} >${ref}</p>`;
+}).join('');
 
                 function formatTeksCampuran(teks) {
                     if (!teks) return '';
