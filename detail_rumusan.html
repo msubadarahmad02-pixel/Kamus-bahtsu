@@ -106,18 +106,19 @@ for (let i = 0; i < referensiArr.length; i++) {
     const teks = referensiArr[i];
     const isAr = /[\u0600-\u06FF]/.test(teks);
     
-    // Cek apakah baris ini adalah Nama Kitab (berdasarkan adanya huruf 'ج:' atau 'ص:')
-    const isKitabTitle = teks.includes('ج:') || teks.includes('ص:');
+    // Cek apakah baris ini benar-benar Nama Kitab (harus ada pola jilid/halaman yang diikuti angka, misal ج:١ atau ص:٢٤٩)
+    const isKitabTitle = /ج\s*[:\.]\s*\d+|ص\s*[:\.]\s*\d+/i.test(teks);
     
     if (isKitabTitle) {
         // Gaya untuk Nama Kitab (dibuat tebal dan diberi jarak atas jika bukan kitab pertama)
         const marginTopStyle = i > 0 ? 'margin-top: 25px; margin-bottom: 5px;' : 'margin-bottom: 5px;';
         refHtml += `<p class="content-text" ${isAr ? `style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; font-weight:bold; ${marginTopStyle}"` : `style="${marginTopStyle}"`}>${teks}</p>`;
     } else {
-        // Gaya untuk Isi Kitab (menempel rapat dengan judulnya tanpa jarak berlebih)
+        // Gaya untuk Isi Kitab (termasuk yang ada tulisan "حج:", menempel rapat di bawah judulnya)
         refHtml += `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; margin-top: 0; margin-bottom: 0;"' : 'style="margin-top: 0; margin-bottom: 0;"'}>${teks}</p>`;
     }
 }
+
 
 
                 function formatTeksCampuran(teks) {
