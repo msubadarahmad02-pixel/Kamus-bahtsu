@@ -29,15 +29,6 @@
             white-space: pre-line;
         }
         
-        /* DIPERBAIKI: Agar menangkap semua elemen teks Arab (baik style direction maupun dir="rtl") */
-        .content-text[style*="direction: rtl"], 
-        .content-text[dir="rtl"] {
-            font-family: 'KfgqpcArabic', serif !important; 
-            direction: rtl;
-            text-align: justify; 
-            text-justify: inter-word; 
-        }
-        
         /* GAYA HIGHLIGHT BIRU SEMUA KATA */
         .highlight-blue { background-color: #FFB6C1; color: #c2185b; font-weight: bold; padding: 0 2px; border-radius: 3px; }
 
@@ -46,7 +37,6 @@
         .copy-notification { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 10px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.5s; z-index: 1000; }
         .copy-notification.show { visibility: visible; opacity: 1; }
     </style>
-
 </head>
 <body>
 
@@ -112,30 +102,32 @@
             if (item) {
                 document.getElementById('detailTitle').innerHTML = item.judul_pendek;
 
-
-                
+                // Logika Referensi dengan Deteksi Judul Kitab yang Aman
                 const referensiArr = item.referensi || [];
-let refHtml = '';
+                let refHtml = '';
 
-for (let i = 0; i < referensiArr.length; i++) {
-    const teks = referensiArr[i];
-    const isAr = /[\u0600-\u06FF]/.test(teks);
-    
-    // Cek apakah baris ini adalah Nama Kitab (berdasarkan adanya huruf 'ج:' atau 'ص:')
-    const isKitabTitle = teks.includes('ج:') || teks.includes('ص:');
-    
-    if (isKitabTitle) {
-        // Gaya untuk Nama Kitab (dibuat tebal dan diberi jarak atas jika bukan kitab pertama)
-        const marginTopStyle = i > 0 ? 'margin-top: 25px; margin-bottom: 5px;' : 'margin-bottom: 5px;';
-        refHtml += `<p class="content-text" ${isAr ? `style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; font-weight:bold; ${marginTopStyle}"` : `style="${marginTopStyle}"`}>${teks}</p>`;
-    } else {
-        // Gaya untuk Isi Kitab (menempel rapat dengan judulnya tanpa jarak berlebih)
-        refHtml += `<p class="content-text" ${isAr ? 'style="direction:rtl; text-align:justify; text-justify:inter-word; font-size:1.1em; margin-top: 0; margin-bottom: 0;"' : 'style="margin-top: 0; margin-bottom: 0;"'}>${teks}</p>`;
-    }
-}
-
-
-
+                for (let i = 0; i < referensiArr.length; i++) {
+                    const teks = referensiArr[i];
+                    const isAr = /[\u0600-\u06FF]/.test(teks);
+                    
+                    // Deteksi nama kitab berdasarkan pola ج: atau ص: yang diikuti angka (aman dari singkatan حج:)
+                    const isKitabTitle = /ج\s*[:\.]\s*\d+|ص\s*[:\.]\s*\d+/i.test(teks);
+                    
+                    if (isKitabTitle) {
+                        const marginTopStyle = i > 0 ? 'margin-top: 25px; margin-bottom: 5px;' : 'margin-bottom: 5px;';
+                        if (isAr) {
+                            refHtml += `<p class="content-text" style="direction: rtl; font-family: 'KfgqpcArabic', serif; text-align: justify; text-justify: inter-word; font-size: 1.1em; font-weight: bold; ${marginTopStyle}">${teks}</p>`;
+                        } else {
+                            refHtml += `<p class="content-text" style="${marginTopStyle}">${teks}</p>`;
+                        }
+                    } else {
+                        if (isAr) {
+                            refHtml += `<p class="content-text" style="direction: rtl; font-family: 'KfgqpcArabic', serif; text-align: justify; text-justify: inter-word; font-size: 1.1em; margin-top: 0; margin-bottom: 0;">${teks}</p>`;
+                        } else {
+                            refHtml += `<p class="content-text" style="margin-top: 0; margin-bottom: 0;">${teks}</p>`;
+                        }
+                    }
+                }
 
                 function formatTeksCampuran(teks) {
                     if (!teks) return '';
@@ -147,7 +139,7 @@ for (let i = 0; i < referensiArr.length; i++) {
                         }
                         const isArab = /[\u0600-\u06FF]/.test(teksBersih);
                         if (isArab) {
-                            return `<p class="content-text" dir="rtl" style="text-align: justify; text-justify: inter-word; font-size: 1.15em; margin-bottom: 8px;">${teksBersih}</p>`;
+                            return `<p class="content-text" dir="rtl" style="direction: rtl; font-family: 'KfgqpcArabic', serif; text-align: justify; text-justify: inter-word; font-size: 1.15em; margin-bottom: 8px;">${teksBersih}</p>`;
                         } else {
                             return `<p class="content-text" dir="ltr" style="text-align: justify; margin-bottom: 8px;">${teksBersih}</p>`;
                         }
