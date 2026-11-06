@@ -169,13 +169,34 @@ for (let i = 0; i < referensiArr.length; i++) {
                 setTimeout(applyGlobalHighlight, 800);
 
                 document.getElementById('copyButton').onclick = async () => {
-                    const refTxt = (item.referensi || []).join('\n');
-                    const txt = `JUDUL: ${item.judul_pendek}\n\nDESKRIPSI:\n${item.deskripsi}\n\nPERTANYAAN:\n${item.pertanyaan}\n\nJAWABAN:\n${item.jawaban}\n\nREFERENSI:\n${refTxt}`;
-                    await navigator.clipboard.writeText(txt);
-                    const n = document.getElementById('copyNotification');
-                    n.classList.add('show');
-                    setTimeout(() => n.classList.remove('show'), 2000);
-                };
+    // Membersihkan tag <br> pada judul pendek menjadi enter (\n)
+    const rawTitle = item.judul_pendek || '';
+    const cleanTitle = rawTitle.replace(/<br\s*[\/]?>/gi, '\n');
+
+    // Memformat referensi agar nama kitab (yang ada ج: atau ص:) memiliki jarak enter di atasnya
+    const referensiArr = item.referensi || [];
+    let formattedRefArr = [];
+
+    for (let i = 0; i < referensiArr.length; i++) {
+        const teks = referensiArr[i];
+        const isKitabTitle = teks.includes('ج:') || teks.includes('ص:');
+
+        if (isKitabTitle && i > 0) {
+            formattedRefArr.push('\n' + teks);
+        } else {
+            formattedRefArr.push(teks);
+        }
+    }
+    const refTxt = formattedRefArr.join('\n');
+
+    const txt = `JUDUL:\n${cleanTitle}\n\nDESKRIPSI:\n${item.deskripsi}\n\nPERTANYAAN:\n${item.pertanyaan}\n\nJAWABAN:\n${item.jawaban}\n\nREFERENSI:\n${refTxt}`;
+
+    await navigator.clipboard.writeText(txt);
+    const n = document.getElementById('copyNotification');
+    n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 2000);
+};
+
             }
         });
     }
