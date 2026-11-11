@@ -1,4 +1,13 @@
 /* --- Pengaturan Umum & Layar Baca --- */
+
+/* --- TAMBAHKAN FONT UTHMANI DI SINI --- */
+@font-face {
+    font-family: 'KfgqpcArabic';
+    src: url('fonts/uthmanichafs.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     font-family: 'georgia', Sans-Serif;
     background-color: #fff8e1;
@@ -116,21 +125,24 @@ body {
 .matan-preview {
     direction: rtl;
     text-align: justify;
-    font-size: 16px;
-    font-weight: bold; /* Matan dibuat tebal agar kontras */
+    font-family: 'KfgqpcArabic', serif; /* <-- Ditambahkan di sini */
+    font-size: 18px;                   /* <-- Ukuran bisa sedikit dibesarkan agar font Uthmani terlihat pas */
+    font-weight: bold; 
     color: #5c461a;
-    line-height: 1.6;
+    line-height: 1.8;
     white-space: pre-line;
 }
 
 .syarah-preview {
     direction: rtl;
     text-align: justify;
-    font-size: 15px;
-    color: #70551e; /* Warna syarah sedikit dibedakan */
-    line-height: 1.6;
+    font-family: 'KfgqpcArabic', serif; /* <-- Ditambahkan di sini */
+    font-size: 17px;                   /* <-- Ukuran disesuaikan */
+    color: #70551e; 
+    line-height: 1.8;
     white-space: pre-line;
 }
+
 
 /* Garis Pemisah Tipis yang Anggun */
 .pemisah-preview {
@@ -243,13 +255,15 @@ mark {
     direction: rtl;
     text-align: justify;
     text-justify: inter-word;
-    font-size: 18px;
-    line-height: 1.5;
+    font-family: 'KfgqpcArabic', serif; /* <-- Ditambahkan di sini */
+    font-size: 20px;                   /* <-- Ukuran teks matan penuh */
+    line-height: 1.8;
     color: #5c461a;
     font-weight: bold;
     margin-bottom: 12px;
     white-space: pre-line;
 }
+
 
 .garis-pemisah-kitab {
     border: 0;
@@ -262,8 +276,9 @@ mark {
     direction: rtl;
     text-align: justify;
     text-justify: inter-word;
-    font-size: 18px;
-    line-height: 1.6;
+    font-family: 'KfgqpcArabic', serif; /* <-- Ditambahkan di sini */
+    font-size: 19px;                   /* <-- Ukuran teks syarah penuh */
+    line-height: 1.8;
     color: #5c461a;
     margin-top: 12px;
     white-space: pre-line;
