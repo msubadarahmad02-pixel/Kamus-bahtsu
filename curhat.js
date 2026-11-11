@@ -240,19 +240,22 @@ function renderNote(noteData) {
     }
   }
 
-  // Teks Curhatan dengan Deteksi Otomatis Huruf Arab
+    // Teks Curhatan dengan Deteksi Otomatis
   const textContent = document.createElement('p');
   const formattedText = noteData.text.replace(/\n/g, '<br>');
   
-  // Cek apakah teks mengandung huruf Arab (Unicode rentang Arab)
+  // Cek apakah teks mengandung huruf Arab
   const isArabicText = /[\u0600-\u06FF]/.test(noteData.text);
   
   if (isArabicText) {
-      textContent.className = 'note-arabic'; // Menggunakan font Uthmani & jarak pas
+      textContent.className = 'note-arabic';     // Menggunakan font Uthmani
+  } else {
+      textContent.className = 'note-non-arabic'; // Menggunakan font Caveat (Indonesia)
   }
   
   textContent.innerHTML = formattedText;
   noteEl.appendChild(textContent);
+
 
   // Checkbox Centang (Mode Hapus Banyak)
   const chk = document.createElement('input');
