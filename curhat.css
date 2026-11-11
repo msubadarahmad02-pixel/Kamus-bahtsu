@@ -17,20 +17,6 @@
   font-family: 'Caveat', 'Comic Sans MS', 'Comic Neue', cursive, sans-serif;
 }
 
-/* TULISAN ARAB THAHA UTSMANI (Hanya untuk teks Arab/RTL) */
-.note p[dir="rtl"], .note .arabic-text {
-    font-family: 'Uthmani', serif;
-    direction: rtl;
-    text-align: center;
-    line-height: 1.8;
-    unicode-bidi: plaintext;
-}
-
-/* KHUSUS TEKS INDONESIA / LATIN TETAMU NORMAL */
-.note p:not([dir="rtl"]) {
-    font-family: 'Caveat', 'Comic Sans MS', cursive, sans-serif;
-    line-height: 1.2;
-}
 
 
 /* Body dengan Background Motif Bunga Vintage */
@@ -146,15 +132,6 @@ h1 {
               transform 1.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.note-arabic {
-    font-family: 'Uthmani', serif !important;
-    direction: rtl;
-    text-align: center;
-    line-height: 1.6;
-    font-size: 14px;
-    unicode-bidi: plaintext;
-    display: block;
-}
 
 /* VARIASI ANIMASI MUNCUL */
 .note.anim-top { transform: translateY(-150px) scale(0.7); }
