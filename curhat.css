@@ -17,13 +17,19 @@
   font-family: 'Caveat', 'Comic Sans MS', 'Comic Neue', cursive, sans-serif;
 }
 
-/* TULISAN ARAB THAHA UTSMANI */
-.note p {
+/* TULISAN ARAB THAHA UTSMANI (Hanya untuk teks Arab/RTL) */
+.note p[dir="rtl"], .note .arabic-text {
     font-family: 'Uthmani', serif;
     direction: rtl;
     text-align: center;
-    line-height: 2;
+    line-height: 1.4;
     unicode-bidi: plaintext;
+}
+
+/* KHUSUS TEKS INDONESIA / LATIN TETAMU NORMAL */
+.note p:not([dir="rtl"]) {
+    font-family: 'Caveat', 'Comic Sans MS', cursive, sans-serif;
+    line-height: 1.3;
 }
 
 /* Body dengan Background Motif Bunga Vintage */
