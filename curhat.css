@@ -132,6 +132,27 @@ h1 {
               transform 1.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* KELAS KHUSUS UNTUK TEKS ARAB THAHA UTSMANI */
+.note-arabic {
+    font-family: 'Uthmani', serif !important;
+    direction: rtl;
+    text-align: center;
+    line-height: 1.4;
+    font-size: 13px;
+    unicode-bidi: plaintext;
+    display: block;
+}
+
+/* KELAS KHUSUS UNTUK TEKS INDONESIA / LATIN */
+.note-non-arabic {
+    font-family: 'Caveat', 'Comic Sans MS', cursive, sans-serif !important;
+    direction: ltr;
+    text-align: center;
+    line-height: 1.2;
+    font-size: 12px;
+    unicode-bidi: plaintext;
+    display: block;
+}
 
 /* VARIASI ANIMASI MUNCUL */
 .note.anim-top { transform: translateY(-150px) scale(0.7); }
