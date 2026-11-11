@@ -2,7 +2,7 @@
 /* FONT AL-QURAN THAHA UTSMANI */
 @font-face {
     font-family: 'Uthmani';
-    src: url('./uthmanichafs.ttf') format('truetype');
+    src: url('.fonts/uthmanichafs.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
