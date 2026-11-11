@@ -26,16 +26,16 @@
         box-sizing: border-box;
     }
         .container { 
-        background-color: #fff8e1; 
-        border-radius: 20px; 
-        padding: 5px; 
-        width: 90%;          
-        max-width: 370px;    /* Batas lebar default untuk tampilan HP */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-        text-align: center; 
-        box-sizing: border-box;
-        transition: max-width 0.3s ease;
-    }
+    background-color: #fff8e1; 
+    border-radius: 12px;       /* Bisa disesuaikan agar sudutnya pas */
+    padding: 5px;              /* Padding dalam tetap 5px */
+    width: 98%;                /* Membuat kontainer hampir memenuhi layar HP */
+    max-width: 100%;           /* Membuang batas maksimal yang membuatnya menyisakan ruang di kiri-kanan */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    text-align: center; 
+    box-sizing: border-box;
+    margin: 0 auto;            /* Posisikan tetap di tengah */
+        }
 
         /* TAMBAHAN KODE BARU: KETIKA DIBUKA DI LAYAR DESKTOP / TABLET */
     @media (min-width: 768px) {
