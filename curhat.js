@@ -173,7 +173,8 @@ async function addNote() {
   }
 }
 
-// === 5. RENDER KERTAS DENGAN ANIMASI & EFEK SOBEKAN ===
+
+// === 5. RENDER KERTAS DENGAN DETEKSI TEKS ARAB ===
 function renderNote(noteData) {
   const board = document.getElementById('madingBoard');
 
@@ -216,7 +217,6 @@ function renderNote(noteData) {
         showAlert('Penyimpanan video tidak diizinkan.');
       };
 
-      // Fungsi klik manual: Tekan untuk Play, Tekan lagi untuk Pause
       videoEl.onclick = () => {
         if (videoEl.paused) {
           videoEl.play();
@@ -238,11 +238,20 @@ function renderNote(noteData) {
       
       noteEl.appendChild(imgEl);
     }
-  } // <-- Penutup kurung kurawal untuk "if (noteData.image_url)" yang tadinya kurang
+  }
 
-  // Teks Curhatan
+  // Teks Curhatan dengan Deteksi Otomatis Huruf Arab
   const textContent = document.createElement('p');
-  textContent.innerHTML = noteData.text.replace(/\n/g, '<br>');
+  const formattedText = noteData.text.replace(/\n/g, '<br>');
+  
+  // Cek apakah teks mengandung huruf Arab (Unicode rentang Arab)
+  const isArabicText = /[\u0600-\u06FF]/.test(noteData.text);
+  
+  if (isArabicText) {
+      textContent.className = 'note-arabic'; // Menggunakan font Uthmani & jarak pas
+  }
+  
+  textContent.innerHTML = formattedText;
   noteEl.appendChild(textContent);
 
   // Checkbox Centang (Mode Hapus Banyak)
