@@ -1,9 +1,20 @@
-/* --- TAMBAHKAN FONT UTHMANI DI SINI --- */
+
+/* FONT AL-QURAN THAHA UTSMANI */
 @font-face {
-    font-family: 'KfgqpcArabic';
-    src: url('fonts/uthmanichafs.ttf') format('truetype'); 
+    font-family: 'Uthmani';
+    src: url('./uthmanichafs.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
+}
+
+/* TULISAN ARAB THAHA UTSMANI */
+.note p {
+    font-family: 'Uthmani', serif;
+    direction: rtl;
+    text-align: center;
+    line-height: 2;
+    unicode-bidi: plaintext;
 }
 
 /* Pengaturan Dasar & Panggilan Font Utama */
@@ -11,7 +22,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'KfgqpcArabic', serif; 
+  font-family: 'Caveat', 'Comic Sans MS', 'Comic Neue', cursive, sans-serif;
 }
 
 /* Body dengan Background Motif Bunga Vintage */
