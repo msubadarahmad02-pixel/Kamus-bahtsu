@@ -1,3 +1,11 @@
+/* --- TAMBAHKAN FONT UTHMANI DI SINI --- */
+@font-face {
+    font-family: 'KfgqpcArabic';
+    src: url('fonts/uthmanichafs.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Pengaturan Dasar & Panggilan Font Utama */
 * {
   box-sizing: border-box;
@@ -101,8 +109,9 @@ h1 {
   padding: 24px 12px 14px 12px;
   position: relative;
   word-wrap: break-word;
+  font-family: 'KfgqpcArabic', serif;
   font-size: 13px;
-  line-height: 1.2;
+  line-height: 1.6;
   color: #2c2c2c;
   filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.22));
   overflow-y: auto;
