@@ -18,7 +18,7 @@
 
 /* TULISAN ARAB THAHA UTSMANI (Hanya untuk teks Arab/RTL) */
 .note p[dir="rtl"], .note .arabic-text {
-    font-family: 'Uthmani', serif;
+    font-family: 'KfgqpcArabic', serif;
     direction: rtl;
     text-align: center;
     line-height: 1.8;
@@ -146,7 +146,7 @@ h1 {
 
 /* KELAS KHUSUS UNTUK TEKS ARAB THAHA UTSMANI */
 .note-arabic {
-    font-family: 'Uthmani', serif !important;
+    font-family: 'KfgqpcArabic', serif !important;
     direction: rtl;
     text-align: center;
     line-height: 1.4;
