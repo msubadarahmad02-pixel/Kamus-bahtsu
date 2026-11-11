@@ -240,22 +240,33 @@ function renderNote(noteData) {
     }
   }
 
-    // Teks Curhatan dengan Deteksi Otomatis
-  const textContent = document.createElement('p');
-  const formattedText = noteData.text.replace(/\n/g, '<br>');
-  
-  // Cek apakah teks mengandung huruf Arab
-  const isArabicText = /[\u0600-\u06FF]/.test(noteData.text);
-  
-  if (isArabicText) {
-      textContent.className = 'note-arabic';     // Menggunakan font Uthmani
-  } else {
-      textContent.className = 'note-non-arabic'; // Menggunakan font Caveat (Indonesia)
-  }
-  
-  textContent.innerHTML = formattedText;
-  noteEl.appendChild(textContent);
+ // === PEMISAHAN CERDAS TEKS ARAB & INDONESIA PER BARIS ===
+  const textContainer = document.createElement('div');
+  textContainer.className = 'note-text-container';
 
+  const lines = noteData.text.split('\n');
+  lines.forEach(line => {
+    const trimmedLine = line.trim();
+    if (!trimmedLine) {
+      const br = document.createElement('br');
+      textContainer.appendChild(br);
+      return;
+    }
+
+    const p = document.createElement('p');
+    const isArabicLine = /[\u0600-\u06FF]/.test(trimmedLine);
+
+    if (isArabicLine) {
+      p.className = 'note-arabic'; // Menggunakan font Uthmani
+    } else {
+      p.className = 'note-non-arabic'; // Menggunakan font Indonesia (Caveat)
+    }
+
+    p.innerHTML = trimmedLine;
+    textContainer.appendChild(p);
+  });
+
+  noteEl.appendChild(textContainer);
 
   // Checkbox Centang (Mode Hapus Banyak)
   const chk = document.createElement('input');
