@@ -160,8 +160,8 @@ h1 {
     font-family: 'Caveat', 'Comic Sans MS', cursive, sans-serif !important;
     direction: ltr;
     text-align: center;
-    line-height: 1.2;
-    font-size: 12px;
+    line-height: 1;
+    font-size: 10px;
     unicode-bidi: plaintext;
     display: block;
 }
