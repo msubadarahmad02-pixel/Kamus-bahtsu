@@ -1,3 +1,12 @@
+/* --- TAMBAHKAN FONT UTHMANI --- */
+@font-face {
+    font-family: 'KfgqpcArabic';
+    src: url('fonts/uthmanichafs.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 /* Mengatur ulang margin/padding default dan menggunakan model box border-box */
 * {
     box-sizing: border-box;
@@ -56,7 +65,7 @@ html, body {
     border-radius: 50px; 
     box-shadow: none; 
     white-space: pre-wrap; 
-    font-family: 'Georgia', serif;
+    font-family: 'KfgqpcArabic', serif; 
     font-size: 1em;
     line-height: 1.6;
     
