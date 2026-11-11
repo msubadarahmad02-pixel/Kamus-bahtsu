@@ -1,3 +1,12 @@
+/* --- TAMBAHKAN FONT UTHMANI DI SINI --- */
+@font-face {
+    font-family: 'KfgqpcArabic';
+    src: url('fonts/uthmanichafs.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 html, body {
     max-width: 100%;
     overflow-x: hidden; /* Mencegah ruang kosong / geser horizontal */
@@ -123,7 +132,7 @@ body {
     /* Gaya untuk Garis Atas di dalam kotak (Menggunakan pseudo-element setelah quote) */
     .memori-quote {
         color: #5d4037; /* Cokelat tua untuk teks */
-        font-family: georgia, serif;
+        font-family: 'KfgqpcArabic', serif;
         
         font-size: 1em;
         line-height: 1.6;
