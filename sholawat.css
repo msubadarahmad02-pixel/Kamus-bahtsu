@@ -1,7 +1,7 @@
 /* --- TAMBAHKAN FONT UTHMANI --- */
 @font-face {
     font-family: 'KfgqpcArabic';
-    src: url('fonts/uthmanichafs.ttf') format('truetype'); 
+    src: url('fonts/scheherazade.ttf') format('truetype'); 
     font-weight: normal;
     font-style: normal;
 }
